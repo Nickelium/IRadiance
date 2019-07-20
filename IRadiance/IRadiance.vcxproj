@@ -1,0 +1,297 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="src\IRadiance\Framework\Core\Locator.h" />
+    <ClInclude Include="src\IRadiance\Framework\Core\BaseLayer.h" />
+    <ClInclude Include="src\IRadiance\Framework\Renderer\ImageBuffer.h" />
+    <ClInclude Include="src\IRadiance\Raytracer\Geometry\Object.h" />
+    <ClInclude Include="src\IRadiance\Raytracer\Geometry\Plane.h" />
+    <ClInclude Include="src\IRadiance\Raytracer\Geometry\Sphere.h" />
+    <ClInclude Include="src\IRadiance\Raytracer\Maths\Normal.h" />
+    <ClInclude Include="src\IRadiance\Raytracer\Maths\Point.h" />
+    <ClInclude Include="src\IRadiance\Raytracer\Maths\Ray.h" />
+    <ClInclude Include="src\IRadiance\Raytracer\Geometry\HitRecord.h" />
+    <ClInclude Include="src\IRadiance\Raytracer\Maths\Vector.h" />
+    <ClInclude Include="src\IRadiance\Raytracer\RGBSpectrum.h" />
+    <ClInclude Include="src\IRadiance\Raytracer\Tracers\SingleObject.h" />
+    <ClInclude Include="src\IRadiance\Raytracer\Tracers\Tracer.h" />
+    <ClInclude Include="src\IRadiance\Raytracer\ViewPlane.h" />
+    <ClInclude Include="src\IRadiance\Raytracer\Renderer.h" />
+    <ClInclude Include="src\pch.h" />
+    <ClInclude Include="src\IRadiance\Platform\OpenGL\GLRenderAPI.h" />
+    <ClInclude Include="src\IRadiance\Platform\OpenGL\GLRenderDevice.h" />
+    <ClInclude Include="src\IRadiance\Platform\OpenGL\GLTexture2D.h" />
+    <ClInclude Include="src\IRadiance\Platform\OpenGL\GLVertexArray.h" />
+    <ClInclude Include="src\IRadiance\Platform\OpenGL\GLBuffer.h" />
+    <ClInclude Include="src\IRadiance\Platform\OpenGL\GLContext.h" />
+    <ClInclude Include="src\IRadiance\Platform\OpenGL\GLShader.h" />
+    <ClInclude Include="src\IRadiance\Platform\Windows\WindowsInput.h" />
+    <ClInclude Include="src\IRadiance\Platform\Windows\WindowsWindow.h" />
+    <ClInclude Include="src\IRadiance\Framework\Components\Actor.h" />
+    <ClInclude Include="src\IRadiance\Framework\Components\Component.h" />
+    <ClInclude Include="src\IRadiance\Framework\Components\MeshComponent.h" />
+    <ClInclude Include="src\IRadiance\Framework\Components\TransformComponent.h" />
+    <ClInclude Include="src\IRadiance\Framework\Events\ApplicationEvent.h" />
+    <ClInclude Include="src\IRadiance\Framework\Events\Event.h" />
+    <ClInclude Include="src\IRadiance\Framework\Events\KeyEvent.h" />
+    <ClInclude Include="src\IRadiance\Framework\Events\MouseEvent.h" />
+    <ClInclude Include="src\IRadiance\Framework\ImGui\ImGuiLayer.h" />
+    <ClInclude Include="src\IRadiance\Framework\Core\Input.h" />
+    <ClInclude Include="src\IRadiance\Framework\Core\KeyCodes.h" />
+    <ClInclude Include="src\IRadiance\Framework\Core\Layer.h" />
+    <ClInclude Include="src\IRadiance\Framework\Core\LayerStack.h" />
+    <ClInclude Include="src\IRadiance\Framework\Core\Logger.h" />
+    <ClInclude Include="src\EntryPoint.h" />
+    <ClInclude Include="src\IRadiance.h" />
+    <ClInclude Include="src\IRadiance\Framework\Core\Application.h" />
+    <ClInclude Include="src\IRadiance\Framework\Base.h" />
+    <ClInclude Include="src\IRadiance\Framework\Core\MouseButtonCodes.h" />
+    <ClInclude Include="src\IRadiance\Framework\Prefab\Prefab.h" />
+    <ClInclude Include="src\IRadiance\Framework\Renderer\API\Buffer.h" />
+    <ClInclude Include="src\IRadiance\Framework\Renderer\API\GraphicsContext.h" />
+    <ClInclude Include="src\IRadiance\Framework\Renderer\Camera\Camera.h" />
+    <ClInclude Include="src\IRadiance\Framework\Renderer\Camera\FreeCamera.h" />
+    <ClInclude Include="src\IRadiance\Framework\Renderer\Camera\Orthographic.h" />
+    <ClInclude Include="src\IRadiance\Framework\Renderer\Camera\Perspective.h" />
+    <ClInclude Include="src\IRadiance\Framework\Renderer\MeshRender.h" />
+    <ClInclude Include="src\IRadiance\Framework\Renderer\API\RenderAPI.h" />
+    <ClInclude Include="src\IRadiance\Framework\Renderer\API\RenderCommand.h" />
+    <ClInclude Include="src\IRadiance\Framework\Renderer\API\RenderDevice.h" />
+    <ClInclude Include="src\IRadiance\Framework\Renderer\Mesh.h" />
+    <ClInclude Include="src\IRadiance\Framework\Renderer\Render.h" />
+    <ClInclude Include="src\IRadiance\Framework\Renderer\API\Shader.h" />
+    <ClInclude Include="src\IRadiance\Framework\Renderer\API\Texture2D.h" />
+    <ClInclude Include="src\IRadiance\Framework\Renderer\API\VertexArray.h" />
+    <ClInclude Include="src\IRadiance\Framework\Renderer\Scene.h" />
+    <ClInclude Include="src\IRadiance\Framework\Core\Singleton.h" />
+    <ClInclude Include="src\IRadiance\Framework\Core\Time.h" />
+    <ClInclude Include="src\IRadiance\Framework\Utility\Utility.h" />
+    <ClInclude Include="src\IRadiance\Framework\Core\Window.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="src\IRadiance\Framework\Core\BaseLayer.cpp" />
+    <ClCompile Include="src\IRadiance\Framework\Renderer\ImageBuffer.cpp" />
+    <ClCompile Include="src\IRadiance\Raytracer\Geometry\Plane.cpp" />
+    <ClCompile Include="src\IRadiance\Raytracer\Geometry\Sphere.cpp" />
+    <ClCompile Include="src\IRadiance\Raytracer\Maths\Normal.cpp" />
+    <ClCompile Include="src\IRadiance\Raytracer\Maths\Point.cpp" />
+    <ClCompile Include="src\IRadiance\Raytracer\Maths\Ray.cpp" />
+    <ClCompile Include="src\IRadiance\Raytracer\Maths\Vector.cpp" />
+    <ClCompile Include="src\IRadiance\Raytracer\RGBSpectrum.cpp" />
+    <ClCompile Include="src\IRadiance\Raytracer\Tracers\SingleObject.cpp" />
+    <ClCompile Include="src\IRadiance\Raytracer\ViewPlane.cpp" />
+    <ClCompile Include="src\IRadiance\Raytracer\Renderer.cpp" />
+    <ClCompile Include="src\pch.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="src\IRadiance\Platform\OpenGL\GLRenderAPI.cpp" />
+    <ClCompile Include="src\IRadiance\Platform\OpenGL\GLRenderDevice.cpp" />
+    <ClCompile Include="src\IRadiance\Platform\OpenGL\GLTexture2D.cpp" />
+    <ClCompile Include="src\IRadiance\Platform\OpenGL\GLVertexArray.cpp" />
+    <ClCompile Include="src\IRadiance\Platform\OpenGL\GLBuffer.cpp" />
+    <ClCompile Include="src\IRadiance\Platform\OpenGL\GLContext.cpp" />
+    <ClCompile Include="src\IRadiance\Platform\Windows\WindowsInput.cpp" />
+    <ClCompile Include="src\IRadiance\Platform\Windows\WindowsWindow.cpp" />
+    <ClCompile Include="src\IRadiance\Framework\Components\Actor.cpp" />
+    <ClCompile Include="src\IRadiance\Framework\Components\MeshComponent.cpp" />
+    <ClCompile Include="src\IRadiance\Framework\Components\TransformComponent.cpp" />
+    <ClCompile Include="src\IRadiance\Framework\ImGui\ImGuiBuild.cpp" />
+    <ClCompile Include="src\IRadiance\Framework\ImGui\ImGuiLayer.cpp" />
+    <ClCompile Include="src\IRadiance\Framework\Core\Layer.cpp" />
+    <ClCompile Include="src\IRadiance\Framework\Core\LayerStack.cpp" />
+    <ClCompile Include="src\IRadiance\Framework\Core\Locator.cpp" />
+    <ClCompile Include="src\IRadiance\Framework\Core\Logger.cpp" />
+    <ClCompile Include="src\IRadiance\Framework\Core\Application.cpp" />
+    <ClCompile Include="src\IRadiance\Framework\Prefab\Prefab.cpp" />
+    <ClCompile Include="src\IRadiance\Framework\Renderer\API\Buffer.cpp" />
+    <ClCompile Include="src\IRadiance\Framework\Renderer\Camera\FreeCamera.cpp" />
+    <ClCompile Include="src\IRadiance\Framework\Renderer\Camera\Orthographic.cpp" />
+    <ClCompile Include="src\IRadiance\Framework\Renderer\Camera\Perspective.cpp" />
+    <ClCompile Include="src\IRadiance\Framework\Renderer\Mesh.cpp" />
+    <ClCompile Include="src\IRadiance\Framework\Renderer\MeshRender.cpp" />
+    <ClCompile Include="src\IRadiance\Framework\Renderer\API\RenderAPI.cpp" />
+    <ClCompile Include="src\IRadiance\Framework\Renderer\API\RenderDevice.cpp" />
+    <ClCompile Include="src\IRadiance\Framework\Renderer\Render.cpp" />
+    <ClCompile Include="src\IRadiance\Platform\OpenGL\GLShader.cpp" />
+    <ClCompile Include="src\IRadiance\Framework\Renderer\Scene.cpp" />
+    <ClCompile Include="src\IRadiance\Framework\Core\Time.cpp" />
+    <ClCompile Include="src\IRadiance\Framework\Utility\Utility.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\vendor\Glad\Glad.vcxproj">
+      <Project>{4bf0452c-4c28-471a-866b-9c6d4c269834}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\vendor\ImGui\ImGui.vcxproj">
+      <Project>{2a5a1a5b-3978-450f-8525-585811c22a18}</Project>
+    </ProjectReference>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <VCProjectVersion>15.0</VCProjectVersion>
+    <ProjectGuid>{2A9DE232-212F-4FFA-8A99-DBA1FCD02589}</ProjectGuid>
+    <RootNamespace>IRadiance</RootNamespace>
+    <WindowsTargetPlatformVersion>10.0.17763.0</WindowsTargetPlatformVersion>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v141</PlatformToolset>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v141</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v141</PlatformToolset>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v141</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="Shared">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <OutDir>$(SolutionDir)bin\$(Configuration)_$(Platform)\$(ProjectName)\</OutDir>
+    <IntDir>$(SolutionDir)bin_int\$(Configuration)_$(Platform)\$(ProjectName)\</IntDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <OutDir>$(SolutionDir)bin\$(Configuration)_$(Platform)\$(ProjectName)\</OutDir>
+    <IntDir>$(SolutionDir)bin_int\$(Configuration)_$(Platform)\$(ProjectName)\</IntDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <OutDir>$(SolutionDir)bin\$(Configuration)_$(Platform)\$(ProjectName)\</OutDir>
+    <IntDir>$(SolutionDir)bin_int\$(Configuration)_$(Platform)\$(ProjectName)\</IntDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <OutDir>$(SolutionDir)bin\$(Configuration)_$(Platform)\$(ProjectName)\</OutDir>
+    <IntDir>$(SolutionDir)bin_int\$(Configuration)_$(Platform)\$(ProjectName)\</IntDir>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <WarningLevel>Level4</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <SDLCheck>true</SDLCheck>
+      <ConformanceMode>true</ConformanceMode>
+      <TreatWarningAsError>true</TreatWarningAsError>
+      <PreprocessorDefinitions>IRAD_DEBUG;IRAD_PLATFORM_WINDOWS;GLFW_INCLUDE_NONE;GLM_FORCE_SILENT_WARNINGS;_WINDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>$(SolutionDir)vendor\GLFW\include\;$(SolutionDir)vendor\spdlog\include\;$(SolutionDir)vendor\Glad\include\;$(SolutionDir)vendor\ImGui\;$(SolutionDir)vendor\glm\;$(SolutionDir)vendor\stb\;$(SolutionDir)IRadiance\src\;C:\Program Files (x86)\Visual Leak Detector\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+    </ClCompile>
+    <Lib>
+      <AdditionalLibraryDirectories>$(SolutionDir)vendor\GLFW\x86\lib-vc2017\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+    </Lib>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <WarningLevel>Level4</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <SDLCheck>true</SDLCheck>
+      <ConformanceMode>true</ConformanceMode>
+      <TreatWarningAsError>true</TreatWarningAsError>
+      <PreprocessorDefinitions>IRAD_DEBUG;IRAD_PLATFORM_WINDOWS;GLFW_INCLUDE_NONE;GLM_FORCE_SILENT_WARNINGS;_WINDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>$(SolutionDir)vendor\GLFW\include\;$(SolutionDir)vendor\spdlog\include\;$(SolutionDir)vendor\Glad\include\;$(SolutionDir)vendor\ImGui\;$(SolutionDir)vendor\glm\;$(SolutionDir)vendor\stb\;$(SolutionDir)IRadiance\src\;C:\Program Files (x86)\Visual Leak Detector\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+    </ClCompile>
+    <Lib>
+      <AdditionalLibraryDirectories>$(SolutionDir)vendor\GLFW\x64\lib-vc2017\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+    </Lib>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+      <ConformanceMode>true</ConformanceMode>
+      <PreprocessorDefinitions>IRAD_PLATFORM_WINDOWS;GLFW_INCLUDE_NONE;GLM_FORCE_SILENT_WARNINGS;_WINDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>$(SolutionDir)vendor\GLFW\include\;$(SolutionDir)vendor\spdlog\include\;$(SolutionDir)vendor\Glad\include\;$(SolutionDir)vendor\ImGui\;$(SolutionDir)vendor\glm\;$(SolutionDir)vendor\stb\;$(SolutionDir)IRadiance\src\;C:\Program Files (x86)\Visual Leak Detector\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+    </ClCompile>
+    <Link>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+    </Link>
+    <Lib>
+      <AdditionalLibraryDirectories>$(SolutionDir)vendor\GLFW\x86\lib-vc2017\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+    </Lib>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+      <ConformanceMode>true</ConformanceMode>
+      <PreprocessorDefinitions>IRAD_PLATFORM_WINDOWS;GLFW_INCLUDE_NONE;GLM_FORCE_SILENT_WARNINGS;_WINDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>$(SolutionDir)vendor\GLFW\include\;$(SolutionDir)vendor\spdlog\include\;$(SolutionDir)vendor\Glad\include\;$(SolutionDir)vendor\ImGui\;$(SolutionDir)vendor\glm\;$(SolutionDir)vendor\stb\;$(SolutionDir)IRadiance\src\;C:\Program Files (x86)\Visual Leak Detector\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+    </ClCompile>
+    <Link>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+    </Link>
+    <Lib>
+      <AdditionalLibraryDirectories>$(SolutionDir)vendor\GLFW\x64\lib-vc2017\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+    </Lib>
+  </ItemDefinitionGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

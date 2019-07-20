@@ -1,0 +1,68 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.28307.421
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Sandbox", "Sandbox\Sandbox.vcxproj", "{E1260473-EED1-4BB0-8AFF-4CD5C8FA610A}"
+	ProjectSection(ProjectDependencies) = postProject
+		{2A9DE232-212F-4FFA-8A99-DBA1FCD02589} = {2A9DE232-212F-4FFA-8A99-DBA1FCD02589}
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "IRadiance", "IRadiance\IRadiance.vcxproj", "{2A9DE232-212F-4FFA-8A99-DBA1FCD02589}"
+	ProjectSection(ProjectDependencies) = postProject
+		{4BF0452C-4C28-471A-866B-9C6D4C269834} = {4BF0452C-4C28-471A-866B-9C6D4C269834}
+		{2A5A1A5B-3978-450F-8525-585811C22A18} = {2A5A1A5B-3978-450F-8525-585811C22A18}
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Glad", "vendor\Glad\Glad.vcxproj", "{4BF0452C-4C28-471A-866B-9C6D4C269834}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ImGui", "vendor\ImGui\ImGui.vcxproj", "{2A5A1A5B-3978-450F-8525-585811C22A18}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x64 = Debug|x64
+		Debug|x86 = Debug|x86
+		Release|x64 = Release|x64
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{E1260473-EED1-4BB0-8AFF-4CD5C8FA610A}.Debug|x64.ActiveCfg = Debug|x64
+		{E1260473-EED1-4BB0-8AFF-4CD5C8FA610A}.Debug|x64.Build.0 = Debug|x64
+		{E1260473-EED1-4BB0-8AFF-4CD5C8FA610A}.Debug|x86.ActiveCfg = Debug|Win32
+		{E1260473-EED1-4BB0-8AFF-4CD5C8FA610A}.Debug|x86.Build.0 = Debug|Win32
+		{E1260473-EED1-4BB0-8AFF-4CD5C8FA610A}.Release|x64.ActiveCfg = Release|x64
+		{E1260473-EED1-4BB0-8AFF-4CD5C8FA610A}.Release|x64.Build.0 = Release|x64
+		{E1260473-EED1-4BB0-8AFF-4CD5C8FA610A}.Release|x86.ActiveCfg = Release|Win32
+		{E1260473-EED1-4BB0-8AFF-4CD5C8FA610A}.Release|x86.Build.0 = Release|Win32
+		{2A9DE232-212F-4FFA-8A99-DBA1FCD02589}.Debug|x64.ActiveCfg = Debug|x64
+		{2A9DE232-212F-4FFA-8A99-DBA1FCD02589}.Debug|x64.Build.0 = Debug|x64
+		{2A9DE232-212F-4FFA-8A99-DBA1FCD02589}.Debug|x86.ActiveCfg = Debug|Win32
+		{2A9DE232-212F-4FFA-8A99-DBA1FCD02589}.Debug|x86.Build.0 = Debug|Win32
+		{2A9DE232-212F-4FFA-8A99-DBA1FCD02589}.Release|x64.ActiveCfg = Release|x64
+		{2A9DE232-212F-4FFA-8A99-DBA1FCD02589}.Release|x64.Build.0 = Release|x64
+		{2A9DE232-212F-4FFA-8A99-DBA1FCD02589}.Release|x86.ActiveCfg = Release|Win32
+		{2A9DE232-212F-4FFA-8A99-DBA1FCD02589}.Release|x86.Build.0 = Release|Win32
+		{4BF0452C-4C28-471A-866B-9C6D4C269834}.Debug|x64.ActiveCfg = Debug|x64
+		{4BF0452C-4C28-471A-866B-9C6D4C269834}.Debug|x64.Build.0 = Debug|x64
+		{4BF0452C-4C28-471A-866B-9C6D4C269834}.Debug|x86.ActiveCfg = Debug|Win32
+		{4BF0452C-4C28-471A-866B-9C6D4C269834}.Debug|x86.Build.0 = Debug|Win32
+		{4BF0452C-4C28-471A-866B-9C6D4C269834}.Release|x64.ActiveCfg = Release|x64
+		{4BF0452C-4C28-471A-866B-9C6D4C269834}.Release|x64.Build.0 = Release|x64
+		{4BF0452C-4C28-471A-866B-9C6D4C269834}.Release|x86.ActiveCfg = Release|Win32
+		{4BF0452C-4C28-471A-866B-9C6D4C269834}.Release|x86.Build.0 = Release|Win32
+		{2A5A1A5B-3978-450F-8525-585811C22A18}.Debug|x64.ActiveCfg = Debug|x64
+		{2A5A1A5B-3978-450F-8525-585811C22A18}.Debug|x64.Build.0 = Debug|x64
+		{2A5A1A5B-3978-450F-8525-585811C22A18}.Debug|x86.ActiveCfg = Debug|Win32
+		{2A5A1A5B-3978-450F-8525-585811C22A18}.Debug|x86.Build.0 = Debug|Win32
+		{2A5A1A5B-3978-450F-8525-585811C22A18}.Release|x64.ActiveCfg = Release|x64
+		{2A5A1A5B-3978-450F-8525-585811C22A18}.Release|x64.Build.0 = Release|x64
+		{2A5A1A5B-3978-450F-8525-585811C22A18}.Release|x86.ActiveCfg = Release|Win32
+		{2A5A1A5B-3978-450F-8525-585811C22A18}.Release|x86.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {5936CBB0-2AA4-48D4-98C4-714725D17517}
+	EndGlobalSection
+EndGlobal
