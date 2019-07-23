@@ -3,7 +3,7 @@
 
 namespace IRadiance
 { 
-	Plane::Plane(const Point& _p, const Normal& _n)
+	Plane::Plane(const Point3& _p, const Normal& _n)
 		: p(_p), n(_n), m_Color(BLACK)
 	{
 	}
@@ -29,7 +29,7 @@ namespace IRadiance
 		return m_Color;
 	}
 
-	void Plane::SetPoint(const Point& _p)
+	void Plane::SetPoint(const Point3& _p)
 	{
 		p = _p;
 	}

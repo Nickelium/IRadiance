@@ -7,7 +7,7 @@ namespace IRadiance
 	{
 	}
 
-	Ray::Ray(const Point& _origin, const Vector& _direction)
+	Ray::Ray(const Point3& _origin, const Vector& _direction)
 		: o(_origin), d(_direction)
 	{
 	}

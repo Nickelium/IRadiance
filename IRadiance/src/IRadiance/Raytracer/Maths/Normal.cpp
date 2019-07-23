@@ -2,7 +2,7 @@
 #include "Normal.h"
 
 #include "Vector.h"
-#include "Point.h"
+#include "Point3.h"
 
 namespace IRadiance
 {
@@ -26,12 +26,12 @@ namespace IRadiance
 	{
 	}
 
-	Normal::Normal(const Point& _p)
+	Normal::Normal(const Point3& _p)
 		: Normal(_p.x, _p.y, _p.z)
 	{
 	}
 
-	Normal& Normal::operator=(const Point& _p)
+	Normal& Normal::operator=(const Point3& _p)
 	{
 		x = _p.x;
 		y = _p.y;

@@ -1,6 +1,8 @@
 #include "pch.h"
 #include "Renderer.h"
 
+#include "IRadiance/Raytracer/Maths/Point2.h"
+
 #include "IRadiance/Raytracer/Tracers/SingleObject.h"
 #include "IRadiance/Raytracer/Tracers/MultiObject.h"
 
@@ -8,6 +10,12 @@
 #include "IRadiance/Raytracer/Geometry/Plane.h"
 
 #include "IRadiance/Framework/Renderer/ImageBuffer.h"
+
+#include "Samplers/RegularSampler.h"
+#include "Samplers/RandomSampler.h"
+#include "Samplers/JitteredSampler.h"
+#include "Samplers/NRookSampler.h"
+
 
 namespace IRadiance
 {
@@ -26,7 +34,9 @@ namespace IRadiance
 		m_ViewingPlane.m_VertRes = m_Buffer->GetHeight();
 		m_ViewingPlane.m_PixelSize = 1.0f;
 		m_ViewingPlane.SetGamma(1.0f);
-
+		int nbSamples = 16;
+		m_ViewingPlane.SetSampler(new NRookSampler(nbSamples));
+			
 		m_BackColor = WHITE;
 		m_Tracer = new MultiObject(this);
 
@@ -40,10 +50,10 @@ namespace IRadiance
 		sphere_ptr->SetColor({ 1, 0, 0 }); // red
 		AddObject(sphere_ptr);
 		// use constructor to set sphere center and radius
-		sphere_ptr = new Sphere(Point(0, 30, 0), 60);
+		sphere_ptr = new Sphere(Point3(0, 30, 0), 60);
 		sphere_ptr->SetColor({1, 1, 0}); // yellow
 		AddObject(sphere_ptr);
-		Plane* plane_ptr = new Plane(Point(0, 0, 0), Normal(0, 1, 1));
+		Plane* plane_ptr = new Plane(Point3(0, 0, 0), Normal(0, 1, 1));
 		plane_ptr->SetColor({ 168/255.0f, 212 / 255.0f, 211.0f / 255.0f }); // dark green
 		AddObject(plane_ptr);
 	}
@@ -59,8 +69,9 @@ namespace IRadiance
 	{
 		ImageBuffer& bufferRef = *m_Buffer;
 		Ray ray({}, { 0.0f, 0.0f, -1.0f });
-		float x, y;
-		int n = 4;
+		Point2 pp;
+		Point2 sp;
+
 		m_Timer.Start();
 		for (; coVars.row < m_ViewingPlane.m_VertRes;)
 		{
@@ -70,18 +81,15 @@ namespace IRadiance
 				int c = coVars.col;
 
 				RGBSpectrum pixel = BLACK;
-				for (int p = 0; p < n ;++p)
+				for (int p = 0; p < m_ViewingPlane.m_NumSamples ;++p)
 				{
-					for (int q = 0; q < n; ++q)
-					{
-
-						x = m_ViewingPlane.m_PixelSize *
-							(c - 0.5f * m_ViewingPlane.m_HorRes + (q + 0.5f) / n);
-						y = m_ViewingPlane.m_PixelSize *							(r - 0.5f * m_ViewingPlane.m_VertRes + (p + 0.5f) / n);						ray.o = { x, y, 100.0f };
-						pixel += m_Tracer->RayTrace(ray);
-					}
+					sp = m_ViewingPlane.GetSampler()->SampleUnitSquare();
+					pp = m_ViewingPlane.m_PixelSize *
+						(c - 0.5f * m_ViewingPlane.m_HorRes + sp.x);
+					pp.y = m_ViewingPlane.m_PixelSize *						(r - 0.5f * m_ViewingPlane.m_VertRes + sp.y);					ray.o = { pp.x, pp.y, 100.0f };
+					pixel += m_Tracer->RayTrace(ray);
 				}
-				pixel /= float(n * n);
+				pixel /= (float)m_ViewingPlane.m_NumSamples;
 			
 				bufferRef[r][c] = ToRGBA(pixel);
 

@@ -2,7 +2,7 @@
 
 namespace IRadiance
 {
-	class Point;
+	class Point3;
 	class Normal;
 	/**
 		* Vector with 3 Components
@@ -15,7 +15,7 @@ namespace IRadiance
 		Vector(float _value = 0.0f);
 		Vector(float _x, float _y, float _z);
 		Vector(const Vector& _other);
-		Vector(const Point& _p);
+		Vector(const Point3& _p);
 		Vector(const Normal& _n);
 
 		Vector& operator=(const Vector& _other);

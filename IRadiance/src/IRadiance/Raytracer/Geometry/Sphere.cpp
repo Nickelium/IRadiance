@@ -3,7 +3,7 @@
 
 namespace IRadiance
 {
-	Sphere::Sphere(const Point& _c /*= {0, 0, 0}*/, float radius /*= 1.0f*/)
+	Sphere::Sphere(const Point3& _c /*= {0, 0, 0}*/, float radius /*= 1.0f*/)
 		: c(_c), r(radius), m_Color(RED)
 	{
 	}
@@ -51,7 +51,7 @@ namespace IRadiance
 		return m_Color;
 	}
 
-	void Sphere::SetCenter(const Point& _c)
+	void Sphere::SetCenter(const Point3& _c)
 	{
 		c = _c;
 	}

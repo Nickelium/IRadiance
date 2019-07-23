@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Point.h"
+#include "Point3.h"
 #include "Vector.h"
 
 namespace IRadiance
@@ -8,11 +8,11 @@ namespace IRadiance
 	class Ray
 	{
 	public:
-		Point o;
+		Point3 o;
 		Vector d;
 
 		Ray();
-		Ray(const Point& _origin, const Vector& _direction);
+		Ray(const Point3& _origin, const Vector& _direction);
 		Ray(const Ray& _other);
 
 		Ray& operator=(const Ray& _other);

@@ -3,7 +3,7 @@
 namespace IRadiance
 {
 	class Vector;
-	class Point;
+	class Point3;
 
 	class Normal
 	{
@@ -14,11 +14,11 @@ namespace IRadiance
 		Normal(float _x, float _y, float _z);
 		Normal(const Normal& _other);
 		Normal(const Vector& _v);
-		Normal(const Point& _p);
+		Normal(const Point3& _p);
 	
 		Normal& operator=(const Normal& _other);
 		Normal& operator=(const Vector& _v);
-		Normal& operator=(const Point& _p);
+		Normal& operator=(const Point3& _p);
 		
 		Normal& operator+=(const Normal& _n);
 		Normal& operator-=(const Normal& _n);

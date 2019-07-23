@@ -2,6 +2,8 @@
 
 namespace IRadiance
 {
+	class Sampler;
+
 	class ViewPlane
 	{
 	public:
@@ -12,12 +14,16 @@ namespace IRadiance
 		float m_Gamma;
 		float m_InvGamma;
 
+		int m_NumSamples;
+
 		ViewPlane(int _hRes = 100, int _vRes = 100);
 
-		inline void SetGamma(float _gamma)
-		{
-			m_Gamma = _gamma;
-			m_InvGamma = 1.0f / m_Gamma;
-		}
+		void SetGamma(float _gamma);
+		void SetSampler(Sampler* _sampler);
+
+		inline Sampler* GetSampler() const { return m_Sampler; }
+
+	private: 
+		Sampler* m_Sampler;
 	};
 }

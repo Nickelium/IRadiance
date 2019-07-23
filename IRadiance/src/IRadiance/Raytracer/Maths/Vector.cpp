@@ -1,7 +1,7 @@
 #include "pch.h"
 #include "Vector.h"
 
-#include "Point.h"
+#include "Point3.h"
 #include "Normal.h"
 
 namespace IRadiance
@@ -22,7 +22,7 @@ namespace IRadiance
 	}
 
 
-	Vector::Vector(const Point& _p)
+	Vector::Vector(const Point3& _p)
 		: Vector(_p.x, _p.y, _p.z)
 	{
 	}
