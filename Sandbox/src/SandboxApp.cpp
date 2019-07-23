@@ -32,7 +32,12 @@ public:
 		using namespace IRadiance;
 		if (render)
 		{
-			m_World.Render();
+			bool completed = m_World.Render();
+			if (completed)
+			{
+				IRAD_INFO("Rendering Completed ...");
+				render = false;
+			}
 		}
 		
 
@@ -46,15 +51,22 @@ public:
 		ImGui::End();
 
 		ImGui::Begin("Render");
-		if (ImGui::Button("Start Rendering"))
+		if (ImGui::Button("Rendering"))
 		{
+			IRAD_INFO("Starting Rendering ...");
 			render = true;
 			m_World.PreRender();
 		}
 		if (ImGui::Button("Clear"))
 		{
+			IRAD_INFO("Clearing ImageBuffer");
 			m_Texture->GetImageBuffer()->Clear();
 			render = false;
+		}
+		if (ImGui::Button("Save As"))
+		{
+			m_Texture->GetImageBuffer()->Write("output/image");
+			IRAD_INFO("Image Saved");
 		}
 		ImGui::End();
 	}

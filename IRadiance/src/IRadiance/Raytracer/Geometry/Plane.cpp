@@ -4,7 +4,7 @@
 namespace IRadiance
 { 
 	Plane::Plane(const Point& _p, const Normal& _n)
-		: p(_p), n(_n)
+		: p(_p), n(_n), m_Color(BLACK)
 	{
 	}
 
@@ -22,6 +22,26 @@ namespace IRadiance
 			return true;
 		}
 		else return false;
+	}
+
+	RGBSpectrum Plane::GetColor() const
+	{
+		return m_Color;
+	}
+
+	void Plane::SetPoint(const Point& _p)
+	{
+		p = _p;
+	}
+
+	void Plane::SetNormal(const Normal& _n)
+	{
+		n = _n;
+	}
+
+	void Plane::SetColor(const RGBSpectrum& _color)
+	{
+		m_Color = _color;
 	}
 
 }

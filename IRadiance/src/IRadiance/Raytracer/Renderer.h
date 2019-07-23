@@ -2,7 +2,6 @@
 
 #include "ViewPlane.h"
 #include "IRadiance/Raytracer/Geometry/Object.h"
-#include "IRadiance/Raytracer/Geometry/Sphere.h"
 #include "RGBSpectrum.h"
 
 namespace IRadiance
@@ -15,24 +14,28 @@ namespace IRadiance
 	public:
 		~Renderer();
 
-		inline void AddObject(Object* _object)
-		{
-			m_Objects.push_back(_object);
-		}
 		inline const std::vector<Object*>& GetObjects() const
 		{
 			return m_Objects;
 		}
 
+		inline RGBSpectrum GetBackColor() const
+		{
+			return m_BackColor;
+		}
+
 		void Build(ImageBuffer* _buffer);
 
 		void PreRender();
-		void Render();
-		Sphere m_Sphere;
+		bool Render();
 	private:
-		ViewPlane m_ViewingPlane;
 
-		//Scene
+		inline void AddObject(Object* _object)
+		{
+			m_Objects.push_back(_object);
+		}
+
+		ViewPlane m_ViewingPlane;
 		std::vector<Object*> m_Objects;
 
 		Tracer* m_Tracer;
@@ -46,5 +49,6 @@ namespace IRadiance
 			int col;
 		};
 		CoVariables coVars;
+		Timer m_Timer;
 	};
 }

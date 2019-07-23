@@ -20,6 +20,8 @@ namespace IRadiance
 		inline int GetHeight() const { return m_Height; }
 		inline RGBA* GetBuffer() const { return m_Buffer; }
 
+		void Write(const std::string& _file);
+
 		void Clear();
 
 		class ProxyRow;

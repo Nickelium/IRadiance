@@ -29,8 +29,10 @@
     <ClInclude Include="src\IRadiance\Raytracer\Maths\Point.h" />
     <ClInclude Include="src\IRadiance\Raytracer\Maths\Ray.h" />
     <ClInclude Include="src\IRadiance\Raytracer\Geometry\HitRecord.h" />
+    <ClInclude Include="src\IRadiance\Raytracer\Maths\Utilities.h" />
     <ClInclude Include="src\IRadiance\Raytracer\Maths\Vector.h" />
     <ClInclude Include="src\IRadiance\Raytracer\RGBSpectrum.h" />
+    <ClInclude Include="src\IRadiance\Raytracer\Tracers\MultiObject.h" />
     <ClInclude Include="src\IRadiance\Raytracer\Tracers\SingleObject.h" />
     <ClInclude Include="src\IRadiance\Raytracer\Tracers\Tracer.h" />
     <ClInclude Include="src\IRadiance\Raytracer\ViewPlane.h" />
@@ -96,6 +98,7 @@
     <ClCompile Include="src\IRadiance\Raytracer\Maths\Ray.cpp" />
     <ClCompile Include="src\IRadiance\Raytracer\Maths\Vector.cpp" />
     <ClCompile Include="src\IRadiance\Raytracer\RGBSpectrum.cpp" />
+    <ClCompile Include="src\IRadiance\Raytracer\Tracers\MultiObject.cpp" />
     <ClCompile Include="src\IRadiance\Raytracer\Tracers\SingleObject.cpp" />
     <ClCompile Include="src\IRadiance\Raytracer\ViewPlane.cpp" />
     <ClCompile Include="src\IRadiance\Raytracer\Renderer.cpp" />
@@ -150,32 +153,32 @@
     <VCProjectVersion>15.0</VCProjectVersion>
     <ProjectGuid>{2A9DE232-212F-4FFA-8A99-DBA1FCD02589}</ProjectGuid>
     <RootNamespace>IRadiance</RootNamespace>
-    <WindowsTargetPlatformVersion>10.0.17763.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v141</PlatformToolset>
+    <PlatformToolset>v142</PlatformToolset>
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v141</PlatformToolset>
+    <PlatformToolset>v142</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v141</PlatformToolset>
+    <PlatformToolset>v142</PlatformToolset>
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v141</PlatformToolset>
+    <PlatformToolset>v142</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>

@@ -4,7 +4,7 @@
 namespace IRadiance
 {
 	Timer::Timer()
-		: m_MaxDt(0.1f), m_Dt(0.0f)
+		: m_MaxDt(std::numeric_limits<float>::max()), m_Dt(0.0f)
 	{
 		Start();
 	}

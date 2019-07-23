@@ -65,7 +65,7 @@ namespace IRadiance
 	{
 		x -= _n.x;
 		y -= _n.y;
-		z -= _n.x;
+		z -= _n.z;
 		return *this;
 	}
 
@@ -73,7 +73,7 @@ namespace IRadiance
 	{
 		x += _n.x;
 		y += _n.y;
-		z += _n.x;
+		z += _n.z;
 		return *this;
 	}
 
@@ -81,7 +81,7 @@ namespace IRadiance
 	{
 		x = _other.x;
 		y = _other.y;
-		z = _other.x;
+		z = _other.z;
 		return *this;
 	}
 
@@ -103,8 +103,8 @@ namespace IRadiance
 	{
 		Normal n;
 		n.x = _n1.x + _n2.x;
-		n.y = _n1.x + _n2.y;
-		n.z = _n1.x + _n2.z;
+		n.y = _n1.y + _n2.y;
+		n.z = _n1.z + _n2.z;
 		return n;
 	}
 
@@ -113,8 +113,8 @@ namespace IRadiance
 	{
 		Normal n;
 		n.x = _n1.x - _n2.x;
-		n.y = _n1.x - _n2.y;
-		n.z = _n1.x - _n2.z;
+		n.y = _n1.y - _n2.y;
+		n.z = _n1.z - _n2.z;
 		return n;
 	}
 

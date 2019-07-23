@@ -11,32 +11,17 @@ namespace IRadiance
 	RGBSpectrum SingleObject::RayTrace(const Ray& _ray)
 	{
 		float t;
-		float tMin = std::numeric_limits<float>::max();
-		tMin;
 		HitRecord hr;
-		bool hit = false;
 		const std::vector<Object*>& objects = m_Renderer->GetObjects();
-		objects;
 
-		/*for (Object* object : objects)
-		{
-			if (object->Hit(_ray, t, hr) && t < tMin)
-			{
-				hit = true;
-				hr.hasHit = true;
-				hr.t = t;
-				tMin = t;
-			}
-		}*/
+		IRAD_CORE_ASSERT(objects.empty() == false, "Scene Objects are empty");
+		if (objects.back()->Hit(_ray, t, hr))
+			hr.color = objects.back()->GetColor();
 
-		hit = m_Renderer->m_Sphere.Hit(_ray, t, hr);
-
-		if (hit)
-		{
-			return RED;
-		}
+		if (hr.hasHit)
+			return hr.color;
 		else
-			return WHITE;
+			return m_Renderer->GetBackColor();
 
 	}
 
