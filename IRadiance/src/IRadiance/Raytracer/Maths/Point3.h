@@ -26,6 +26,7 @@ namespace IRadiance
 	Point3 operator+(const Point3& _p);
 	Point3 operator-(const Point3& _p);
 
+	Point3 operator+(const Point3& _p1, const Point3& _p2);
 	Point3 operator+(const Point3& _p, const Vector& _v);
 	Point3 operator-(const Point3& _p, const Vector& _v);
 	Vector operator-(const Point3& _p1, const Point3& _p2);

@@ -63,6 +63,15 @@ namespace IRadiance
 		return _p;
 	}
 
+	Point3 operator+(const Point3& _p1, const Point3& _p2)
+	{
+		Point3 p;
+		p.x = _p1.x + _p2.x;
+		p.y = _p1.y + _p2.y;
+		p.z = _p1.z + _p2.z;
+		return p;
+	}
+
 	Point3 operator-(const Point3& _p)
 	{
 		Point3 p;
