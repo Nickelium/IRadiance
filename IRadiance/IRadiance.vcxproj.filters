@@ -237,6 +237,9 @@
     <ClInclude Include="src\IRadiance\Raytracer\Samplers\NRookSampler.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\IRadiance\Raytracer\Samplers\MultiJitteredSampler.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\pch.cpp">
@@ -393,6 +396,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\IRadiance\Raytracer\Samplers\NRookSampler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\IRadiance\Raytracer\Samplers\MultiJitteredSampler.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

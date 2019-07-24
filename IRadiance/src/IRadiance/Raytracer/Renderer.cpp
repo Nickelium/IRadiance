@@ -15,7 +15,7 @@
 #include "Samplers/RandomSampler.h"
 #include "Samplers/JitteredSampler.h"
 #include "Samplers/NRookSampler.h"
-
+#include "Samplers/MultiJitteredSampler.h"
 
 namespace IRadiance
 {
@@ -35,7 +35,7 @@ namespace IRadiance
 		m_ViewingPlane.m_PixelSize = 1.0f;
 		m_ViewingPlane.SetGamma(1.0f);
 		int nbSamples = 16;
-		m_ViewingPlane.SetSampler(new NRookSampler(nbSamples));
+		m_ViewingPlane.SetSampler(new MultiJitteredSampler(nbSamples));
 			
 		m_BackColor = WHITE;
 		m_Tracer = new MultiObject(this);

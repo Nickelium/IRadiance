@@ -34,6 +34,7 @@
     <ClInclude Include="src\IRadiance\Raytracer\Maths\Vector.h" />
     <ClInclude Include="src\IRadiance\Raytracer\RGBSpectrum.h" />
     <ClInclude Include="src\IRadiance\Raytracer\Samplers\JitteredSampler.h" />
+    <ClInclude Include="src\IRadiance\Raytracer\Samplers\MultiJitteredSampler.h" />
     <ClInclude Include="src\IRadiance\Raytracer\Samplers\NRookSampler.h" />
     <ClInclude Include="src\IRadiance\Raytracer\Samplers\RandomSampler.h" />
     <ClInclude Include="src\IRadiance\Raytracer\Samplers\RegularSampler.h" />
@@ -106,6 +107,7 @@
     <ClCompile Include="src\IRadiance\Raytracer\Maths\Vector.cpp" />
     <ClCompile Include="src\IRadiance\Raytracer\RGBSpectrum.cpp" />
     <ClCompile Include="src\IRadiance\Raytracer\Samplers\JitteredSampler.cpp" />
+    <ClCompile Include="src\IRadiance\Raytracer\Samplers\MultiJitteredSampler.cpp" />
     <ClCompile Include="src\IRadiance\Raytracer\Samplers\NRookSampler.cpp" />
     <ClCompile Include="src\IRadiance\Raytracer\Samplers\RandomSampler.cpp" />
     <ClCompile Include="src\IRadiance\Raytracer\Samplers\RegularSampler.cpp" />

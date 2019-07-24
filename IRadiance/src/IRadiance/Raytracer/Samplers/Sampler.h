@@ -11,8 +11,7 @@ namespace IRadiance
 
 		virtual void GenerateSamples() = 0;
 
-		void SetupShuffledIndices();
-		void Shuffle_samples();
+		void GenerateIndices();
 		Point2 SampleUnitSquare();
 
 		inline int GetNumberSamples() const { return m_NumSamples; }

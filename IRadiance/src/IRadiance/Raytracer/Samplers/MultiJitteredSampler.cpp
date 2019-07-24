@@ -14,9 +14,19 @@ namespace IRadiance
 	{
 		for (int s = 0; s < m_NumSets; s++)
 			for (int i = 0; i < m_NumSamples; i++)
-				m_Samples.push_back(Point2(
-				(i + RandUNorm()) / m_NumSamples,
-					(i + RandUNorm()) / m_NumSamples));
+				m_Samples.push_back(Point2());
+
+		int n = (int)sqrt(m_NumSamples);
+		float subCellWidth = 1.0f / m_NumSamples;
+		for (int s = 0; s < m_NumSets; ++s)
+			for (int i = 0; i < n; ++i)
+				for (int j = 0; j < n; ++j)
+				{
+					m_Samples[i * n + j].x = 
+						(i * n + j) * subCellWidth + Rand(0.0f, subCellWidth);
+					m_Samples[i * n + j].y =
+						(j * n + i) * subCellWidth + Rand(0.0f, subCellWidth);
+				}
 		ShuffleX();
 		ShuffleY();
 

@@ -9,6 +9,8 @@ namespace IRadiance
 	public:
 		MultiJitteredSampler(int _nbSamples);
 		virtual void GenerateSamples() override;
-
+	private:
+		void ShuffleX();
+		void ShuffleY();
 	};
 }
