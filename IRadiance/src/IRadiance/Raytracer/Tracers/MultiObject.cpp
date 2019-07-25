@@ -11,7 +11,7 @@ namespace IRadiance
 	{
 	}
 
-	RGBSpectrum MultiObject::RayTrace(const Ray& _ray)
+	RGBSpectrum MultiObject::RayTrace(const Ray& _ray, int /*_depth*/)
 	{
 		float t;
 		float tMin = std::numeric_limits<float>::max();

@@ -1,10 +1,10 @@
 #pragma once
 
-#include "Camera.h"
+#include "RenderCamera.h"
 
 namespace IRadiance
 {
-	class Orthographic : public Camera
+	class Orthographic : public RenderCamera
 	{
 	public:
 		Orthographic(float _left, float _right, float _bottom, float _top, float _near = 1, float _far = 100);

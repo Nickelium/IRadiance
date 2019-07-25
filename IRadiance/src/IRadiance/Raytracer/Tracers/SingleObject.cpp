@@ -8,7 +8,7 @@ namespace IRadiance
 	{
 	}
 
-	RGBSpectrum SingleObject::RayTrace(const Ray& _ray)
+	RGBSpectrum SingleObject::RayTrace(const Ray& _ray, int /*_depth*/)
 	{
 		float t;
 		HitRecord hr;

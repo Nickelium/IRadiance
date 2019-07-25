@@ -7,22 +7,30 @@
 namespace IRadiance
 {
 	class Tracer;
+	class Camera;
 	class ImageBuffer;
+
+	struct CoVariables
+	{
+		int row;
+		int col;
+	};
 
 	class Renderer
 	{
 	public:
 		~Renderer();
 
-		inline const std::vector<Object*>& GetObjects() const
-		{
-			return m_Objects;
-		}
+		RGBSpectrum GetBackColor() const;
 
-		inline RGBSpectrum GetBackColor() const
-		{
-			return m_BackColor;
-		}
+		const std::vector<Object*>& GetObjects() const;
+		Camera* GetCamera() const;
+		const ViewPlane& GetViewPlane() const;
+		ImageBuffer* GetImageBuffer() const;
+		Tracer* GetTracer() const;
+
+		CoVariables& GetCoVariables();
+		Timer& GetTimer();
 
 		void Build(ImageBuffer* _buffer);
 
@@ -30,11 +38,9 @@ namespace IRadiance
 		bool Render();
 	private:
 
-		inline void AddObject(Object* _object)
-		{
-			m_Objects.push_back(_object);
-		}
+		void AddObject(Object* _object);
 
+		Camera* m_Camera;
 		ViewPlane m_ViewingPlane;
 		std::vector<Object*> m_Objects;
 
@@ -43,12 +49,7 @@ namespace IRadiance
 		RGBSpectrum m_BackColor;
 		ImageBuffer* m_Buffer;
 
-		struct CoVariables
-		{
-			int row;
-			int col;
-		};
-		CoVariables coVars;
+		CoVariables m_CoVars;
 		Timer m_Timer;
 	};
 }

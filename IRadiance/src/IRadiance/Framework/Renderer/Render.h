@@ -1,7 +1,7 @@
 #pragma once
 
 #include "API/RenderCommand.h"
-#include "Camera/Camera.h"
+#include "Camera/RenderCamera.h"
 #include "MeshRender.h"
 
 namespace IRadiance

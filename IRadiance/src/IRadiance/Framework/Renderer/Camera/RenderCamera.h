@@ -4,10 +4,10 @@
 
 namespace IRadiance
 {
-	class Camera
+	class RenderCamera
 	{
 	public:
-		Camera() : position(0, 0, 0), rotation(0, 0, 0), m_ViewMatrix(glm::mat4(1.0f)), m_ProjectionMatrix(glm::mat4(1.0)) {}
+		RenderCamera() : position(0, 0, 0), rotation(0, 0, 0), m_ViewMatrix(glm::mat4(1.0f)), m_ProjectionMatrix(glm::mat4(1.0)) {}
 		inline const glm::mat4& GetViewProjectionMatrix() const { return m_ViewProjectionMatrix; }
 		inline const glm::mat4& GetProjectionMatrix() const { return m_ProjectionMatrix; }
 		inline const glm::mat4& GetViewMatrix() const { return m_ViewMatrix; }

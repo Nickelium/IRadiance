@@ -20,13 +20,57 @@
 
 #include "IRadiance/Raytracer/Maths/Utilities.h"
 
+#include "IRadiance/Raytracer/Cameras/Camera.h"
+#include "IRadiance/Raytracer/Cameras/PinholeCamera.h"
+
 namespace IRadiance
 {
 	Renderer::~Renderer()
 	{
+		delete m_Camera;
 		delete m_Tracer;
 		for (Object* object : m_Objects)
 			delete object;
+	}
+
+	const std::vector<Object*>& Renderer::GetObjects() const
+	{
+		return m_Objects;
+	}
+
+	Camera* Renderer::GetCamera() const
+	{
+		return m_Camera;
+	}
+
+	const ViewPlane& Renderer::GetViewPlane() const
+	{
+		return m_ViewingPlane;
+	}
+
+	RGBSpectrum Renderer::GetBackColor() const
+	{
+		return m_BackColor;
+	}
+
+	ImageBuffer* Renderer::GetImageBuffer() const
+	{
+		return m_Buffer;
+	}
+
+	Tracer* Renderer::GetTracer() const
+	{
+		return m_Tracer;
+	}
+
+	CoVariables& Renderer::GetCoVariables()
+	{
+		return m_CoVars;
+	}
+
+	Timer& Renderer::GetTimer()
+	{
+		return m_Timer;
 	}
 
 	void Renderer::Build(ImageBuffer* _buffer)
@@ -37,15 +81,36 @@ namespace IRadiance
 		m_ViewingPlane.m_VertRes = m_Buffer->GetHeight();
 		m_ViewingPlane.m_PixelSize = 1.0f;
 		m_ViewingPlane.SetGamma(1.0f);
-		int nbSamples = 16;
+		int nbSamples = 32;
 		m_ViewingPlane.SetSampler(new MultiJitteredSampler(nbSamples));
 			
-		m_BackColor = WHITE;
+		CameraDesc desc;
+		desc.eye = {0, 2, 0};
+		desc.lookAt = {0, 0, 0};
+
+		m_Camera = new PinholeCamera(desc, 1, 73);
+		m_Camera->ComputeONB();
+
+		m_BackColor = BLACK;
 		m_Tracer = new MultiObject(this);
 
-		AddObject(new Sphere({0.0f, 0.0f, -100.0f}, 100.0f));
+		float d = 2.0f; 		// sphere center spacing 
+		float r = 0.75f; 	// sphere radius
+		float xc, yc; 		// sphere center coordinates
+		int num_rows = 5;
+		int num_columns = 5;
+
+		for (int k = 0; k < num_columns; k++) 		// up
+			for (int j = 0; j < num_rows; j++) {	// across
+				xc = d * (j - (num_columns - 1) / 2.0f);
+				yc = d * (k - (num_rows - 1) / 2.0f);
+				Sphere* sphere_ptr = new Sphere({xc, 0, yc}, r);
+				AddObject(sphere_ptr);
+			}
+
+		/*AddObject(new Sphere({0.0f, 0.0f, -100.0f}, 100.0f));
 		AddObject(new Sphere({ +75, 0, -100.0f}, 75));
-		AddObject(new Sphere({ -75, 0, -100.0f}, 75));
+		AddObject(new Sphere({ -75, 0, -100.0f}, 75));*/
 
 		//Sphere* sphere_ptr = new Sphere;
 		//sphere_ptr->SetCenter({ 0, -25, 0 });
@@ -58,7 +123,9 @@ namespace IRadiance
 		//AddObject(sphere_ptr);
 		//Plane* plane_ptr = new Plane(Point3(0, 0, 0), Normal(0, 1, 1));
 		//plane_ptr->SetColor({ 168/255.0f, 212 / 255.0f, 211.0f / 255.0f }); // dark green
-		//AddObject(plane_ptr);		//AddObject(new Sphere({ 0, -1000, 0 }, 1000));
+		//AddObject(plane_ptr);
+
+		//AddObject(new Sphere({ 0, -1000, 0 }, 1000));
 		//int gridSize = 5;
 		//for (int a = -gridSize; a < gridSize; a++) 
 		//{
@@ -92,55 +159,19 @@ namespace IRadiance
 
 	void Renderer::PreRender()
 	{
-		coVars.row = 0;
-		coVars.col = 0;
+		m_CoVars.row = 0;
+		m_CoVars.col = 0;
 		m_Timer.Start();
 	}
 
 	bool Renderer::Render()
 	{
-		ImageBuffer& bufferRef = *m_Buffer;
-		Ray ray({}, { 0.0f, 0.0f, -1.0f });
-		Point2 pp;
-		Point2 sp;
+		return m_Camera->Render(this);
+	}
 
-		Point3 camOrigin(500, 2, 10);
-
-		m_Timer.Start();
-		for (; coVars.row < m_ViewingPlane.m_VertRes;)
-		{
-			for (; coVars.col < m_ViewingPlane.m_HorRes;)
-			{
-				int r = coVars.row;
-				int c = coVars.col;
-
-				RGBSpectrum pixel = BLACK;
-				for (int p = 0; p < m_ViewingPlane.m_NumSamples ;++p)
-				{
-					sp = m_ViewingPlane.GetSampler()->SampleUnitSquare();
-					pp.x = m_ViewingPlane.m_PixelSize *
-						(c - 0.5f * m_ViewingPlane.m_HorRes + sp.x);
-					pp.y = m_ViewingPlane.m_PixelSize *						(r - 0.5f * m_ViewingPlane.m_VertRes + sp.y);					ray.o = { pp.x, pp.y, 0 } + camOrigin;
-					pixel += m_Tracer->RayTrace(ray);
-				}
-				pixel /= (float)m_ViewingPlane.m_NumSamples;
-			
-				bufferRef[r][c] = ToRGBA(pixel);
-
-				++coVars.col;
-			}
-			coVars.col = 0;
-			++coVars.row;
-			
-			m_Timer.Update();
-			float dt = m_Timer.GetTotal();
-			if (dt >= 1.0f / 15.0f)
-				return false;
-			//if (coVars.row % 3 == 0)
-				//return false;
-		}
-
-		return true;
+	void Renderer::AddObject(Object* _object)
+	{
+		m_Objects.push_back(_object);
 	}
 
 }

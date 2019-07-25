@@ -54,9 +54,6 @@
     <ClInclude Include="src\IRadiance\Framework\Renderer\API\VertexArray.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\IRadiance\Framework\Renderer\Camera\Camera.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="src\IRadiance\Framework\Renderer\Camera\FreeCamera.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -240,6 +237,15 @@
     <ClInclude Include="src\IRadiance\Raytracer\Samplers\MultiJitteredSampler.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\IRadiance\Raytracer\Cameras\Camera.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\IRadiance\Raytracer\Cameras\PinholeCamera.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\IRadiance\Framework\Renderer\Camera\RenderCamera.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\pch.cpp">
@@ -399,6 +405,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\IRadiance\Raytracer\Samplers\MultiJitteredSampler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\IRadiance\Raytracer\Cameras\Camera.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\IRadiance\Raytracer\Cameras\PinholeCamera.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

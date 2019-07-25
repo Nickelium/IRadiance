@@ -8,7 +8,7 @@ namespace IRadiance
 	{
 	public:
 		MultiObject(Renderer* _renderer);
-		virtual RGBSpectrum RayTrace(const Ray& _ray) override;
+		virtual RGBSpectrum RayTrace(const Ray& _ray, int _depth) override;
 	private:
 		Renderer* m_Renderer;
 	};

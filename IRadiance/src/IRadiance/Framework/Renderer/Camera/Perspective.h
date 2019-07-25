@@ -1,10 +1,10 @@
 #pragma once
 
-#include "Camera.h"
+#include "RenderCamera.h"
 
 namespace IRadiance
 {
-	class Perspective : public Camera
+	class Perspective : public RenderCamera
 	{
 	public:
 		Perspective(float _aspectRatio, float _fovV, float _near = 1, float _far = 100);

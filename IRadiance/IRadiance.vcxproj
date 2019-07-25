@@ -22,6 +22,8 @@
     <ClInclude Include="src\IRadiance\Framework\Core\Locator.h" />
     <ClInclude Include="src\IRadiance\Framework\Core\BaseLayer.h" />
     <ClInclude Include="src\IRadiance\Framework\Renderer\ImageBuffer.h" />
+    <ClInclude Include="src\IRadiance\Raytracer\Cameras\Camera.h" />
+    <ClInclude Include="src\IRadiance\Raytracer\Cameras\PinholeCamera.h" />
     <ClInclude Include="src\IRadiance\Raytracer\Geometry\Object.h" />
     <ClInclude Include="src\IRadiance\Raytracer\Geometry\Plane.h" />
     <ClInclude Include="src\IRadiance\Raytracer\Geometry\Sphere.h" />
@@ -76,7 +78,7 @@
     <ClInclude Include="src\IRadiance\Framework\Prefab\Prefab.h" />
     <ClInclude Include="src\IRadiance\Framework\Renderer\API\Buffer.h" />
     <ClInclude Include="src\IRadiance\Framework\Renderer\API\GraphicsContext.h" />
-    <ClInclude Include="src\IRadiance\Framework\Renderer\Camera\Camera.h" />
+    <ClInclude Include="src\IRadiance\Framework\Renderer\Camera\RenderCamera.h" />
     <ClInclude Include="src\IRadiance\Framework\Renderer\Camera\FreeCamera.h" />
     <ClInclude Include="src\IRadiance\Framework\Renderer\Camera\Orthographic.h" />
     <ClInclude Include="src\IRadiance\Framework\Renderer\Camera\Perspective.h" />
@@ -98,6 +100,8 @@
   <ItemGroup>
     <ClCompile Include="src\IRadiance\Framework\Core\BaseLayer.cpp" />
     <ClCompile Include="src\IRadiance\Framework\Renderer\ImageBuffer.cpp" />
+    <ClCompile Include="src\IRadiance\Raytracer\Cameras\Camera.cpp" />
+    <ClCompile Include="src\IRadiance\Raytracer\Cameras\PinholeCamera.cpp" />
     <ClCompile Include="src\IRadiance\Raytracer\Geometry\Plane.cpp" />
     <ClCompile Include="src\IRadiance\Raytracer\Geometry\Sphere.cpp" />
     <ClCompile Include="src\IRadiance\Raytracer\Maths\Normal.cpp" />

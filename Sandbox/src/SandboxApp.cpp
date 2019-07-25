@@ -39,7 +39,6 @@ public:
 				render = false;
 			}
 		}
-		
 
 		m_Time = _time;
 	}
