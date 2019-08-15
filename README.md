@@ -1,9 +1,6 @@
 # IRadiance - RayTracer
 
-IRadiance Engine is an open-source graphics engine written in C++11 and currently built on top of OpenGL 4.3. 
-
-One of the main focus in the development process is building a clear architecture and providing a simple but also nice API to use.
-The Radiance API allows the user to build their graphics application quickly, while the engine handles all the other low-level necessities. The engine strives to be as platform independent as possible.
+IRadiance Engine is an open-source software raytraced renderer written in C++11.
 
 This project is still in development, therefore the codebase tend to fluctuate a lot.
 
@@ -12,8 +9,8 @@ This project is still in development, therefore the codebase tend to fluctuate a
 </p> 
 
 ## Features
-* Material System
-* Support Custom Shaders
+* Visualize Render Progress
+* Save Render to File
 
 ## Dependencies
 * GLFW : Window Creattion and Context 
