@@ -23,6 +23,8 @@
 #include "IRadiance/Raytracer/Cameras/Camera.h"
 #include "IRadiance/Raytracer/Cameras/PinholeCamera.h"
 
+#include "IRadiance/Raytracer/Lights/AmbientLight.h"
+
 namespace IRadiance
 {
 	Renderer::~Renderer()
@@ -31,6 +33,9 @@ namespace IRadiance
 		delete m_Tracer;
 		for (Object* object : m_Objects)
 			delete object;
+		delete m_AmbientLight;
+		for (Light* light : m_Lights)
+			delete light;
 	}
 
 	const std::vector<Object*>& Renderer::GetObjects() const
@@ -81,7 +86,7 @@ namespace IRadiance
 		m_ViewingPlane.m_VertRes = m_Buffer->GetHeight();
 		m_ViewingPlane.m_PixelSize = 1.0f;
 		m_ViewingPlane.SetGamma(1.0f);
-		int nbSamples = 32;
+		int nbSamples = 4;
 		m_ViewingPlane.SetSampler(new MultiJitteredSampler(nbSamples));
 			
 		CameraDesc desc;
@@ -108,6 +113,7 @@ namespace IRadiance
 				AddObject(sphere_ptr);
 			}
 
+		m_AmbientLight = new AmbientLight;
 		/*AddObject(new Sphere({0.0f, 0.0f, -100.0f}, 100.0f));
 		AddObject(new Sphere({ +75, 0, -100.0f}, 75));
 		AddObject(new Sphere({ -75, 0, -100.0f}, 75));*/
@@ -172,6 +178,11 @@ namespace IRadiance
 	void Renderer::AddObject(Object* _object)
 	{
 		m_Objects.push_back(_object);
+	}
+
+	void Renderer::AddLight(Light* _light)
+	{
+		m_Lights.push_back(_light);
 	}
 
 }

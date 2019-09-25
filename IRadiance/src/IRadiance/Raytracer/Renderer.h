@@ -9,7 +9,10 @@ namespace IRadiance
 	class Tracer;
 	class Camera;
 	class ImageBuffer;
-
+	class Light;
+	/**
+	 * Coroutine variables for resuming rendering
+	 */
 	struct CoVariables
 	{
 		int row;
@@ -39,10 +42,14 @@ namespace IRadiance
 	private:
 
 		void AddObject(Object* _object);
+		void AddLight(Light* _light);
 
 		Camera* m_Camera;
 		ViewPlane m_ViewingPlane;
+
 		std::vector<Object*> m_Objects;
+		std::vector<Light*> m_Lights;
+		Light* m_AmbientLight;
 
 		Tracer* m_Tracer;
 

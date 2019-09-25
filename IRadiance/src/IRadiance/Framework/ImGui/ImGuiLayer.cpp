@@ -95,8 +95,8 @@ namespace IRadiance
 	void ImGuiLayer::RenderGUI()
 	{
 		//Test
-		static bool show = true;
-		ImGui::ShowDemoWindow(&show);
+		//static bool show = true;
+		//ImGui::ShowDemoWindow(&show);
 	}
 
 }

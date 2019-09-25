@@ -27,6 +27,10 @@
     <ClInclude Include="src\IRadiance\Raytracer\Geometry\Object.h" />
     <ClInclude Include="src\IRadiance\Raytracer\Geometry\Plane.h" />
     <ClInclude Include="src\IRadiance\Raytracer\Geometry\Sphere.h" />
+    <ClInclude Include="src\IRadiance\Raytracer\Lights\AmbientLight.h" />
+    <ClInclude Include="src\IRadiance\Raytracer\Lights\DirectionalLight.h" />
+    <ClInclude Include="src\IRadiance\Raytracer\Lights\Light.h" />
+    <ClInclude Include="src\IRadiance\Raytracer\Lights\PointLight.h" />
     <ClInclude Include="src\IRadiance\Raytracer\Maths\Normal.h" />
     <ClInclude Include="src\IRadiance\Raytracer\Maths\Point2.h" />
     <ClInclude Include="src\IRadiance\Raytracer\Maths\Point3.h" />
@@ -104,6 +108,9 @@
     <ClCompile Include="src\IRadiance\Raytracer\Cameras\PinholeCamera.cpp" />
     <ClCompile Include="src\IRadiance\Raytracer\Geometry\Plane.cpp" />
     <ClCompile Include="src\IRadiance\Raytracer\Geometry\Sphere.cpp" />
+    <ClCompile Include="src\IRadiance\Raytracer\Lights\AmbientLight.cpp" />
+    <ClCompile Include="src\IRadiance\Raytracer\Lights\DirectionalLight.cpp" />
+    <ClCompile Include="src\IRadiance\Raytracer\Lights\PointLight.cpp" />
     <ClCompile Include="src\IRadiance\Raytracer\Maths\Normal.cpp" />
     <ClCompile Include="src\IRadiance\Raytracer\Maths\Point2.cpp" />
     <ClCompile Include="src\IRadiance\Raytracer\Maths\Point3.cpp" />

@@ -23,6 +23,8 @@ namespace IRadiance
 		Shader* shader = renderDevice->CreateShader(vertexShader, fragmentShader);
 
 		m_QuadRender = new MeshRender(CreateQuad(), shader);
+
+		RenderCommand::SetClearColor({ 1.0f, 1.0f, 0.0f, 1.0f });
 	}
 
 	BaseLayer::~BaseLayer()
@@ -33,7 +35,7 @@ namespace IRadiance
 
 	void BaseLayer::Render()
 	{
-		RenderCommand::SetClearColor({ 1.0f, 1.0f, 0.0f, 1.0f });
+		RenderCommand::Clear();
 
 		Render::Begin();
 		{

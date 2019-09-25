@@ -34,3 +34,13 @@
 #include "IRadiance/Framework/Core/MouseButtonCodes.h"
 #include "IRadiance/Framework/Core/Locator.h"
 #include "IRadiance/Framework/Utility/Utility.h"
+
+//Raytracer specifics
+#include "IRadiance/Raytracer/Maths/Normal.h"
+#include "IRadiance/Raytracer/Maths/Point2.h"
+#include "IRadiance/Raytracer/Maths/Point3.h"
+#include "IRadiance/Raytracer/Maths/Ray.h"
+#include "IRadiance/Raytracer/Maths/Utilities.h"
+#include "IRadiance/Raytracer/Maths/Vector.h"
+#include "IRadiance/Raytracer/Geometry/HitRecord.h"
+#include "IRadiance/Raytracer/RGBSpectrum.h"

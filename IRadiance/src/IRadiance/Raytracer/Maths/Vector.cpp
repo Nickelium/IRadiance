@@ -33,9 +33,9 @@ namespace IRadiance
 
 	}
 
-	Vector& Vector::Normalize()
+	Vector Vector::Normalize()
 	{
-		return *this /= Length(*this);
+		return *this / Length(*this);
 	}
 
 	Vector& Vector::operator/=(float _f)

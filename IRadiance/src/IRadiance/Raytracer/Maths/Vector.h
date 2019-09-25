@@ -25,7 +25,7 @@ namespace IRadiance
 		Vector& operator*=(float _f);
 		Vector& operator/=(float _f);
 
-		Vector& Normalize();
+		Vector Normalize();
 	};
 
 	Vector operator+(const Vector& _v);

@@ -22,6 +22,7 @@ public:
 		m_World.Build(m_Texture->GetImageBuffer());
 		m_World.PreRender();
 	}
+
 	virtual ~ExampleLayer()
 	{
 
