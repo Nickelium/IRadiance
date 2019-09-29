@@ -22,9 +22,15 @@ namespace IRadiance
 		return Rand(0.0f, 1.0f);
 	}
 
-
 	inline float RandSNorm()
 	{
 		return Rand(-1.0f, 1.0f);
+	}
+
+	namespace Constants
+	{
+		extern const float PI;
+		extern const float invPI;
+		extern const float MaxValue;
 	}
 }

@@ -10,7 +10,11 @@ namespace IRadiance
 	{
 	public:
 		virtual bool Hit(const Ray& _ray, float& _tMin, HitRecord& _sr) const = 0;
-		virtual RGBSpectrum GetColor() const = 0;
+
+		void SetMaterial(Material* _material) { material = _material; }
+		Material* GetMaterial() const { return material; }
+	protected:
+		Material* material;
 	};
 	
 }

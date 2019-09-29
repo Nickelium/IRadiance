@@ -4,11 +4,11 @@
 
 namespace IRadiance
 {
-	class SingleObject : public Tracer
+	class Renderer;
+	class RayCast : public Tracer
 	{
 	public:
-		SingleObject(Renderer* _renderer);
-
+		RayCast(Renderer* _renderer);
 		virtual RGBSpectrum RayTrace(const Ray& _ray, int _depth) const override;
 	};
 }

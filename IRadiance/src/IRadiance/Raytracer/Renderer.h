@@ -3,6 +3,9 @@
 #include "ViewPlane.h"
 #include "IRadiance/Raytracer/Geometry/Object.h"
 #include "RGBSpectrum.h"
+#include "IRadiance/Raytracer/Collision/CollisionHandler.h"
+#include "IRadiance/Raytracer/SceneGraph.h"
+
 
 namespace IRadiance
 {
@@ -24,13 +27,13 @@ namespace IRadiance
 	public:
 		~Renderer();
 
+		ViewPlane* GetViewPlane();
 		RGBSpectrum GetBackColor() const;
-
-		const std::vector<Object*>& GetObjects() const;
 		Camera* GetCamera() const;
-		const ViewPlane& GetViewPlane() const;
-		ImageBuffer* GetImageBuffer() const;
 		Tracer* GetTracer() const;
+		SceneGraph* GetScene() const;
+		ImageBuffer* GetImageBuffer() const;
+		CollisionHandler* GetCollisionHandler() const;
 
 		CoVariables& GetCoVariables();
 		Timer& GetTimer();
@@ -40,20 +43,15 @@ namespace IRadiance
 		void PreRender();
 		bool Render();
 	private:
-
-		void AddObject(Object* _object);
-		void AddLight(Light* _light);
-
-		Camera* m_Camera;
 		ViewPlane m_ViewingPlane;
-
-		std::vector<Object*> m_Objects;
-		std::vector<Light*> m_Lights;
-		Light* m_AmbientLight;
-
+		Camera* m_Camera;
 		Tracer* m_Tracer;
-
 		RGBSpectrum m_BackColor;
+		SceneGraph* m_Scene;
+
+		//CollisionHandler
+		CollisionHandler* m_CollisionHandler;
+
 		ImageBuffer* m_Buffer;
 
 		CoVariables m_CoVars;

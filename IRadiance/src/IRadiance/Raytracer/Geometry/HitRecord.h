@@ -7,12 +7,25 @@
 
 namespace IRadiance
 {
+	class Renderer;
+	class Material;
 	struct HitRecord
 	{
 		bool hasHit = false;
-		Point3 hitPoint = {};
-		Normal normal = {};
-		float t = std::numeric_limits<float>::max();
-		RGBSpectrum color = BLACK;
+		Material* material;
+		Point3 hitPoint;
+		Point3 localHitPoint; //textures TODO
+		Normal normal;
+		Ray ray; //Specular lights
+		int depth;
+		Vector direction; //Area Lights
+		float t;
+		Renderer* renderer;
+		HitRecord(Renderer* _renderer)
+			: hasHit(false), material(nullptr),
+			hitPoint(), localHitPoint(), normal(),
+			ray(), depth(0), direction(), t(Constants::MaxValue),
+			renderer(_renderer){}
+
 	};
 }

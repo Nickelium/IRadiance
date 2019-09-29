@@ -4,22 +4,20 @@
 namespace IRadiance
 {
 	SingleObject::SingleObject(Renderer* _renderer)
-		: m_Renderer(_renderer)
-	{
-	}
+		: Tracer(_renderer)
+	{}
 
-	RGBSpectrum SingleObject::RayTrace(const Ray& _ray, int /*_depth*/)
+	RGBSpectrum SingleObject::RayTrace(const Ray& _ray, int /*_depth*/) const
 	{
 		float t;
-		HitRecord hr;
-		const std::vector<Object*>& objects = m_Renderer->GetObjects();
+		HitRecord hr(m_Renderer);
+		const auto& objects = m_Renderer->GetScene()->GetObjects();
 
 		IRAD_CORE_ASSERT(objects.empty() == false, "Scene Objects are empty");
-		if (objects.back()->Hit(_ray, t, hr))
-			hr.color = objects.back()->GetColor();
+		objects.back()->Hit(_ray, t, hr);
 
 		if (hr.hasHit)
-			return hr.color;
+			return RED;
 		else
 			return m_Renderer->GetBackColor();
 

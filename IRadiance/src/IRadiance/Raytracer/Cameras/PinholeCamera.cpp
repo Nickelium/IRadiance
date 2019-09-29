@@ -32,8 +32,8 @@ namespace IRadiance
 		Point2 pp;
 		Point2 sp;
 
-		const ViewPlane& viewPlane = _renderer->GetViewPlane();
-		Tracer* tracer = _renderer->GetTracer();
+		const ViewPlane& viewPlane = *_renderer->GetViewPlane();
+		const Tracer* tracer = _renderer->GetTracer();
 		Timer& timer = _renderer->GetTimer();
 		CoVariables& coVars = _renderer->GetCoVariables();
 	

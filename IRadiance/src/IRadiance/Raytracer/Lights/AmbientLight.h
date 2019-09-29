@@ -8,8 +8,11 @@ namespace IRadiance
 	{
 	public:
 		AmbientLight(float _ls = 1.0f, const RGBSpectrum& _c = WHITE);
-		virtual Vector GetDirection(HitRecord& _hr) override;
-		virtual RGBSpectrum L(HitRecord& _hr) override;
+		virtual Vector GetDirection(HitRecord& _hr) const override;
+		virtual RGBSpectrum L(HitRecord& _hr) const override;
+
+		void SetLs(float _ls);
+		void SetC(const RGBSpectrum& _c);
 	private:
 		float ls; //Radiance Scaling 
 		RGBSpectrum c; //Radiance

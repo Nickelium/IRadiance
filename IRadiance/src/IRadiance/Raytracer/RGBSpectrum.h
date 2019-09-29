@@ -32,6 +32,7 @@ namespace IRadiance
 	RGBSpectrum operator-(const RGBSpectrum& _c1, const RGBSpectrum& _c2);
 	RGBSpectrum operator*(const RGBSpectrum& _c, float _f);
 	RGBSpectrum operator*(float _f, const RGBSpectrum& _c);
+	RGBSpectrum operator*(const RGBSpectrum& _c1, const RGBSpectrum& _c2);
 	RGBSpectrum operator/(const RGBSpectrum& _c, float _f);
 
 	RGBSpectrum Clamp(const RGBSpectrum& _c, float _min, float _max);

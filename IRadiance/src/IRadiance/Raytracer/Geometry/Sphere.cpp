@@ -4,7 +4,7 @@
 namespace IRadiance
 {
 	Sphere::Sphere(const Point3& _c /*= {0, 0, 0}*/, float radius /*= 1.0f*/)
-		: c(_c), r(radius), m_Color(RED)
+		: c(_c), r(radius)
 	{
 	}
 
@@ -23,10 +23,8 @@ namespace IRadiance
 			if (t > 1e-3f)
 			{
 				_tMin = t;
-				_sr.hasHit = true;
-				_sr.hitPoint = _ray.o + t * _ray.d;
-				_sr.t = t;
-				_sr.normal = (_sr.hitPoint - c) / r;
+				_sr.localHitPoint = _ray.o + t * _ray.d;
+				_sr.normal = (_sr.localHitPoint - c) / r;
 				return true;	
 			}
 
@@ -35,20 +33,13 @@ namespace IRadiance
 			if (t > 1e-3f)
 			{
 				_tMin = t;
-				_sr.hasHit = true;
-				_sr.hitPoint = _ray.o + t * _ray.d;
-				_sr.t = t;
-				_sr.normal = (_sr.hitPoint - _ray.o) / r;
+				_sr.localHitPoint = _ray.o + t * _ray.d;
+				_sr.normal = (_sr.localHitPoint - c) / r;
 				return true;
 			}
 			return false;
 		}
 		else return false;
-	}
-
-	RGBSpectrum Sphere::GetColor() const
-	{
-		return m_Color;
 	}
 
 	void Sphere::SetCenter(const Point3& _c)
@@ -59,11 +50,6 @@ namespace IRadiance
 	void Sphere::SetRadius(float _r)
 	{
 		r = _r;
-	}
-
-	void Sphere::SetColor(const RGBSpectrum& _color)
-	{
-		m_Color = _color;
 	}
 
 }

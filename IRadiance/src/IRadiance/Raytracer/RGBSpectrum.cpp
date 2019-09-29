@@ -95,6 +95,15 @@ namespace IRadiance
 		return output;
 	}
 
+	RGBSpectrum operator*(const RGBSpectrum& _c1, const RGBSpectrum& _c2)
+	{
+		RGBSpectrum output;
+		output.r = _c1.r * _c2.r;
+		output.g = _c1.g * _c2.g;
+		output.b = _c1.b * _c2.b;
+		return output;
+	}
+
 	RGBSpectrum operator/(const RGBSpectrum& _c, float _f)
 	{
 		RGBSpectrum output;
