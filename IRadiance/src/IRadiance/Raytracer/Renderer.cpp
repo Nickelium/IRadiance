@@ -29,14 +29,23 @@
 #include "IRadiance/Raytracer/Tracers/RayCast.h"
 #include "IRadiance/Raytracer/Materials/Matte.h"
 
+#include "IRadiance/Raytracer/ToneMapper/Clamper.h"
+#include "ToneMapper/Overflower.h"
+
 namespace IRadiance
 {
 	Renderer::~Renderer()
 	{
+		delete m_Display;
 		delete m_CollisionHandler;
 		delete m_Scene;
 		delete m_Camera;
 		delete m_Tracer;
+	}
+
+	Display* Renderer::GetDisplay() const
+	{
+		return m_Display;
 	}
 
 	SceneGraph* Renderer::GetScene() const
@@ -52,6 +61,11 @@ namespace IRadiance
 	ViewPlane* Renderer::GetViewPlane() 
 	{
 		return &m_ViewingPlane;
+	}
+
+	ToneMapper* Renderer::GetToneMapper() const
+	{
+		return m_ToneMapper;
 	}
 
 	RGBSpectrum Renderer::GetBackColor() const
@@ -88,21 +102,25 @@ namespace IRadiance
 	{
 		m_Buffer = _buffer;
 
+		m_Display = new Display;
+		m_Display->SetGamma(2.2f);
+
 		m_CollisionHandler = new CollisionHandler(this);
 		m_Scene = new SceneGraph;
 
 		m_ViewingPlane.m_HorRes = m_Buffer->GetWidth();
 		m_ViewingPlane.m_VertRes = m_Buffer->GetHeight();
 		m_ViewingPlane.m_PixelSize = 1.0f;
-		m_ViewingPlane.SetGamma(1.0f);
-		int nbSamples = 16;
+		int nbSamples = 1;
 		m_ViewingPlane.SetSampler(new MultiJitteredSampler(nbSamples));
-			
-		CameraDesc desc;
-		desc.eye = {0, 0, 500};
-		desc.lookAt = {-5, 0, 0};
 
-		m_Camera = new PinholeCamera(desc, 1, 850);
+		m_ToneMapper = new Clamper;
+
+		CameraDesc desc;
+		desc.eye = { 0, 25, 100 };
+		desc.lookAt = { 0, 0, 0 };
+
+		m_Camera = new PinholeCamera(desc, 1.0f, 6500);
 		m_Camera->ComputeONB();
 
 		m_BackColor = RED;
@@ -121,36 +139,71 @@ namespace IRadiance
 		//		Sphere* sphere_ptr = new Sphere({xc, 0, yc}, r);
 		//		m_Scene->AddObject(sphere_ptr);
 		//	}
-		
+
 		m_Scene->SetAmbientLight(new AmbientLight);
-		PointLight* pointLight = new PointLight;
-		pointLight->SetPosition({ 100, 50, 150});
-		pointLight->SetLs(3);
-		m_Scene->AddLight(pointLight);
+		PointLight* light = new PointLight;
+		light->SetPosition({ 0, 5, 0});
+		light->SetLs(3.0f);
+		light->SetC({ 1,0.5f,0 });
+		light->SetQuadraticFallOff(false);
+		//Quadratic is too much compare to cosine falloff
+		m_Scene->AddLight(light);
 
-		Matte* matte1 = new Matte;
-		matte1->SetKa(0.25f);
-		matte1->SetKd(0.65f);
-		matte1->SetCd({ 1, 1, 0 });	  				
-		Sphere* sphere1 = new Sphere({ 0, 0, 0 }, 27);
-		sphere1->SetMaterial(matte1);
-		m_Scene->AddObject(sphere1);
+		// four spheres centered on the x axis
 
-		//Matte* matte2 = new Matte;
-		//matte2->SetKa(0.15f);
-		//matte2->SetKd(0.85f);
-		//matte2->SetCd({ 0.71f, 0.40f, 0.16f });
-		//Sphere* sphere2 = new Sphere({ -25, 10, -35 }, 27);
-		//sphere2->SetMaterial(matte2);
-		//m_Scene->AddObject(sphere2);
+		float radius = 1.0f;
+		float gap = 0.2f;	 // gap between spheres
 
-		//Matte* matte3 = new Matte;
-		//matte3->SetKa(0.15f);
-		//matte3->SetKd(0.5f);
-		//matte3->SetCd({ 0.f, 0.4f, 0.2f });			
-		//Plane* plane = new Plane({ 0, 0, -50 }, Normal(0, 0, 1));
-		//plane->SetMaterial(matte3);
-		//m_Scene->AddObject(plane);
+		Matte* matte_ptr1 = new Matte;
+		matte_ptr1->SetKa(0.0f);
+		matte_ptr1->SetKd(0.75f);
+		matte_ptr1->SetCd({ 1, 0, 0 });		// red
+
+		Sphere* sphere_ptr1 = new Sphere({ -3.0f * radius - 1.5f * gap, 0.0f, 0.0f }, radius);
+		sphere_ptr1->SetMaterial(matte_ptr1);
+		m_Scene->AddObject(sphere_ptr1);
+
+
+		Matte* matte_ptr2 = new Matte;
+		matte_ptr2->SetKa(0.0f);
+		matte_ptr2->SetKd(0.75f);
+		matte_ptr2->SetCd({ 1, 0.5f, 0 });		// orange
+
+		Sphere* sphere_ptr2 = new Sphere({ -radius - 0.5f * gap, 0.0, 0.0 }, radius);
+		sphere_ptr2->SetMaterial(matte_ptr2);
+		m_Scene->AddObject(sphere_ptr2);
+
+
+		Matte* matte_ptr3 = new Matte;
+		matte_ptr3->SetKa(0.0);
+		matte_ptr3->SetKd(0.75f);
+		matte_ptr3->SetCd({ 1, 1, 0 });		// yellow
+
+		Sphere* sphere_ptr3 = new Sphere({ radius + 0.5f * gap, 0.0, 0.0 }, radius);
+		sphere_ptr3->SetMaterial(matte_ptr3);
+		m_Scene->AddObject(sphere_ptr3);
+
+
+		Matte* matte_ptr4 = new Matte;
+		matte_ptr4->SetKa(0.0f);
+		matte_ptr4->SetKd(0.75f);
+		matte_ptr4->SetCd({0, 1, 0});		// green
+
+		Sphere* sphere_ptr4 = new Sphere({3.0f * radius + 1.5f * gap, 0.0, 0.0}, radius);
+		sphere_ptr4->SetMaterial(matte_ptr4);
+		m_Scene->AddObject(sphere_ptr4);
+
+
+		// ground plane
+
+		Matte* matte_ptr5 = new Matte;
+		matte_ptr5->SetKa(0.25f);
+		matte_ptr5->SetKd(0.5f);
+		matte_ptr5->SetCd(1.0f);
+
+		Plane* plane_ptr = new Plane({0, -1, 0}, Normal(0, 1, 0));
+		plane_ptr->SetMaterial(matte_ptr5);
+		m_Scene->AddObject(plane_ptr);
 
 
 		/*AddObject(new Sphere({0.0f, 0.0f, -100.0f}, 100.0f));

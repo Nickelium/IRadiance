@@ -5,7 +5,8 @@
 #include "RGBSpectrum.h"
 #include "IRadiance/Raytracer/Collision/CollisionHandler.h"
 #include "IRadiance/Raytracer/SceneGraph.h"
-
+#include "IRadiance/Raytracer/ToneMapper/ToneMapper.h"
+#include "IRadiance/Raytracer/Display.h"
 
 namespace IRadiance
 {
@@ -27,7 +28,9 @@ namespace IRadiance
 	public:
 		~Renderer();
 
+		Display* GetDisplay() const;
 		ViewPlane* GetViewPlane();
+		ToneMapper* GetToneMapper() const;
 		RGBSpectrum GetBackColor() const;
 		Camera* GetCamera() const;
 		Tracer* GetTracer() const;
@@ -43,7 +46,9 @@ namespace IRadiance
 		void PreRender();
 		bool Render();
 	private:
+		Display* m_Display;
 		ViewPlane m_ViewingPlane;
+		ToneMapper* m_ToneMapper;
 		Camera* m_Camera;
 		Tracer* m_Tracer;
 		RGBSpectrum m_BackColor;

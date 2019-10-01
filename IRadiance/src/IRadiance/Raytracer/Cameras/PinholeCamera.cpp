@@ -32,6 +32,8 @@ namespace IRadiance
 		Point2 pp;
 		Point2 sp;
 
+		const Display* display = _renderer->GetDisplay();
+		const ToneMapper* toneMapper = _renderer->GetToneMapper();
 		const ViewPlane& viewPlane = *_renderer->GetViewPlane();
 		const Tracer* tracer = _renderer->GetTracer();
 		Timer& timer = _renderer->GetTimer();
@@ -59,7 +61,8 @@ namespace IRadiance
 				L /= (float)viewPlane.m_NumSamples;
 				L *= m_ExposureTime;
 
-				bufferRef[r][c] = ToRGBA(L);
+				bufferRef[r][c] = 
+					display->ConvertDisplay(toneMapper->ToneMap(L));
 
 				++coVars.col;
 			}

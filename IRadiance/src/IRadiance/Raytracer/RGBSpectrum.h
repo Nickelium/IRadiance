@@ -38,7 +38,4 @@ namespace IRadiance
 	RGBSpectrum Clamp(const RGBSpectrum& _c, float _min, float _max);
 	RGBSpectrum Pow(const RGBSpectrum& _c, float _f);
 	float Average(const RGBSpectrum& _c);
-
-
-	RGBA ToRGBA(const RGBSpectrum& _c);
 }

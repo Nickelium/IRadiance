@@ -140,15 +140,4 @@ namespace IRadiance
 		return 0.333333333f * (_c.r + _c.g + _c.b);
 	}
 
-	RGBA ToRGBA(const RGBSpectrum& _c)
-	{
-		return RGBA
-		{
-			uint8_t(std::min(std::max(std::round(_c.r * 255.0f), 0.0f), 255.0f)),
-			uint8_t(std::min(std::max(std::round(_c.g * 255.0f), 0.0f), 255.0f)),
-			uint8_t(std::min(std::max(std::round(_c.b * 255.0f), 0.0f), 255.0f)), 
-			255
-		};
-	}
-
 }

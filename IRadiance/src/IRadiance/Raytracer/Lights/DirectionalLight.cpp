@@ -31,7 +31,7 @@ namespace IRadiance
 
 	void DirectionalLight::SetDirection(const Vector& _direction)
 	{
-		direction = _direction;
+		direction = Normalize(_direction);
 	}
 
 }

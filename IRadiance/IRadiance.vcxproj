@@ -51,6 +51,9 @@
     <ClInclude Include="src\IRadiance\Raytracer\Samplers\RegularSampler.h" />
     <ClInclude Include="src\IRadiance\Raytracer\Samplers\Sampler.h" />
     <ClInclude Include="src\IRadiance\Raytracer\SceneGraph.h" />
+    <ClInclude Include="src\IRadiance\Raytracer\ToneMapper\Clamper.h" />
+    <ClInclude Include="src\IRadiance\Raytracer\Display.h" />
+    <ClInclude Include="src\IRadiance\Raytracer\ToneMapper\Overflower.h" />
     <ClInclude Include="src\IRadiance\Raytracer\Tracers\MultiObject.h" />
     <ClInclude Include="src\IRadiance\Raytracer\Tracers\RayCast.h" />
     <ClInclude Include="src\IRadiance\Raytracer\Tracers\SingleObject.h" />
@@ -107,6 +110,7 @@
     <ClInclude Include="src\IRadiance\Framework\Core\Time.h" />
     <ClInclude Include="src\IRadiance\Framework\Utility\Utility.h" />
     <ClInclude Include="src\IRadiance\Framework\Core\Window.h" />
+    <ClInclude Include="src\IRadiance\Raytracer\ToneMapper\ToneMapper.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\IRadiance\Framework\Core\BaseLayer.cpp" />
@@ -135,6 +139,7 @@
     <ClCompile Include="src\IRadiance\Raytracer\Samplers\RegularSampler.cpp" />
     <ClCompile Include="src\IRadiance\Raytracer\Samplers\Sampler.cpp" />
     <ClCompile Include="src\IRadiance\Raytracer\SceneGraph.cpp" />
+    <ClCompile Include="src\IRadiance\Raytracer\Display.cpp" />
     <ClCompile Include="src\IRadiance\Raytracer\Tracers\MultiObject.cpp" />
     <ClCompile Include="src\IRadiance\Raytracer\Tracers\RayCast.cpp" />
     <ClCompile Include="src\IRadiance\Raytracer\Tracers\SingleObject.cpp" />

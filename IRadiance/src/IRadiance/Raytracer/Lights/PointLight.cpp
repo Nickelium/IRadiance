@@ -4,8 +4,8 @@
 namespace IRadiance
 {
 
-	PointLight::PointLight(float _ls /*= 1.0f*/, const RGBSpectrum& _c /*= WHITE*/, const Point3& _p /*= { 0.0f, 0.0f, 0.0f }*/)
-		: ls(_ls), c(_c), position(_p)
+	PointLight::PointLight(float _ls /*= 1.0f*/, const RGBSpectrum& _c /*= WHITE*/, const Point3& _p /*= { 0.0f, 0.0f, 0.0f }*/, bool _hasQuadraticFallOff)
+		: ls(_ls), c(_c), position(_p), m_HasQuadraticFallOff(_hasQuadraticFallOff)
 	{
 	}
 
@@ -14,8 +14,10 @@ namespace IRadiance
 		return (position - _hr.hitPoint).Normalize();
 	}
 
-	RGBSpectrum PointLight::L(HitRecord& /*_hr*/) const
+	RGBSpectrum PointLight::L(HitRecord& _hr) const
 	{
+		if (m_HasQuadraticFallOff)
+			return (ls * c) /LengthSquared(_hr.hitPoint - position);
 		return ls * c;
 	}
 
@@ -32,6 +34,11 @@ namespace IRadiance
 	void PointLight::SetPosition(const Point3& _position)
 	{
 		position = _position;
+	}
+
+	void PointLight::SetQuadraticFallOff(bool _hasQuadraticFallOff)
+	{
+		m_HasQuadraticFallOff = _hasQuadraticFallOff;
 	}
 
 }
