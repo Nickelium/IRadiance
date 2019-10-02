@@ -28,6 +28,7 @@
 #include "IRadiance/Raytracer/Lights/DirectionalLight.h"
 #include "IRadiance/Raytracer/Tracers/RayCast.h"
 #include "IRadiance/Raytracer/Materials/Matte.h"
+#include "IRadiance/Raytracer/Materials/Phong.h"
 
 #include "IRadiance/Raytracer/ToneMapper/Clamper.h"
 #include "ToneMapper/Overflower.h"
@@ -111,7 +112,7 @@ namespace IRadiance
 		m_ViewingPlane.m_HorRes = m_Buffer->GetWidth();
 		m_ViewingPlane.m_VertRes = m_Buffer->GetHeight();
 		m_ViewingPlane.m_PixelSize = 1.0f;
-		int nbSamples = 1;
+		int nbSamples = 4;
 		m_ViewingPlane.SetSampler(new MultiJitteredSampler(nbSamples));
 
 		m_ToneMapper = new Clamper;
@@ -154,54 +155,58 @@ namespace IRadiance
 		float radius = 1.0f;
 		float gap = 0.2f;	 // gap between spheres
 
-		Matte* matte_ptr1 = new Matte;
+		Phong* matte_ptr1 = new Phong;
 		matte_ptr1->SetKa(0.0f);
 		matte_ptr1->SetKd(0.75f);
 		matte_ptr1->SetCd({ 1, 0, 0 });		// red
-
+		matte_ptr1->SetExp(1.0f); 
 		Sphere* sphere_ptr1 = new Sphere({ -3.0f * radius - 1.5f * gap, 0.0f, 0.0f }, radius);
 		sphere_ptr1->SetMaterial(matte_ptr1);
 		m_Scene->AddObject(sphere_ptr1);
 
 
-		Matte* matte_ptr2 = new Matte;
+		Phong* matte_ptr2 = new Phong;
 		matte_ptr2->SetKa(0.0f);
 		matte_ptr2->SetKd(0.75f);
 		matte_ptr2->SetCd({ 1, 0.5f, 0 });		// orange
+		matte_ptr2->SetExp(5.0f);
 
 		Sphere* sphere_ptr2 = new Sphere({ -radius - 0.5f * gap, 0.0, 0.0 }, radius);
 		sphere_ptr2->SetMaterial(matte_ptr2);
 		m_Scene->AddObject(sphere_ptr2);
 
 
-		Matte* matte_ptr3 = new Matte;
+		Phong* matte_ptr3 = new Phong;
 		matte_ptr3->SetKa(0.0);
 		matte_ptr3->SetKd(0.75f);
 		matte_ptr3->SetCd({ 1, 1, 0 });		// yellow
+		matte_ptr3->SetExp(25.0f);
 
 		Sphere* sphere_ptr3 = new Sphere({ radius + 0.5f * gap, 0.0, 0.0 }, radius);
 		sphere_ptr3->SetMaterial(matte_ptr3);
 		m_Scene->AddObject(sphere_ptr3);
 
 
-		Matte* matte_ptr4 = new Matte;
+		Phong* matte_ptr4 = new Phong;
 		matte_ptr4->SetKa(0.0f);
 		matte_ptr4->SetKd(0.75f);
 		matte_ptr4->SetCd({0, 1, 0});		// green
+		matte_ptr4->SetExp(50.0f);
 
 		Sphere* sphere_ptr4 = new Sphere({3.0f * radius + 1.5f * gap, 0.0, 0.0}, radius);
 		sphere_ptr4->SetMaterial(matte_ptr4);
 		m_Scene->AddObject(sphere_ptr4);
 
-
 		// ground plane
 
-		Matte* matte_ptr5 = new Matte;
+		Phong* matte_ptr5 = new Phong;
 		matte_ptr5->SetKa(0.25f);
 		matte_ptr5->SetKd(0.5f);
 		matte_ptr5->SetCd(1.0f);
+		matte_ptr5->SetKs(1.5f);
+		matte_ptr5->SetExp(5.0f);
 
-		Plane* plane_ptr = new Plane({0, -1, 0}, Normal(0, 1, 0));
+		Plane* plane_ptr = new Plane({0, -1, 0}, Vector(0, 1, 0));
 		plane_ptr->SetMaterial(matte_ptr5);
 		m_Scene->AddObject(plane_ptr);
 

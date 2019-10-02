@@ -3,7 +3,7 @@
 
 namespace IRadiance
 { 
-	Plane::Plane(const Point3& _p, const Normal& _n)
+	Plane::Plane(const Point3& _p, const Vector& _n)
 		: p(_p), n(_n)
 	{
 	}
@@ -27,7 +27,7 @@ namespace IRadiance
 		p = _p;
 	}
 
-	void Plane::SetNormal(const Normal& _n)
+	void Plane::SetNormal(const Vector& _n)
 	{
 		n = _n;
 	}

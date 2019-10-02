@@ -15,7 +15,7 @@ namespace IRadiance
 	public:
 		float r, g, b;
 
-		RGBSpectrum(float _val = 1.0f);
+		RGBSpectrum(float _val = 0.0f);
 		RGBSpectrum(float _r, float _g, float _b);
 		RGBSpectrum(const RGBSpectrum& _other);
 

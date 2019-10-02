@@ -15,7 +15,7 @@ namespace IRadiance
 		Material* material;
 		Point3 hitPoint;
 		Point3 localHitPoint; //textures TODO
-		Normal normal;
+		Vector normal;
 		Ray ray; //Specular lights
 		int depth;
 		Vector direction; //Area Lights

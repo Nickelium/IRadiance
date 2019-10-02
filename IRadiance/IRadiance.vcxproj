@@ -23,6 +23,7 @@
     <ClInclude Include="src\IRadiance\Framework\Core\BaseLayer.h" />
     <ClInclude Include="src\IRadiance\Framework\Renderer\ImageBuffer.h" />
     <ClInclude Include="src\IRadiance\Raytracer\BRDF\BRDF.h" />
+    <ClInclude Include="src\IRadiance\Raytracer\BRDF\GlossySpecular.h" />
     <ClInclude Include="src\IRadiance\Raytracer\BRDF\Lambertian.h" />
     <ClInclude Include="src\IRadiance\Raytracer\Cameras\Camera.h" />
     <ClInclude Include="src\IRadiance\Raytracer\Cameras\PinholeCamera.h" />
@@ -36,6 +37,7 @@
     <ClInclude Include="src\IRadiance\Raytracer\Lights\PointLight.h" />
     <ClInclude Include="src\IRadiance\Raytracer\Materials\Material.h" />
     <ClInclude Include="src\IRadiance\Raytracer\Materials\Matte.h" />
+    <ClInclude Include="src\IRadiance\Raytracer\Materials\Phong.h" />
     <ClInclude Include="src\IRadiance\Raytracer\Maths\Normal.h" />
     <ClInclude Include="src\IRadiance\Raytracer\Maths\Point2.h" />
     <ClInclude Include="src\IRadiance\Raytracer\Maths\Point3.h" />
@@ -115,6 +117,7 @@
   <ItemGroup>
     <ClCompile Include="src\IRadiance\Framework\Core\BaseLayer.cpp" />
     <ClCompile Include="src\IRadiance\Framework\Renderer\ImageBuffer.cpp" />
+    <ClCompile Include="src\IRadiance\Raytracer\BRDF\GlossySpecular.cpp" />
     <ClCompile Include="src\IRadiance\Raytracer\BRDF\Lambertian.cpp" />
     <ClCompile Include="src\IRadiance\Raytracer\Cameras\Camera.cpp" />
     <ClCompile Include="src\IRadiance\Raytracer\Cameras\PinholeCamera.cpp" />
@@ -125,6 +128,7 @@
     <ClCompile Include="src\IRadiance\Raytracer\Lights\DirectionalLight.cpp" />
     <ClCompile Include="src\IRadiance\Raytracer\Lights\PointLight.cpp" />
     <ClCompile Include="src\IRadiance\Raytracer\Materials\Matte.cpp" />
+    <ClCompile Include="src\IRadiance\Raytracer\Materials\Phong.cpp" />
     <ClCompile Include="src\IRadiance\Raytracer\Maths\Constants.cpp" />
     <ClCompile Include="src\IRadiance\Raytracer\Maths\Normal.cpp" />
     <ClCompile Include="src\IRadiance\Raytracer\Maths\Point2.cpp" />

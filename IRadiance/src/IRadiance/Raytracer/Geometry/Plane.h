@@ -11,12 +11,12 @@ namespace IRadiance
 	{
 	public:
 		Point3 p;
-		Normal n;
+		Vector n;
 
-		Plane(const Point3& _p = { 0, 0, 0 }, const Normal& _n = {0, 1, 0});
+		Plane(const Point3& _p = { 0, 0, 0 }, const Vector& _n = {0, 1, 0});
 		virtual bool Hit(const Ray& _ray, float& _tMin, HitRecord& _sr) const override;
 
 		void SetPoint(const Point3& _p);
-		void SetNormal(const Normal& _n);
+		void SetNormal(const Vector& _n);
 	};
 }

@@ -25,6 +25,7 @@ namespace IRadiance
 		Normal& operator*=(float _f);
 	
 		Normal& Normalize();
+
 	};
 	
 	Normal operator+(const Normal& _n);

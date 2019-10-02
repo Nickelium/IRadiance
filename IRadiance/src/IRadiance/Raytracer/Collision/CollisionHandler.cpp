@@ -15,7 +15,7 @@ namespace IRadiance
 	{
 		float t;
 		float tMin = Constants::MaxValue;
-		Normal normal;
+		Vector normal;
 		HitRecord hr(m_Renderer);
 		const auto& objects = m_Renderer->GetScene()->GetObjects();
 		for (auto object : objects)
