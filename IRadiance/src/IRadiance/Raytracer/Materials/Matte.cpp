@@ -39,9 +39,20 @@ namespace IRadiance
 		{
 			Vector wI = light->GetDirection(_hr);
 			float cosNwI = Dot(_hr.normal, wI);
-			//IRAD_CORE_INFO("{0}", cosNwI);
 			if (cosNwI > 0.0f)
-				L += diffuseBRDF->f(_hr, wO, wI) * light->L(_hr) * cosNwI;
+			{
+				bool inShadow = false;
+				if (light->CastShadow())
+				{
+					Ray shadowRay;
+					shadowRay.o = _hr.hitPoint;
+					shadowRay.d = wI;
+					inShadow = light->InShadow(shadowRay, _hr);
+				}
+
+				if(!inShadow)
+					L += diffuseBRDF->f(_hr, wO, wI) * light->L(_hr) * cosNwI;
+			}
 		}
 		return L;
 

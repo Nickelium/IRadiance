@@ -1,6 +1,9 @@
 #include "pch.h"
 #include "PointLight.h"
 
+#include "IRadiance/Raytracer/Renderer.h"
+#include "IRadiance/Raytracer/Geometry/Object.h"
+
 namespace IRadiance
 {
 
@@ -19,6 +22,18 @@ namespace IRadiance
 		if (m_HasQuadraticFallOff)
 			return (ls * c) /LengthSquared(_hr.hitPoint - position);
 		return ls * c;
+	}
+
+	bool PointLight::InShadow(const Ray& _r, const HitRecord& _hr) const
+	{
+		float t;
+		float distance = Length(_hr.hitPoint - this->position);
+
+		const auto& objects = _hr.renderer->GetScene()->GetObjects();
+		for (const Object* object : objects)
+			if (object->ShadowHit(_r, t) && t < distance)
+				return true;
+		return false;
 	}
 
 	void PointLight::SetLs(float _ls)

@@ -112,7 +112,7 @@ namespace IRadiance
 		m_ViewingPlane.m_HorRes = m_Buffer->GetWidth();
 		m_ViewingPlane.m_VertRes = m_Buffer->GetHeight();
 		m_ViewingPlane.m_PixelSize = 1.0f;
-		int nbSamples = 4;
+		int nbSamples = 1;
 		m_ViewingPlane.SetSampler(new MultiJitteredSampler(nbSamples));
 
 		m_ToneMapper = new Clamper;
@@ -140,18 +140,17 @@ namespace IRadiance
 		//		Sphere* sphere_ptr = new Sphere({xc, 0, yc}, r);
 		//		m_Scene->AddObject(sphere_ptr);
 		//	}
-
-		m_Scene->SetAmbientLight(new AmbientLight);
+		AmbientLight* ambientLight = new AmbientLight;
+		ambientLight->SetLs(0.1f);
+		m_Scene->SetAmbientLight(ambientLight);
 		PointLight* light = new PointLight;
-		light->SetPosition({ 0, 5, 0});
-		light->SetLs(3.0f);
-		light->SetC({ 1,0.5f,0 });
-		light->SetQuadraticFallOff(false);
+		light->SetPosition({ 0, 1.5f, -2.5f});
+		light->SetLs(50.0f);
+		light->SetC({ 1, 0.5f,0 });
+		light->SetQuadraticFallOff(true);
 		//Quadratic is too much compare to cosine falloff
 		m_Scene->AddLight(light);
-
-		// four spheres centered on the x axis
-
+		
 		float radius = 1.0f;
 		float gap = 0.2f;	 // gap between spheres
 
@@ -163,7 +162,6 @@ namespace IRadiance
 		Sphere* sphere_ptr1 = new Sphere({ -3.0f * radius - 1.5f * gap, 0.0f, 0.0f }, radius);
 		sphere_ptr1->SetMaterial(matte_ptr1);
 		m_Scene->AddObject(sphere_ptr1);
-
 
 		Phong* matte_ptr2 = new Phong;
 		matte_ptr2->SetKa(0.0f);

@@ -1,6 +1,8 @@
 #include "pch.h"
 #include "DirectionalLight.h"
 
+#include "IRadiance/Raytracer/Renderer.h"
+
 namespace IRadiance
 {
 
@@ -17,6 +19,20 @@ namespace IRadiance
 	RGBSpectrum DirectionalLight::L(HitRecord& /*_hr*/) const
 	{
 		return ls * c;
+	}
+
+	bool DirectionalLight::InShadow(const Ray& _r, const HitRecord& _hr) const
+	{
+		if (!m_Shadows)
+			return false;
+		float t;
+		const auto& objects = _hr.renderer->GetScene()->GetObjects();
+		for (auto object : objects)
+		{
+			if(object->ShadowHit(_r, t))
+				return true;
+		}
+		return false;
 	}
 
 	void DirectionalLight::SetLs(float _ls)

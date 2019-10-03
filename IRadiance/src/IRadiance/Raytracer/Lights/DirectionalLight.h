@@ -11,6 +11,7 @@ namespace IRadiance
 			const Vector & _direction = {0.0f, 1.0f, 0.0f});
 		virtual Vector GetDirection(HitRecord& _hr) const override;
 		virtual RGBSpectrum L(HitRecord& _hr) const override;
+		virtual bool InShadow(const Ray& _r, const HitRecord& _hr) const override;
 
 		void SetLs(float _ls);
 		void SetC(const RGBSpectrum& _c);

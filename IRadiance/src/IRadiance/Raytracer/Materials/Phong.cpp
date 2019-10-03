@@ -24,9 +24,22 @@ namespace IRadiance
 		{
 			Vector wI = light->GetDirection(_hr);
 			float nCosWi = Dot(wI, _hr.normal);
-			if(nCosWi > 0.0f)
-				L += (diffuseBRDF->f(_hr, wO, wI) + glossySpecularBRDF->f(_hr, wO, wI))
-					* light->L(_hr) * nCosWi;
+			if (nCosWi > 0.0f)
+			{
+				bool inShadow = false;	
+
+				if (light->CastShadow())
+				{
+					Ray shadowRay;
+					shadowRay.o = _hr.hitPoint;
+					shadowRay.d = wI;
+					inShadow = light->InShadow(shadowRay, _hr);
+				}
+
+				if(!inShadow)
+					L += (diffuseBRDF->f(_hr, wO, wI) + glossySpecularBRDF->f(_hr, wO, wI))
+						* light->L(_hr) * nCosWi;
+			}
 		}
 
 		return L;
