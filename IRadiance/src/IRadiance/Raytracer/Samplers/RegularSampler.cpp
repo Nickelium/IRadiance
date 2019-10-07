@@ -14,15 +14,9 @@ namespace IRadiance
 	{
 		float n = (float)(int)sqrt(m_NumSamples);
 		for (int s = 0; s < m_NumSets; s++)
-		{
 			for (int i = 0; i < n; i++)
-			{
 				for (int j = 0; j < n; j++)
-				{
 					m_Samples.push_back(Point2(j / n, i / n));
-				}
-			}
-		}
 	}
 
 }

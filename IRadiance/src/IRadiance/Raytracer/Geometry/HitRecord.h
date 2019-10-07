@@ -1,7 +1,6 @@
 #pragma once
 
 #include "IRadiance/Raytracer/Maths/Point3.h"
-#include "IRadiance/Raytracer/Maths/Normal.h"
 
 #include "IRadiance/Raytracer/RGBSpectrum.h"
 

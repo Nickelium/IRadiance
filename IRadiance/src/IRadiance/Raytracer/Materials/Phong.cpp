@@ -45,6 +45,40 @@ namespace IRadiance
 		return L;
 	}
 
+	RGBSpectrum Phong::AreaLightShading(HitRecord& _hr)
+	{
+		Vector wO = -_hr.ray.d;
+		RGBSpectrum L = _hr.renderer->GetScene()->GetAmbientLight()->L(_hr) * ambientBRDF->rho(_hr, wO);
+		const auto& lights = _hr.renderer->GetScene()->GetLights();
+		for (auto light : lights)
+		{
+			const int shadowRays = 10;
+			for (int i = 0; i < shadowRays; ++i)
+			{
+				Vector wI = light->GetDirection(_hr);
+				float nCosWi = Dot(_hr.normal, wI);
+				if (nCosWi > 0.0f)
+				{
+					bool inShadow = false;
+					if (light->CastShadow())
+					{
+						Ray shadowRay;
+						shadowRay.o = _hr.hitPoint;
+						shadowRay.d = wI;
+						inShadow = light->InShadow(shadowRay, _hr);
+					}
+					if (!inShadow)
+						L +=
+						((diffuseBRDF->f(_hr, wO, wI) + glossySpecularBRDF->f(_hr, wO, wI)) *
+							light->L(_hr) * light->G(_hr) * nCosWi) / light->pdf(_hr);
+				}
+			}
+			L /= shadowRays;
+		}
+
+		return L;
+	}
+
 	void Phong::SetKa(float _ka)
 	{
 		ambientBRDF->SetKa(_ka);

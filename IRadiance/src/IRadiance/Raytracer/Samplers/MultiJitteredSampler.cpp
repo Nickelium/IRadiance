@@ -22,9 +22,9 @@ namespace IRadiance
 			for (int i = 0; i < n; ++i)
 				for (int j = 0; j < n; ++j)
 				{
-					m_Samples[i * n + j].x = 
+					m_Samples[i * n + j + s * m_NumSamples].x = 
 						(i * n + j) * subCellWidth + Rand(0.0f, subCellWidth);
-					m_Samples[i * n + j].y =
+					m_Samples[i * n + j + s * m_NumSamples].y =
 						(j * n + i) * subCellWidth + Rand(0.0f, subCellWidth);
 				}
 		ShuffleX();

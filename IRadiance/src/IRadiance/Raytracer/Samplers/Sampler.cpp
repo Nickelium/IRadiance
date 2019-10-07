@@ -8,7 +8,7 @@ namespace IRadiance
 
 	Sampler::Sampler(int _nbSamples)
 		: m_NumSamples(_nbSamples),
-		m_NumSets(1),
+		m_NumSets(100),
 		m_Count(0),
 		m_ShuffledIndices(0),
 		m_Init(false)

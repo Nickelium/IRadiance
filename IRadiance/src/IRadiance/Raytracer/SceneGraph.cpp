@@ -1,9 +1,11 @@
 #include "pch.h"
 #include "SceneGraph.h"
 
+#include "IRadiance/Raytracer/Lights/AmbientLight.h"
+
 namespace IRadiance
 {
-	SceneGraph::SceneGraph() : m_AmbientLight(nullptr) {}
+	SceneGraph::SceneGraph() : m_AmbientLight(new AmbientLight) {}
 	SceneGraph::~SceneGraph()
 	{
 		for (const Object* object : m_Objects)

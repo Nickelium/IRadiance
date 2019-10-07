@@ -11,6 +11,7 @@ namespace IRadiance
 	public:
 		Phong();
 		virtual RGBSpectrum Shading(HitRecord& _hr) override;
+		virtual RGBSpectrum AreaLightShading(HitRecord& _hr) override;
 
 		void SetKa(float _ka);
 		void SetKd(float _kd);

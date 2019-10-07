@@ -12,7 +12,7 @@ namespace IRadiance
 		virtual void GenerateSamples() = 0;
 
 		void GenerateIndices();
-		Point2 SampleUnitSquare();
+		virtual Point2 SampleUnitSquare();
 
 		inline int GetNumberSamples() const { return m_NumSamples; }
 		inline int GetNumberSets() const { return m_NumSets; }

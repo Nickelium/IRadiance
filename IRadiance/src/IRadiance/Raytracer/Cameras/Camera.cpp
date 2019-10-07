@@ -10,6 +10,7 @@ namespace IRadiance
 		m_Up(_desc.up),
 		m_ExposureTime(_desc.exposureTime)
 	{
+		ComputeONB();
 	}
 
 	void Camera::ComputeONB()

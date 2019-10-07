@@ -186,9 +186,6 @@
     <ClInclude Include="src\IRadiance\Raytracer\Geometry\Sphere.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\IRadiance\Raytracer\Maths\Normal.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="src\IRadiance\Raytracer\ViewPlane.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -295,6 +292,24 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\IRadiance\Raytracer\Materials\Phong.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\IRadiance\Raytracer\Tracers\AreaLighting.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\IRadiance\Raytracer\Materials\Emissive.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\IRadiance\Raytracer\Geometry\Rectangle.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\IRadiance\Raytracer\Lights\AreaLight.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\IRadiance\Raytracer\Geometry\Box.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\IRadiance\Raytracer\Samplers\PureRandomSampler.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -413,9 +428,6 @@
     <ClCompile Include="src\IRadiance\Raytracer\Geometry\Sphere.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\IRadiance\Raytracer\Maths\Normal.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\IRadiance\Raytracer\ViewPlane.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -498,6 +510,24 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\IRadiance\Raytracer\Materials\Phong.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\IRadiance\Raytracer\Tracers\AreaLighting.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\IRadiance\Raytracer\Materials\Emissive.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\IRadiance\Raytracer\Geometry\Rectangle.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\IRadiance\Raytracer\Lights\AreaLight.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\IRadiance\Raytracer\Geometry\Box.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\IRadiance\Raytracer\Samplers\PureRandomSampler.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

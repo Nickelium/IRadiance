@@ -29,6 +29,8 @@ namespace IRadiance
 		const auto& objects = _hr.renderer->GetScene()->GetObjects();
 		for (auto object : objects)
 		{
+			if (!object->CastShadow())
+				continue;
 			if(object->ShadowHit(_r, t))
 				return true;
 		}

@@ -4,6 +4,8 @@
 #include "IRadiance/Raytracer/RGBSpectrum.h"
 #include "HitRecord.h"
 
+#include "IRadiance/Raytracer/Samplers/Sampler.h"
+
 namespace IRadiance
 {
 	class Object
@@ -17,9 +19,18 @@ namespace IRadiance
 
 		void SetMaterial(Material* _material) { material = _material; }
 		Material* GetMaterial() const { return material; }
+
+		void SetSampler(Sampler* _sampler) { m_Sampler = _sampler; }
+
+		virtual Point3 Sample() const { return {}; }
+		virtual float pdf(const HitRecord& /*_hr*/) const { return 1.0f; }
+		virtual Vector Normal(const Point3& /*_p*/) const { return {}; }
 	protected:
 		Material* material;
 		bool m_Shadow = true;
+
+		//For object sampling
+		Sampler* m_Sampler = nullptr;
 	};
-	
+
 }

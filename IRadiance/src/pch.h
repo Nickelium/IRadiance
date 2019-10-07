@@ -36,7 +36,6 @@
 #include "IRadiance/Framework/Utility/Utility.h"
 
 //Raytracer specifics
-#include "IRadiance/Raytracer/Maths/Normal.h"
 #include "IRadiance/Raytracer/Maths/Point2.h"
 #include "IRadiance/Raytracer/Maths/Point3.h"
 #include "IRadiance/Raytracer/Maths/Ray.h"

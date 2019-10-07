@@ -3,7 +3,6 @@
 #include "Object.h"
 
 #include "IRadiance/Raytracer/Maths/Point3.h"
-#include "IRadiance/Raytracer/Maths/Normal.h"
 
 namespace IRadiance
 {

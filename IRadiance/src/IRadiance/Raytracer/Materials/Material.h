@@ -5,6 +5,8 @@ namespace IRadiance
 	class Material 
 	{
 	public:
+		virtual RGBSpectrum Le() const { return BLACK; }
+
 		//TODO for pathtracing
 		virtual RGBSpectrum RayCastShading(HitRecord& /*_hr*/) { return BLACK; };
 		virtual RGBSpectrum WhittedShading(HitRecord& /*_hr*/) { return BLACK; };

@@ -2,7 +2,6 @@
 #include "Vector.h"
 
 #include "Point3.h"
-#include "Normal.h"
 
 namespace IRadiance
 {
@@ -25,12 +24,6 @@ namespace IRadiance
 	Vector::Vector(const Point3& _p)
 		: Vector(_p.x, _p.y, _p.z)
 	{
-	}
-
-	Vector::Vector(const Normal& _n)
-		: Vector(_n.x, _n.y, _n.z)
-	{
-
 	}
 
 	Vector Vector::Normalize()

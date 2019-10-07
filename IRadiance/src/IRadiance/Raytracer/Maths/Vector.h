@@ -16,7 +16,6 @@ namespace IRadiance
 		Vector(float _x, float _y, float _z);
 		Vector(const Vector& _other);
 		Vector(const Point3& _p);
-		Vector(const Normal& _n);
 
 		Vector& operator=(const Vector& _other);
 
