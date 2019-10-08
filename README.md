@@ -5,11 +5,14 @@ IRadiance Engine is an open-source software raytraced renderer written in C++11.
 This project is still in development, therefore the codebase tends to fluctuate a lot.
 
 <p float="left">                                                   
-    <img width="70%" src="https://raw.githubusercontent.com/Nickelium/IRadiance/master/Sandbox/output/image_6.jpg">
+    <img width="70%" src="https://raw.githubusercontent.com/Nickelium/IRadiance/master/Sandbox/output/image_12.jpg">
 </p> 
 
 ## Features
 * Simple Raytracer
+* Soft Shadows
+* Area Lights
+* Environment Light
 * Visualize Render Progress
 * Save Render to File
 

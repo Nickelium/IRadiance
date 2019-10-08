@@ -1,5 +1,7 @@
 #pragma once
 
+#include "IRadiance/Raytracer/RGBSpectrum.h"
+
 namespace IRadiance
 {
 	inline float Clamp(float _v, float _min, float _max)
@@ -27,10 +29,18 @@ namespace IRadiance
 		return Rand(-1.0f, 1.0f);
 	}
 
+	inline RGBSpectrum RandColor()
+	{
+		return RGBSpectrum({RandUNorm(), RandUNorm(), RandUNorm()});
+	}
+
 	namespace Constants
 	{
 		extern const float PI;
-		extern const float invPI;
+		extern const float TwoPi;
+		extern const float FourPi;
+		extern const float HalfPi;
+		extern const float InvPI;
 		extern const float MaxValue;
 	}
 }

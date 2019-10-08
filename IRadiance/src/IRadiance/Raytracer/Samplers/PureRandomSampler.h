@@ -8,7 +8,7 @@ namespace IRadiance
 	{
 	public:
 		PureRandomSampler(int _nbSamples);
-		virtual void GenerateSamples() {}
+		virtual void GenerateSamples2D() {}
 		virtual Point2 SampleUnitSquare() override;
 	};
 }

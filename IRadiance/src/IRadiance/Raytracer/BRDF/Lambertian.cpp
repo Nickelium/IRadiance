@@ -7,13 +7,13 @@ namespace IRadiance
 	{
 		//return rho / pi
 		//return kd * cd * Constants::invPI;
-		return rho(_hr, wO) * Constants::invPI;
+		return rho(_hr, wO) * Constants::InvPI;
 	}
 
 	RGBSpectrum IRadiance::Lambertian::Sample_f(const HitRecord& _hr, const Vector& wO, Vector& /*wI*/) const
 	{
 		//TODO pdf
-		return rho(_hr, wO) * Constants::invPI;
+		return rho(_hr, wO) * Constants::InvPI;
 	}
 
 	RGBSpectrum IRadiance::Lambertian::rho(const HitRecord& /*_hr*/, const Vector& /*wO*/) const

@@ -11,6 +11,7 @@ namespace IRadiance
 	class Object
 	{
 	public:
+
 		virtual bool Hit(const Ray& _ray, float& _tMin, HitRecord& _sr) const = 0;
 		virtual bool ShadowHit(const Ray& /*_ray*/, float& /*_t*/) const = 0;
 
@@ -25,6 +26,7 @@ namespace IRadiance
 		virtual Point3 Sample() const { return {}; }
 		virtual float pdf(const HitRecord& /*_hr*/) const { return 1.0f; }
 		virtual Vector Normal(const Point3& /*_p*/) const { return {}; }
+
 	protected:
 		Material* material;
 		bool m_Shadow = true;

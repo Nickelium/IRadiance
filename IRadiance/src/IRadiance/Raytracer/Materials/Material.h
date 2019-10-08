@@ -14,5 +14,6 @@ namespace IRadiance
 		virtual RGBSpectrum PathShading(HitRecord& /*_hr*/) { return BLACK; };
 
 		virtual RGBSpectrum Shading(HitRecord& _hr) = 0;
+
 	};
 }

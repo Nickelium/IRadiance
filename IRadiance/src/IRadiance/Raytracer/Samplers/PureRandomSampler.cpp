@@ -7,6 +7,7 @@ namespace IRadiance
 	PureRandomSampler::PureRandomSampler(int _nbSamples)
 		: Sampler(_nbSamples)
 	{
+		//Init();
 	}
 
 	IRadiance::Point2 PureRandomSampler::SampleUnitSquare()

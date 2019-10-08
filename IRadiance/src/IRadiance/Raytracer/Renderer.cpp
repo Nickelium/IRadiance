@@ -40,6 +40,7 @@
 #include "IRadiance/Raytracer/ToneMapper/Overflower.h"
 #include "Geometry/Box.h"
 #include "Samplers/PureRandomSampler.h"
+#include "Lights/EnvironmentLight.h"
 
 
 namespace IRadiance
@@ -120,8 +121,8 @@ namespace IRadiance
 		
 		m_ToneMapper = new Clamper;
 
-		//int num_samples = 1;   		// for Figure 18.4(a)
-		int num_samples = 100;   	// for Figure 18.4(b) & (c)
+		//int num_samples = 100;   		// for Figure 18.4(a)
+		int num_samples = 1;   	// for Figure 18.4(b) & (c)
 
 		Sampler* sampler_ptr = new MultiJitteredSampler(num_samples);
 
@@ -133,15 +134,104 @@ namespace IRadiance
 
 		m_Tracer = new AreaLighting(this);
 
+
+		/************************************************************************/
+		/* Test Environment Light                                               */
+		/************************************************************************/
+		//CameraDesc desc;
+		//desc.eye = { 100, 45, 100 };
+		//desc.lookAt = { -10, 40, 0 };
+		//m_Camera = new PinholeCamera(desc, 1.0f, 400);
+		//m_Camera->ComputeONB();
+
+		//Emissive* emissive_ptr = new Emissive;
+		//emissive_ptr->SetLs(0.90f);
+		//emissive_ptr->SetCe({ 1.0f });   			// white
+
+		////ConcaveSphere* sphere_ptr = new ConcaveSphere;
+		////sphere_ptr->set_radius(1000000.0);
+		////sphere_ptr->set_material(emissive_ptr);
+		////sphere_ptr->set_shadows(false);
+		////add_object(sphere_ptr);
+
+		//EnvironmentLight* environment_light_ptr = new EnvironmentLight;
+		//environment_light_ptr->SetMaterial(emissive_ptr);
+		//environment_light_ptr->SetSampler(new MultiJitteredSampler(num_samples));
+		//environment_light_ptr->SetShadow(true);
+		//m_Scene->AddLight(environment_light_ptr);			// for Figure 18.7 (b) & (c)
+
+
+		//float ka = 0.2f;  	// common ambient reflection coefficient
+
+		//// large sphere
+
+		//Matte* matte_ptr1 = new Matte;
+		//matte_ptr1->SetKa(ka);
+		//matte_ptr1->SetKd(0.60f);
+		//matte_ptr1->SetCd({ 0.75f });
+
+		//Sphere* sphere_ptr1 = new Sphere(Point3(-10, 20, -10), 20);
+		//sphere_ptr1->SetMaterial(matte_ptr1);
+		//m_Scene->AddObject(sphere_ptr1);
+
+
+		//// small sphere
+
+		//Matte* matte_ptr2 = new Matte;
+		//matte_ptr2->SetKa(ka);
+		//matte_ptr2->SetKd(0.5f);
+		//matte_ptr2->SetCd(0.85f);
+
+		//Sphere* sphere_ptr2 = new Sphere(Point3(34, 12, 13), 12);
+		//sphere_ptr2->SetMaterial(matte_ptr2);
+		//m_Scene->AddObject(sphere_ptr2);
+
+
+		//// medium sphere
+
+		//Matte* matte_ptr3 = new Matte;
+		//matte_ptr3->SetKa(ka);
+		//matte_ptr3->SetKd(0.5f);
+		//matte_ptr3->SetCd({ 0.75f });
+
+		//Sphere* sphere_ptr3 = new Sphere(Point3(-7, 15, 42), 16);
+		//sphere_ptr3->SetMaterial(matte_ptr3);
+		//m_Scene->AddObject(sphere_ptr3);
+
+		//// box
+
+		//Matte* matte_ptr5 = new Matte;
+		//matte_ptr5->SetKa(ka);
+		//matte_ptr5->SetKd(0.5f);
+		//matte_ptr5->SetCd({ 0.95f });
+
+		//Box* box_ptr = new Box(Point3(-35, 0, -110), Point3(-25, 60, 65));
+		//box_ptr->SetMaterial(matte_ptr5);
+		//m_Scene->AddObject(box_ptr);
+
+
+		//// ground plane
+
+		//Matte* matte_ptr6 = new Matte;
+		//matte_ptr6->SetKa(0.15f);
+		//matte_ptr6->SetKd(0.5f);
+		//matte_ptr6->SetCd(0.7f);
+
+		//Plane* plane_ptr = new Plane(Point3(0, 0.01f, 0), Vector(0, 1, 0));
+		//plane_ptr->SetMaterial(matte_ptr6);
+		//m_Scene->AddObject(plane_ptr);
+
+		/************************************************************************/
+		/* Area Light                                                           */
+		/************************************************************************/
 		CameraDesc desc;
 		desc.eye = { -20, 10, 25 };
 		desc.lookAt = { 0, 2, 0 };
 		m_Camera = new PinholeCamera(desc, 1.0f, 1080);
 
 		Emissive* emissive_ptr = new Emissive;
-		emissive_ptr->SetLs(40.0f);
-		emissive_ptr->SetCe(WHITE);
-
+		emissive_ptr->SetLs(0.6f);
+		emissive_ptr->SetCe({0.9f});
 
 		// define a rectangle for the rectangular light
 
@@ -154,15 +244,17 @@ namespace IRadiance
 		Vector a(width, 0.0f, 0.0f);
 		Vector b(0.0f, height, 0.0f);
 
-		Rectangle* rectangle_ptr = new Rectangle(p0, a, b);
-		rectangle_ptr->SetMaterial(emissive_ptr);
-		rectangle_ptr->SetSampler(sampler_ptr);
-		rectangle_ptr->SetShadow(false);
-		m_Scene->AddObject(rectangle_ptr);
+		//Rectangle* rectangle_ptr = new Rectangle(p0, a, b);
+		//rectangle_ptr->SetMaterial(emissive_ptr);
+		//rectangle_ptr->SetSampler(sampler_ptr);
+		//rectangle_ptr->SetShadow(false);
+		//m_Scene->AddObject(rectangle_ptr);
 
 
-		AreaLight* area_light_ptr = new AreaLight;
-		area_light_ptr->SetObject(rectangle_ptr);
+		EnvironmentLight* area_light_ptr = new EnvironmentLight;
+		//area_light_ptr->SetObject(rectangle_ptr);
+		area_light_ptr->SetSampler(sampler_ptr);
+		area_light_ptr->SetMaterial(emissive_ptr);
 		area_light_ptr->SetShadow(true);
 		m_Scene->AddLight(area_light_ptr);
 
@@ -199,6 +291,11 @@ namespace IRadiance
 		box_ptr3->SetMaterial(matte_ptr1);
 		m_Scene->AddObject(box_ptr3);
 
+		Box* box_ptr4 = new Box(Point3(1.5f * gap + box_width, 0.0f, -2.5f * box_depth),
+			Point3(1.5f * gap + 2.0f * box_width, box_height * 1.5f, -1.0f * box_depth));
+		box_ptr4->SetMaterial(matte_ptr1);
+		m_Scene->AddObject(box_ptr4);
+
 
 		// ground plane
 
@@ -210,6 +307,10 @@ namespace IRadiance
 		Plane* plane_ptr = new Plane(Point3(0.0f), Vector(0, 1, 0));
 		plane_ptr->SetMaterial(matte_ptr2);
 		m_Scene->AddObject(plane_ptr);
+
+		/************************************************************************/
+		/* Previous Scene                                                       */
+		/************************************************************************/
 
 		//int nbSamples = 4;
 		//Sampler* sampler = new MultiJitteredSampler(nbSamples);

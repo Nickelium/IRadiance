@@ -8,13 +8,14 @@ namespace IRadiance
 	NRookSampler::NRookSampler(int _nbSamples)
 		: Sampler(_nbSamples)
 	{
+		Init();
 	}
 
-	void NRookSampler::GenerateSamples()
+	void NRookSampler::GenerateSamples2D()
 	{
 		for (int s = 0; s < m_NumSets; s++)
 			for (int i = 0; i < m_NumSamples; i++)
-				m_Samples.push_back(Point2(
+				m_Samples2D.push_back(Point2(
 					(i + RandUNorm()) / m_NumSamples,
 					(i + RandUNorm()) / m_NumSamples));
 		ShuffleX();
@@ -28,9 +29,9 @@ namespace IRadiance
 			for (int i = 0; i < m_NumSamples; i++)
 			{
 				int target = RandInt() % m_NumSamples + s * m_NumSamples;
-				float tmp = m_Samples[i + s * m_NumSamples].x;
-				m_Samples[i + s * m_NumSamples].x = m_Samples[target].x;
-				m_Samples[target].x = tmp;
+				float tmp = m_Samples2D[i + s * m_NumSamples].x;
+				m_Samples2D[i + s * m_NumSamples].x = m_Samples2D[target].x;
+				m_Samples2D[target].x = tmp;
 			}
 	}
 
@@ -40,9 +41,9 @@ namespace IRadiance
 			for (int i = 0; i < m_NumSamples; i++)
 			{
 				int target = RandInt() % m_NumSamples + s * m_NumSamples;
-				float tmp = m_Samples[i + s * m_NumSamples].y;
-				m_Samples[i + s * m_NumSamples].x = m_Samples[target].y;
-				m_Samples[target].y = tmp;
+				float tmp = m_Samples2D[i + s * m_NumSamples].y;
+				m_Samples2D[i + s * m_NumSamples].x = m_Samples2D[target].y;
+				m_Samples2D[target].y = tmp;
 			}
 	}
 

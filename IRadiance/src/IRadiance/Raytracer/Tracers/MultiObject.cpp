@@ -2,6 +2,7 @@
 #include "MultiObject.h"
 
 #include "IRadiance/Raytracer/Maths/Utilities.h"
+#include "IRadiance/Raytracer/Materials/Material.h"
 
 namespace IRadiance
 {
@@ -18,6 +19,7 @@ namespace IRadiance
 		{
 			//IRAD_CORE_TRACE("{0}, {1}, {2} : normal", normal.x, normal.y, normal.z);
 			//return 0.5f * (RGBSpectrum(normal.x, normal.y, normal.z) + RGBSpectrum{1, 1, 1});
+			//return hr.material->color;
 			return RED;
 		}
 		else

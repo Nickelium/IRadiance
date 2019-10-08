@@ -5,7 +5,6 @@
 
 namespace IRadiance
 {
-
 	Sampler::Sampler(int _nbSamples)
 		: m_NumSamples(_nbSamples),
 		m_NumSets(100),
@@ -14,6 +13,27 @@ namespace IRadiance
 		m_Init(false)
 
 	{
+		GenerateIndices();
+	}
+
+	void Sampler::GenerateSamples3D(float _e)
+	{
+		using namespace Constants;
+		const int size = m_NumSamples * m_NumSets;
+		m_Samples3D.reserve(size);
+		for (int i = 0; i < size; ++i)
+		{
+			float cosTheta = pow(1.0f - m_Samples2D[i].y, 1 / (_e + 1));
+			float sinTheta = sqrtf(1.0f - cosTheta * cosTheta);
+			float cosPhi = cos(TwoPi * m_Samples2D[i].x);
+			float sinPhi = sin(TwoPi * m_Samples2D[i].x);
+
+			float x = sinTheta * cosPhi;
+			float y = sinTheta * sinPhi;
+			float z = cosTheta;
+
+			m_Samples3D.push_back(Point3{x, y, z});
+		}
 	}
 
 	void Sampler::GenerateIndices()
@@ -34,17 +54,24 @@ namespace IRadiance
 
 	Point2 Sampler::SampleUnitSquare()
 	{
-		if (!m_Init)
-		{
-			GenerateSamples();
-			GenerateIndices();
-			m_Init = true;
-		}
-
 		if (m_Count % m_NumSamples == 0)
 			m_Jump = (RandInt() % m_NumSets) * m_NumSamples;
 
-		return m_Samples[m_Jump + m_ShuffledIndices[m_Jump + m_Count++ % m_NumSamples]];
+		return m_Samples2D[m_Jump + m_ShuffledIndices[m_Jump + m_Count++ % m_NumSamples]];
+	}
+
+	Point3 Sampler::SampleHemisphere()
+	{
+		if (m_Count % m_NumSamples == 0)
+			m_Jump = (RandInt() % m_NumSets) * m_NumSamples;
+
+		return m_Samples3D[m_Jump + m_ShuffledIndices[m_Jump + m_Count++ % m_NumSamples]];
+	}
+
+	void Sampler::Init()
+	{
+		GenerateSamples2D();
+		GenerateSamples3D(1);
 	}
 
 }

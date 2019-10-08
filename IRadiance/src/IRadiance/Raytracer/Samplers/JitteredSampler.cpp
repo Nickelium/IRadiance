@@ -9,10 +9,10 @@ namespace IRadiance
 	JitteredSampler::JitteredSampler(int _nbSamples)
 		: Sampler(_nbSamples)
 	{
-
+		Init();
 	}
 
-	void JitteredSampler::GenerateSamples()
+	void JitteredSampler::GenerateSamples2D()
 	{
 		float n = (float)(int)sqrt(m_NumSamples);
 		for (int s = 0; s < m_NumSets; ++s)
@@ -21,7 +21,7 @@ namespace IRadiance
 			{
 				for (int j = 0; j < n; ++j)
 				{
-					m_Samples.push_back
+					m_Samples2D.push_back
 					(
 						Point2
 						{

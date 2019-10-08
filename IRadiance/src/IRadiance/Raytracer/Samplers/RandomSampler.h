@@ -8,7 +8,7 @@ namespace IRadiance
 	{
 	public:
 		RandomSampler(int _nbSamples);
-		virtual void GenerateSamples() override;
+		virtual void GenerateSamples2D() override;
 
 	};
 }

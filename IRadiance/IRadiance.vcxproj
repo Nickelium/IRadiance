@@ -36,6 +36,7 @@
     <ClInclude Include="src\IRadiance\Raytracer\Lights\AmbientLight.h" />
     <ClInclude Include="src\IRadiance\Raytracer\Lights\AreaLight.h" />
     <ClInclude Include="src\IRadiance\Raytracer\Lights\DirectionalLight.h" />
+    <ClInclude Include="src\IRadiance\Raytracer\Lights\EnvironmentLight.h" />
     <ClInclude Include="src\IRadiance\Raytracer\Lights\Light.h" />
     <ClInclude Include="src\IRadiance\Raytracer\Lights\PointLight.h" />
     <ClInclude Include="src\IRadiance\Raytracer\Materials\Emissive.h" />
@@ -134,6 +135,7 @@
     <ClCompile Include="src\IRadiance\Raytracer\Lights\AmbientLight.cpp" />
     <ClCompile Include="src\IRadiance\Raytracer\Lights\AreaLight.cpp" />
     <ClCompile Include="src\IRadiance\Raytracer\Lights\DirectionalLight.cpp" />
+    <ClCompile Include="src\IRadiance\Raytracer\Lights\EnvironmentLight.cpp" />
     <ClCompile Include="src\IRadiance\Raytracer\Lights\PointLight.cpp" />
     <ClCompile Include="src\IRadiance\Raytracer\Materials\Emissive.cpp" />
     <ClCompile Include="src\IRadiance\Raytracer\Materials\Matte.cpp" />
