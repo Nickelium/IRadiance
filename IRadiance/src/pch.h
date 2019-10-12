@@ -12,6 +12,7 @@
 #include <memory>
 #include <functional>
 #include <fstream>
+#include <type_traits>
 
 // STL Datastructure & Algorithms
 #include <vector>

@@ -123,7 +123,7 @@ namespace IRadiance
 				_sr.normal = Normal(face_out);
 			}
 
-			_sr.hitPoint =_ray.o + _tMin *_ray.d;
+			//_sr.hitPoint =_ray.o + _tMin *_ray.d;
 			return (true);
 		}
 		else

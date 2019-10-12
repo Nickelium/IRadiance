@@ -15,7 +15,7 @@ public:
 		using namespace IRadiance;
 
 		RenderDevice* renderDevice = Locator::Get<RenderDevice>();
-		int width = 600;
+		int width = 600.0f;
 		int height = int(width * (9.0f / 16.0f));
 		m_Texture = renderDevice->CreateTexture2D(width, height);
 
@@ -31,6 +31,7 @@ public:
 	virtual void Update(IRadiance::DataTime _time) 
 	{
 		using namespace IRadiance;
+		//IRAD_INFO("{0}", Input::GetMousePosition());
 		if (render)
 		{
 			bool completed = m_World.Render();

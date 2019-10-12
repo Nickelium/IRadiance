@@ -41,6 +41,8 @@ namespace IRadiance
 		CoVariables& GetCoVariables();
 		Timer& GetTimer();
 
+		int MaxDepth() const;
+
 		void Build(ImageBuffer* _buffer);
 
 		void PreRender();
@@ -61,5 +63,7 @@ namespace IRadiance
 
 		CoVariables m_CoVars;
 		Timer m_Timer;
+
+		int m_MaxDepth;
 	};
 }

@@ -10,7 +10,7 @@ namespace IRadiance
 		: m_Running(true)
 	{
 		IRAD_CORE_INFO("Creating Engine Application");
-		m_Window = Window::Create({"IRadiance Engine - RAYTRACER", 1600, 900});
+		m_Window = Window::Create({"IRadiance Engine - RAYTRACER", 1600, int(1600 * (9.0f / 16.0f))});
 		m_Window->SetEventCallback(BIND_FN(Application::RootOnEvent));
 		Locator::Set(RenderDevice::Create());
 		m_ImGuiLayer = new ImGuiLayer(this);

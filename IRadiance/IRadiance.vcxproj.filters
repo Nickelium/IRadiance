@@ -315,6 +315,15 @@
     <ClInclude Include="src\IRadiance\Raytracer\Lights\EnvironmentLight.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\IRadiance\Raytracer\Tracers\Whitted.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\IRadiance\Raytracer\BRDF\PerfectSpecular.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\IRadiance\Raytracer\Materials\Reflective.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\pch.cpp">
@@ -534,6 +543,15 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\IRadiance\Raytracer\Lights\EnvironmentLight.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\IRadiance\Raytracer\Tracers\Whitted.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\IRadiance\Raytracer\BRDF\PerfectSpecular.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\IRadiance\Raytracer\Materials\Reflective.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

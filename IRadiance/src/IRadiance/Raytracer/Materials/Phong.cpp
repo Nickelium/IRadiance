@@ -52,7 +52,7 @@ namespace IRadiance
 		const auto& lights = _hr.renderer->GetScene()->GetLights();
 		for (auto light : lights)
 		{
-			const int shadowRays = 10;
+			const int shadowRays = 1;
 			for (int i = 0; i < shadowRays; ++i)
 			{
 				Vector wI = light->GetDirection(_hr);

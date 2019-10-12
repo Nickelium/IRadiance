@@ -25,6 +25,7 @@
     <ClInclude Include="src\IRadiance\Raytracer\BRDF\BRDF.h" />
     <ClInclude Include="src\IRadiance\Raytracer\BRDF\GlossySpecular.h" />
     <ClInclude Include="src\IRadiance\Raytracer\BRDF\Lambertian.h" />
+    <ClInclude Include="src\IRadiance\Raytracer\BRDF\PerfectSpecular.h" />
     <ClInclude Include="src\IRadiance\Raytracer\Cameras\Camera.h" />
     <ClInclude Include="src\IRadiance\Raytracer\Cameras\PinholeCamera.h" />
     <ClInclude Include="src\IRadiance\Raytracer\Collision\CollisionHandler.h" />
@@ -43,6 +44,7 @@
     <ClInclude Include="src\IRadiance\Raytracer\Materials\Material.h" />
     <ClInclude Include="src\IRadiance\Raytracer\Materials\Matte.h" />
     <ClInclude Include="src\IRadiance\Raytracer\Materials\Phong.h" />
+    <ClInclude Include="src\IRadiance\Raytracer\Materials\Reflective.h" />
     <ClInclude Include="src\IRadiance\Raytracer\Maths\Point2.h" />
     <ClInclude Include="src\IRadiance\Raytracer\Maths\Point3.h" />
     <ClInclude Include="src\IRadiance\Raytracer\Maths\Ray.h" />
@@ -66,6 +68,7 @@
     <ClInclude Include="src\IRadiance\Raytracer\Tracers\RayCast.h" />
     <ClInclude Include="src\IRadiance\Raytracer\Tracers\SingleObject.h" />
     <ClInclude Include="src\IRadiance\Raytracer\Tracers\Tracer.h" />
+    <ClInclude Include="src\IRadiance\Raytracer\Tracers\Whitted.h" />
     <ClInclude Include="src\IRadiance\Raytracer\ViewPlane.h" />
     <ClInclude Include="src\IRadiance\Raytracer\Renderer.h" />
     <ClInclude Include="src\pch.h" />
@@ -125,6 +128,7 @@
     <ClCompile Include="src\IRadiance\Framework\Renderer\ImageBuffer.cpp" />
     <ClCompile Include="src\IRadiance\Raytracer\BRDF\GlossySpecular.cpp" />
     <ClCompile Include="src\IRadiance\Raytracer\BRDF\Lambertian.cpp" />
+    <ClCompile Include="src\IRadiance\Raytracer\BRDF\PerfectSpecular.cpp" />
     <ClCompile Include="src\IRadiance\Raytracer\Cameras\Camera.cpp" />
     <ClCompile Include="src\IRadiance\Raytracer\Cameras\PinholeCamera.cpp" />
     <ClCompile Include="src\IRadiance\Raytracer\Collision\CollisionHandler.cpp" />
@@ -140,6 +144,7 @@
     <ClCompile Include="src\IRadiance\Raytracer\Materials\Emissive.cpp" />
     <ClCompile Include="src\IRadiance\Raytracer\Materials\Matte.cpp" />
     <ClCompile Include="src\IRadiance\Raytracer\Materials\Phong.cpp" />
+    <ClCompile Include="src\IRadiance\Raytracer\Materials\Reflective.cpp" />
     <ClCompile Include="src\IRadiance\Raytracer\Maths\Constants.cpp" />
     <ClCompile Include="src\IRadiance\Raytracer\Maths\Point2.cpp" />
     <ClCompile Include="src\IRadiance\Raytracer\Maths\Point3.cpp" />
@@ -159,6 +164,7 @@
     <ClCompile Include="src\IRadiance\Raytracer\Tracers\MultiObject.cpp" />
     <ClCompile Include="src\IRadiance\Raytracer\Tracers\RayCast.cpp" />
     <ClCompile Include="src\IRadiance\Raytracer\Tracers\SingleObject.cpp" />
+    <ClCompile Include="src\IRadiance\Raytracer\Tracers\Whitted.cpp" />
     <ClCompile Include="src\IRadiance\Raytracer\ViewPlane.cpp" />
     <ClCompile Include="src\IRadiance\Raytracer\Renderer.cpp" />
     <ClCompile Include="src\pch.cpp">
