@@ -3,20 +3,20 @@
 
 namespace IRadiance
 {
-	RGBSpectrum IRadiance::Lambertian::f(const HitRecord& _hr, const Vector& wO, const Vector& /*wI*/) const
+	RGBSpectrum Lambertian::f(const HitRecord& _hr, const Vector& wO, const Vector& /*wI*/) const
 	{
 		//return rho / pi
 		//return kd * cd * Constants::invPI;
 		return rho(_hr, wO) * Constants::InvPI;
 	}
 
-	RGBSpectrum IRadiance::Lambertian::Sample_f(const HitRecord& _hr, const Vector& wO, Vector& /*wI*/) const
+	RGBSpectrum Lambertian::Sample_f(const HitRecord& _hr, const Vector& wO, Vector& /*wI*/) const
 	{
 		//TODO pdf
 		return rho(_hr, wO) * Constants::InvPI;
 	}
 
-	RGBSpectrum IRadiance::Lambertian::rho(const HitRecord& /*_hr*/, const Vector& /*wO*/) const
+	RGBSpectrum Lambertian::rho(const HitRecord& /*_hr*/, const Vector& /*wO*/) const
 	{
 		//reflectance rho = kd * cd
 		return kd * cd;

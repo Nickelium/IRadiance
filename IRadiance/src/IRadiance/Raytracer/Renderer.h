@@ -48,6 +48,7 @@ namespace IRadiance
 		void PreRender();
 		bool Render();
 	private:
+		void BuildObjects();
 		Display* m_Display;
 		ViewPlane m_ViewingPlane;
 		ToneMapper* m_ToneMapper;

@@ -7,8 +7,13 @@ namespace IRadiance
 	const float Rectangle::eps = 1e-3f;
 
 	Rectangle::Rectangle(const Point3& _p0, const Vector& _a, const Vector& _b)
-		: p0(_p0), i(Normalize(_a)), j(Normalize(_b)), sizeI(Length(_a)), sizeJ(Length(_b)), 
-		n(Normalize(Cross(i, j))), area(sizeI * sizeJ), invArea(1.0f / area)
+		:  Rectangle(_p0, _a, _b, Normalize(Cross(Normalize(_a), Normalize(_b))))
+	{
+	}
+
+	Rectangle::Rectangle(const Point3& _p0, const Vector& _a, const Vector& _b, const Vector& _n)
+		: p0(_p0), i(Normalize(_a)), j(Normalize(_b)), sizeI(Length(_a)), sizeJ(Length(_b)),
+		n(_n), area(sizeI* sizeJ), invArea(1.0f / area)
 	{
 	}
 

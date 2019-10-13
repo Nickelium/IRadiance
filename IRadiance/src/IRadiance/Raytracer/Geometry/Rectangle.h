@@ -8,6 +8,7 @@ namespace IRadiance
 	{
 	public:
 		Rectangle(const Point3& _p0, const Vector& _a = { 1.0f, 0.0f, 0.0f }, const Vector& _b = { 0.0f, 1.0f, 0.0f });
+		Rectangle(const Point3& _p0, const Vector& _a, const Vector& _b, const Vector& _n);
 		virtual bool Hit(const Ray& _ray, float& _tMin, HitRecord& _sr) const override;
 		virtual bool ShadowHit(const Ray&, float&) const override;
 

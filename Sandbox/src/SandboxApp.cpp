@@ -15,8 +15,8 @@ public:
 		using namespace IRadiance;
 
 		RenderDevice* renderDevice = Locator::Get<RenderDevice>();
-		int width = 600.0f;
-		int height = int(width * (9.0f / 16.0f));
+		int width = int(300 * (16.0f / 9.0f));
+		int height = 300;
 		m_Texture = renderDevice->CreateTexture2D(width, height);
 
 		m_World.Build(m_Texture->GetImageBuffer());

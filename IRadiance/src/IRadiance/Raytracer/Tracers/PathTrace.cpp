@@ -1,17 +1,11 @@
 #include "pch.h"
-#include "Whitted.h"
+#include "PathTrace.h"
 
 #include "IRadiance/Raytracer/Materials/Material.h"
 
 namespace IRadiance
 {
-
-	Whitted::Whitted(Renderer* _renderer)
-		: Tracer(_renderer)
-	{
-	}
-
-	RGBSpectrum Whitted::RayTrace(const Ray& _ray, int _depth) const
+	RGBSpectrum PathTrace::RayTrace(const Ray& _ray, int _depth) const
 	{
 		if (_depth > m_Renderer->MaxDepth())
 			return BLACK;
@@ -22,7 +16,7 @@ namespace IRadiance
 		{
 			hr.ray = _ray;
 			hr.depth = _depth;
-			return hr.material->Shading(hr);
+			return hr.material->PathShading(hr);
 		}
 		else
 			return m_Renderer->GetBackColor();

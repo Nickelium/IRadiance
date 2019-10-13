@@ -65,6 +65,7 @@
     <ClInclude Include="src\IRadiance\Raytracer\ToneMapper\Overflower.h" />
     <ClInclude Include="src\IRadiance\Raytracer\Tracers\AreaLighting.h" />
     <ClInclude Include="src\IRadiance\Raytracer\Tracers\MultiObject.h" />
+    <ClInclude Include="src\IRadiance\Raytracer\Tracers\PathTrace.h" />
     <ClInclude Include="src\IRadiance\Raytracer\Tracers\RayCast.h" />
     <ClInclude Include="src\IRadiance\Raytracer\Tracers\SingleObject.h" />
     <ClInclude Include="src\IRadiance\Raytracer\Tracers\Tracer.h" />
@@ -162,6 +163,7 @@
     <ClCompile Include="src\IRadiance\Raytracer\Display.cpp" />
     <ClCompile Include="src\IRadiance\Raytracer\Tracers\AreaLighting.cpp" />
     <ClCompile Include="src\IRadiance\Raytracer\Tracers\MultiObject.cpp" />
+    <ClCompile Include="src\IRadiance\Raytracer\Tracers\PathTrace.cpp" />
     <ClCompile Include="src\IRadiance\Raytracer\Tracers\RayCast.cpp" />
     <ClCompile Include="src\IRadiance\Raytracer\Tracers\SingleObject.cpp" />
     <ClCompile Include="src\IRadiance\Raytracer\Tracers\Whitted.cpp" />
