@@ -4,9 +4,10 @@
 
 namespace IRadiance
 {
-	class PathTrace : public Tracer
+	class PathTracer : public Tracer
 	{
 	public:
+		PathTracer(Renderer* _renderer);
 		virtual RGBSpectrum RayTrace(const Ray& _ray, int _depth) const override;
 
 	private:

@@ -9,9 +9,11 @@ namespace IRadiance
 		return BLACK;
 	}
 
-	RGBSpectrum PerfectSpecular::Sample_f(const HitRecord& _hr, const Vector& wO, Vector& wI) const
+	RGBSpectrum PerfectSpecular::Sample_f(const HitRecord& _hr, const Vector& wO, Vector& wI, float& pdf) const
 	{
 		wI = -wO + 2.0f * Dot(wO, _hr.normal) * _hr.normal;
+		pdf = Dot(wI, _hr.normal);
+
 		return (kr * cr) / Dot(_hr.normal, wI);
 	}
 

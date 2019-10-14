@@ -11,9 +11,12 @@ namespace IRadiance
 		/**
 		 * For delta functions
 		 */
-		virtual RGBSpectrum Sample_f(const HitRecord& _hr, const Vector& wO, Vector& wI) const = 0;
+		virtual RGBSpectrum Sample_f(const HitRecord& _hr, const Vector& wO, Vector& wI, float& pdf) const = 0;
 		virtual RGBSpectrum rho(const HitRecord& _hr, const Vector& wO) const = 0;
+
+		inline void SetSampler(Sampler* _sampler) { m_Sampler = _sampler; }
 	protected:
-		Sampler* m_Sampler;
+		Sampler* m_Sampler = nullptr;
 	};
 }
+ 

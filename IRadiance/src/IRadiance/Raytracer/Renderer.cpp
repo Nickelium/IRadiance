@@ -43,6 +43,8 @@
 #include "Lights/EnvironmentLight.h"
 #include "Tracers/Whitted.h"
 #include "Materials/Reflective.h"
+#include "Tracers/PathTracer.h"
+#include "Tracers/HybridPathTracer.h"
 
 
 namespace IRadiance
@@ -101,28 +103,18 @@ namespace IRadiance
 		return m_CollisionHandler;
 	}
 
-	CoVariables& Renderer::GetCoVariables()
-	{
-		return m_CoVars;
-	}
-
-	Timer& Renderer::GetTimer()
-	{
-		return m_Timer;
-	}
-
 	int Renderer::MaxDepth() const
 	{
 		return m_MaxDepth;
 	}
 
-	void Renderer::BuildObjects()
+	void Renderer::BuildObjects(int _nbSamples)
 	{
 		Point3 p0;
 		Vector a, b;
 		Vector normal;
 
-		int num_samples = 16;
+		int num_samples = _nbSamples;
 
 		// box dimensions
 
@@ -158,7 +150,7 @@ namespace IRadiance
 		matte_ptr1->SetKa(0.0f);
 		matte_ptr1->SetKd(0.6f);
 		matte_ptr1->SetCd({ 0.57f, 0.025f, 0.025f });	 // red
-		//matte_ptr1->SetSampler(new MultiJittered(num_samples));
+		matte_ptr1->SetSampler(new MultiJitteredSampler(num_samples));
 
 		p0 = Point3(width, 0.0f, 0.0f);
 		a = Vector(0.0f, 0.0f, depth);
@@ -175,7 +167,7 @@ namespace IRadiance
 		matte_ptr2->SetKa(0.0f);
 		matte_ptr2->SetKd(0.6f);
 		matte_ptr2->SetCd({0.37f, 0.59f, 0.2f});	 // green   from Photoshop
-		//matte_ptr2->SetSampler(new MultiJittered(num_samples));
+		matte_ptr2->SetSampler(new MultiJitteredSampler(num_samples));
 
 		p0 = Point3(0.0f, 0.0f, 0.0f);
 		a = Vector(0.0f, 0.0f, depth);
@@ -192,7 +184,7 @@ namespace IRadiance
 		matte_ptr3->SetKa(0.0f);
 		matte_ptr3->SetKd(0.6f);
 		matte_ptr3->SetCd(1.0f);	 // white
-		//matte_ptr3->SetSampler(new MultiJittered(num_samples));
+		matte_ptr3->SetSampler(new MultiJitteredSampler(num_samples));
 
 		p0 = Point3(0.0f, 0.0f, depth);
 		a = Vector(width, 0.0f, 0.0f);
@@ -334,17 +326,17 @@ namespace IRadiance
 		m_Buffer = _buffer;
 
 		m_Display = new Display;
-		m_Display->SetGamma(2.2f);
+		m_Display->SetGamma(1.5f);
 
 		m_CollisionHandler = new CollisionHandler(this);
 		m_Scene = new SceneGraph;
 
 		m_ToneMapper = new Clamper;
 
-		m_MaxDepth = 10;
+		m_MaxDepth = 1;
 
 		//int num_samples = 100;   		// for Figure 18.4(a)
-		int num_samples = 200;   	// for Figure 18.4(b) & (c)
+		int num_samples = 5000;   	// for Figure 18.4(b) & (c)
 
 		Sampler* sampler_ptr = new MultiJitteredSampler(num_samples);
 
@@ -354,14 +346,14 @@ namespace IRadiance
 
 		m_BackColor = RGBSpectrum({ 0.0f, 0.0f, 0.0f});
 
-		m_Tracer = new AreaLighting(this);
+		m_Tracer = new HybridPathTracer(this);
 
 		CameraDesc desc;
 		desc.eye = { 27.6f, 27.4f, -80.0f };
 		desc.lookAt = { 27.6f, 27.4f, 0.0f };
-		m_Camera = new PinholeCamera(desc, 1.0f, 400);
+		m_Camera = new PinholeCamera(desc, 1.0f, 400 * 2.4f);
 		m_Camera->ComputeONB();
-		BuildObjects();
+		BuildObjects(num_samples);
 		/************************************************************************/
 		/* Test Environment Light                                               */
 		/************************************************************************/
@@ -789,9 +781,6 @@ namespace IRadiance
 
 	void Renderer::PreRender()
 	{
-		m_CoVars.row = 0;
-		m_CoVars.col = 0;
-		m_Timer.Start();
 	}
 
 	bool Renderer::Render()

@@ -6,6 +6,8 @@ class ExampleLayer : public IRadiance::BaseLayer
 {
 	IRadiance::DataTime m_Time;
 	IRadiance::Renderer m_World;
+
+	std::thread renderThread;
 	
 	bool render = false;
 public:
@@ -15,8 +17,8 @@ public:
 		using namespace IRadiance;
 
 		RenderDevice* renderDevice = Locator::Get<RenderDevice>();
-		int width = int(300 * (16.0f / 9.0f));
-		int height = 300;
+		int width = int(720 * (16.0f / 9.0f));
+		int height = 720;
 		m_Texture = renderDevice->CreateTexture2D(width, height);
 
 		m_World.Build(m_Texture->GetImageBuffer());
@@ -25,27 +27,17 @@ public:
 
 	virtual ~ExampleLayer()
 	{
-
+		if (renderThread.joinable())
+			renderThread.join();
 	}
 
 	virtual void Update(IRadiance::DataTime _time) 
 	{
-		using namespace IRadiance;
-		//IRAD_INFO("{0}", Input::GetMousePosition());
-		if (render)
-		{
-			bool completed = m_World.Render();
-			if (completed)
-			{
-				IRAD_INFO("Rendering Completed ...");
-				render = false;
-			}
-		}
-
 		m_Time = _time;
 	}
 	virtual void RenderGUI() 
 	{
+		using namespace IRadiance;
 		ImGui::Begin("Frame Update Information");
 		ImGui::Text("	%.3f ms", m_Time.dt * 1000.0f);
 		ImGui::Text("	%.1f fps", 1.0f / m_Time.dt);
@@ -57,6 +49,7 @@ public:
 			IRAD_INFO("Starting Rendering ...");
 			render = true;
 			m_World.PreRender();
+			renderThread = std::thread(&Renderer::Render, std::ref(m_World));
 		}
 		if (ImGui::Button("Clear"))
 		{

@@ -64,8 +64,9 @@
     <ClInclude Include="src\IRadiance\Raytracer\Display.h" />
     <ClInclude Include="src\IRadiance\Raytracer\ToneMapper\Overflower.h" />
     <ClInclude Include="src\IRadiance\Raytracer\Tracers\AreaLighting.h" />
+    <ClInclude Include="src\IRadiance\Raytracer\Tracers\HybridPathTracer.h" />
     <ClInclude Include="src\IRadiance\Raytracer\Tracers\MultiObject.h" />
-    <ClInclude Include="src\IRadiance\Raytracer\Tracers\PathTrace.h" />
+    <ClInclude Include="src\IRadiance\Raytracer\Tracers\PathTracer.h" />
     <ClInclude Include="src\IRadiance\Raytracer\Tracers\RayCast.h" />
     <ClInclude Include="src\IRadiance\Raytracer\Tracers\SingleObject.h" />
     <ClInclude Include="src\IRadiance\Raytracer\Tracers\Tracer.h" />
@@ -162,8 +163,9 @@
     <ClCompile Include="src\IRadiance\Raytracer\SceneGraph.cpp" />
     <ClCompile Include="src\IRadiance\Raytracer\Display.cpp" />
     <ClCompile Include="src\IRadiance\Raytracer\Tracers\AreaLighting.cpp" />
+    <ClCompile Include="src\IRadiance\Raytracer\Tracers\HybridPathTracer.cpp" />
     <ClCompile Include="src\IRadiance\Raytracer\Tracers\MultiObject.cpp" />
-    <ClCompile Include="src\IRadiance\Raytracer\Tracers\PathTrace.cpp" />
+    <ClCompile Include="src\IRadiance\Raytracer\Tracers\PathTracer.cpp" />
     <ClCompile Include="src\IRadiance\Raytracer\Tracers\RayCast.cpp" />
     <ClCompile Include="src\IRadiance\Raytracer\Tracers\SingleObject.cpp" />
     <ClCompile Include="src\IRadiance\Raytracer\Tracers\Whitted.cpp" />
@@ -312,6 +314,8 @@
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <OpenMPSupport>true</OpenMPSupport>
+      <AdditionalOptions>/Zc:twoPhase- %(AdditionalOptions)</AdditionalOptions>
     </ClCompile>
     <Lib>
       <AdditionalLibraryDirectories>$(SolutionDir)vendor\GLFW\x64\lib-vc2017\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
@@ -352,6 +356,8 @@
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <OpenMPSupport>true</OpenMPSupport>
+      <AdditionalOptions>/Zc:twoPhase- %(AdditionalOptions)</AdditionalOptions>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>

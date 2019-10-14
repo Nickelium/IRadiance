@@ -38,9 +38,6 @@ namespace IRadiance
 		ImageBuffer* GetImageBuffer() const;
 		CollisionHandler* GetCollisionHandler() const;
 
-		CoVariables& GetCoVariables();
-		Timer& GetTimer();
-
 		int MaxDepth() const;
 
 		void Build(ImageBuffer* _buffer);
@@ -48,7 +45,7 @@ namespace IRadiance
 		void PreRender();
 		bool Render();
 	private:
-		void BuildObjects();
+		void BuildObjects(int _nbSamples);
 		Display* m_Display;
 		ViewPlane m_ViewingPlane;
 		ToneMapper* m_ToneMapper;
@@ -61,9 +58,6 @@ namespace IRadiance
 		CollisionHandler* m_CollisionHandler;
 
 		ImageBuffer* m_Buffer;
-
-		CoVariables m_CoVars;
-		Timer m_Timer;
 
 		int m_MaxDepth;
 	};

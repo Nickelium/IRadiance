@@ -3,6 +3,7 @@
 
 #include "IRadiance/Raytracer/BRDF/Lambertian.h"
 #include "IRadiance/Raytracer/Renderer.h"
+#include "IRadiance/Raytracer/Tracers/Tracer.h"
 
 namespace IRadiance
 {
@@ -91,4 +92,44 @@ namespace IRadiance
 		return L;
 	}
 
+	RGBSpectrum Matte::PathShading(HitRecord& _hr)
+	{
+		Vector wO = -_hr.ray.d;
+		Vector wI;
+		float pdf;
+		RGBSpectrum f = diffuseBRDF->Sample_f(_hr, wO, wI, pdf);
+		float nCosWi = Dot(_hr.normal, wI);
+		Ray reflected;
+		reflected.o = _hr.hitPoint;
+		reflected.d = wI;
+
+		return (f * _hr.renderer->GetTracer()->RayTrace(reflected, _hr.depth + 1) * nCosWi) / pdf;
+	}
+
+	RGBSpectrum Matte::HybridPathShading(HitRecord& _hr)
+	{
+		//Russian roulette
+		//Smallptr
+		const float stopProbablity = std::min(1.0f, 0.0625f * _hr.depth);
+		if (RandUNorm() < stopProbablity)
+			return BLACK;
+		float contributionFactor = 1.0f / (1.0f - stopProbablity);
+
+		RGBSpectrum  L = AreaLightShading(_hr);
+		Vector wO = -_hr.ray.d;
+		Vector wI;
+		float pdf;
+		RGBSpectrum f = diffuseBRDF->Sample_f(_hr, wO, wI, pdf);
+		float nCosWi = Dot(_hr.normal, wI);
+		Ray reflected;
+		reflected.o = _hr.hitPoint;
+		reflected.d = wI;
+
+		return L + ((f * _hr.renderer->GetTracer()->RayTrace(reflected, _hr.depth + 1) * nCosWi) / pdf) * contributionFactor;
+	}
+
+	void Matte::SetSampler(Sampler* _sampler)
+	{
+		diffuseBRDF->SetSampler(_sampler);
+	}
 }

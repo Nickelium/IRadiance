@@ -19,7 +19,7 @@ namespace IRadiance
 		return f;
 	}
 
-	RGBSpectrum GlossySpecular::Sample_f(const HitRecord& /*_hr*/, const Vector& /*wO*/, Vector& /*wI*/) const
+	RGBSpectrum GlossySpecular::Sample_f(const HitRecord& /*_hr*/, const Vector& /*wO*/, Vector& /*wI*/, float& /*pdf*/) const
 	{
 		return BLACK;
 	}

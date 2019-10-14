@@ -14,7 +14,11 @@ namespace IRadiance
 		void SetCd(const RGBSpectrum& _c);
 
 		virtual RGBSpectrum Shading(HitRecord& _hr) override;
-		virtual RGBSpectrum AreaLightShading(HitRecord&) override;
+		virtual RGBSpectrum AreaLightShading(HitRecord& _hr) override;
+		virtual RGBSpectrum PathShading(HitRecord& _hr) override;
+		virtual RGBSpectrum HybridPathShading(HitRecord& _hr) override;
+
+		virtual void SetSampler(Sampler* _sampler) override;
 
 	private:
 		Lambertian* ambientBRDF;

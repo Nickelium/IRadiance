@@ -8,6 +8,8 @@
 #include "IRadiance/Raytracer/Samplers/Sampler.h"
 #include "IRadiance/Raytracer/Tracers/Tracer.h"
 
+#include <omp.h>
+
 namespace IRadiance
 {
 
@@ -36,47 +38,36 @@ namespace IRadiance
 		const ToneMapper* toneMapper = _renderer->GetToneMapper();
 		const ViewPlane& viewPlane = *_renderer->GetViewPlane();
 		const Tracer* tracer = _renderer->GetTracer();
-		Timer& timer = _renderer->GetTimer();
-		CoVariables& coVars = _renderer->GetCoVariables();
 	
 		float zoomedPixelSize = viewPlane.m_PixelSize / m_Zoom;
 
-		timer.Start();
-		for (; coVars.row < viewPlane.m_VertRes;)
+		for (int row = 0; row < viewPlane.m_VertRes; ++row)
 		{
-			for (; coVars.col < viewPlane.m_HorRes;)
+			for (int col = 0; col < viewPlane.m_HorRes; ++col)
 			{
-				int r = coVars.row;
-				int c = coVars.col;
-
 				RGBSpectrum L = BLACK;
+				//https://stackoverflow.com/questions/11095309/openmp-set-num-threads-is-not-working
+				omp_set_dynamic(0);     // Explicitly disable dynamic teams
+				omp_set_num_threads(1); // Use 4 threads for all consecutive parallel regions
+				#pragma omp parallel for schedule(dynamic)
 				for (int p = 0; p < viewPlane.m_NumSamples; ++p)
 				{
 					sp = viewPlane.GetSampler()->SampleUnitSquare();
-					pp.x = zoomedPixelSize * (c - 0.5f * viewPlane.m_HorRes + sp.x);
-					pp.y = zoomedPixelSize * (r - 0.5f * viewPlane.m_VertRes + sp.y);
+					pp.x = zoomedPixelSize * (col - 0.5f * viewPlane.m_HorRes + sp.x);
+					pp.y = zoomedPixelSize * (row - 0.5f * viewPlane.m_VertRes + sp.y);
 					ray.d = GetDirection(pp);
 					L += tracer->RayTrace(ray, depth);
 				}
 				L /= (float)viewPlane.m_NumSamples;
+				//L /= 2;
 				L *= m_ExposureTime;
 
-				bufferRef[r][c] = 
+				bufferRef[row][col] = 
 					display->ConvertDisplay(toneMapper->ToneMap(L));
-
-				++coVars.col;
 			}
-			coVars.col = 0;
-			++coVars.row;
-
-			timer.Update();
-			float dt = timer.GetTotal();
-			if (dt >= 1.0f / 15.0f)
-				return false;
-			//if (coVars.row % 3 == 0)
-				//return false;
+			//IRAD_CORE_INFO(omp_get_num_threads());
 		}
-
+		IRAD_INFO("Rendering Completed ...");
 		return true;
 	}
 
