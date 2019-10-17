@@ -22,7 +22,7 @@ namespace IRadiance
 		{
 			hr.ray = _ray;
 			hr.depth = _depth;
-			return hr.material->Shading(hr);
+			return hr.material->WhittedShading(hr);
 		}
 		else
 			return m_Renderer->GetBackColor();

@@ -5,6 +5,7 @@
 #include "IRadiance/Raytracer/BRDF/GlossySpecular.h"	
 
 #include "IRadiance/Raytracer/Renderer.h"
+#include "IRadiance/Raytracer/Tracers/Tracer.h"
 
 namespace IRadiance
 {
@@ -45,6 +46,11 @@ namespace IRadiance
 		return L;
 	}
 
+	RGBSpectrum Phong::WhittedShading(HitRecord& /*_hr*/)
+	{
+		return BLACK;
+	}
+
 	RGBSpectrum Phong::AreaLightShading(HitRecord& _hr)
 	{
 		Vector wO = -_hr.ray.d;
@@ -77,6 +83,31 @@ namespace IRadiance
 		}
 
 		return L;
+	}
+
+	RGBSpectrum Phong::PathShading(HitRecord& _hr)
+	{
+		const float stopProbablity = std::min(1.0f, 0.0625f * _hr.depth);
+		if (RandUNorm() < stopProbablity)
+			return BLACK;
+		float contributionFactor = 1.0f / (1.0f - stopProbablity);
+
+		Vector wO = -_hr.ray.d;
+		Vector wI;
+		float pdf;
+		RGBSpectrum f = glossySpecularBRDF->Sample_f(_hr, wO, wI, pdf);
+		float nCosWi = Dot(_hr.normal, wI);
+		Ray reflected;
+		reflected.o = _hr.hitPoint;
+		reflected.d = wI;
+
+		return ((f * _hr.renderer->GetTracer()->RayTrace(reflected, _hr.depth + 1) * nCosWi) / pdf)
+			* contributionFactor;
+	}
+
+	RGBSpectrum Phong::HybridPathShading(HitRecord& _hr)
+	{
+		return PathShading(_hr);
 	}
 
 	void Phong::SetKa(float _ka)

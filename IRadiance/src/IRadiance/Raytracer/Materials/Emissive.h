@@ -8,6 +8,7 @@ namespace IRadiance
 	{
 	public:	
 		virtual RGBSpectrum Shading(HitRecord& _hr) override;
+		virtual RGBSpectrum WhittedShading(HitRecord& _hr) override;
 		virtual RGBSpectrum AreaLightShading(HitRecord& _hr) override;
 		virtual RGBSpectrum PathShading(HitRecord& _hr) override;
 		virtual RGBSpectrum HybridPathShading(HitRecord& _hr) override;

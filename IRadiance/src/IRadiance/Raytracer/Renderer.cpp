@@ -103,6 +103,31 @@ namespace IRadiance
 		return m_CollisionHandler;
 	}
 
+	void Renderer::SetNbSamples(int _nbSamples)
+	{
+		m_ViewingPlane.SetSampler(new MultiJitteredSampler(_nbSamples));
+	}
+
+	int Renderer::GetNbSamples() const
+	{
+		return m_ViewingPlane.m_NumSamples;
+	}
+
+	bool Renderer::IsRunning() const
+	{
+		return m_IsRunning;
+	}
+
+	void Renderer::Stop()
+	{
+		m_IsRunning = false;
+	}
+
+	void Renderer::Run()
+	{
+		m_IsRunning = true;
+	}
+
 	int Renderer::MaxDepth() const
 	{
 		return m_MaxDepth;
@@ -177,13 +202,27 @@ namespace IRadiance
 		right_wall_ptr->SetMaterial(matte_ptr2);
 		m_Scene->AddObject(right_wall_ptr);
 
-
 		// back wall
+		Reflective* reflective = new Reflective;
+		reflective->SetKa(0.0f);
+		reflective->SetKd(0.0f);
+		reflective->SetCd(BLACK);
+		reflective->SetKs(0.0f);		// default value
+		reflective->SetExp(1.0f);		// default value, but irrelevant in this case
+		reflective->SetKr(0.9f);
+		reflective->SetCr({1.0f, 0.75f, 0.5f});
 
+				Matte* matte_ptr4 = new Matte;
+		matte_ptr4->SetKa(0.0f);
+		matte_ptr4->SetKd(0.6f);
+		matte_ptr4->SetCd({ 0.0f, 0.0f, 1.0f });	 // white
+		matte_ptr4->SetSampler(new MultiJitteredSampler(num_samples));
+
+		//Material* matte_ptr3 = reflective;
 		Matte* matte_ptr3 = new Matte;
 		matte_ptr3->SetKa(0.0f);
-		matte_ptr3->SetKd(0.6f);
-		matte_ptr3->SetCd(1.0f);	 // white
+		matte_ptr3->SetKd( 0.6f);
+		matte_ptr3->SetCd({ 1.0f, 1.0f, 1.0f });	 // white
 		matte_ptr3->SetSampler(new MultiJitteredSampler(num_samples));
 
 		p0 = Point3(0.0f, 0.0f, depth);
@@ -191,7 +230,7 @@ namespace IRadiance
 		b = Vector(0.0, height, 0.0f);
 		normal = Vector(0.0f, 0.0f, -1.0f);
 		Rectangle* back_wall_ptr = new Rectangle(p0, a, b, normal);
-		back_wall_ptr->SetMaterial(matte_ptr3);
+		back_wall_ptr->SetMaterial(matte_ptr4);
 		m_Scene->AddObject(back_wall_ptr);
 
 
@@ -202,7 +241,7 @@ namespace IRadiance
 		b = Vector(width, 0.0f, 0.0f);
 		normal = Vector(0.0f, 1.0f, 0.0f);
 		Rectangle* floor_ptr = new Rectangle(p0, a, b, normal);
-		floor_ptr->SetMaterial(matte_ptr3);
+		floor_ptr->SetMaterial(reflective);
 		m_Scene->AddObject(floor_ptr);
 
 
@@ -228,7 +267,8 @@ namespace IRadiance
 		b = Vector(16.0f, 0.0f, 4.9f);
 		normal = Vector(0.0f, 1.0f, 0.0f);
 		Rectangle* short_top_ptr = new Rectangle(p0, a, b, normal);
-		short_top_ptr->SetMaterial(matte_ptr3);
+		//short_top_ptr->SetMaterial(matte_ptr3);
+		short_top_ptr->SetMaterial(reflective);
 		m_Scene->AddObject(short_top_ptr);
 
 
@@ -326,7 +366,9 @@ namespace IRadiance
 		m_Buffer = _buffer;
 
 		m_Display = new Display;
-		m_Display->SetGamma(1.5f);
+		m_Display->SetGamma(2.2f);
+		//TODO, do actually need to gamma correct because not sampling for texture or so
+		//TODO reflection and phong or broken
 
 		m_CollisionHandler = new CollisionHandler(this);
 		m_Scene = new SceneGraph;
@@ -336,22 +378,23 @@ namespace IRadiance
 		m_MaxDepth = 1;
 
 		//int num_samples = 100;   		// for Figure 18.4(a)
-		int num_samples = 5000;   	// for Figure 18.4(b) & (c)
+		int num_samples = 3000;   	// for Figure 18.4(b) & (c)
 
-		Sampler* sampler_ptr = new MultiJitteredSampler(num_samples);
+		//Sampler* sampler_ptr = new MultiJitteredSampler(num_samples);
 
 		m_ViewingPlane.m_HorRes = m_Buffer->GetWidth();
 		m_ViewingPlane.m_VertRes = m_Buffer->GetHeight();
-		m_ViewingPlane.SetSampler(sampler_ptr);
+		SetNbSamples(num_samples);
+		//m_ViewingPlane.SetSampler(sampler_ptr);
 
 		m_BackColor = RGBSpectrum({ 0.0f, 0.0f, 0.0f});
 
 		m_Tracer = new HybridPathTracer(this);
 
 		CameraDesc desc;
-		desc.eye = { 27.6f, 27.4f, -80.0f };
+		desc.eye = { 10.6f, 40.4f, -80.0f };
 		desc.lookAt = { 27.6f, 27.4f, 0.0f };
-		m_Camera = new PinholeCamera(desc, 1.0f, 400 * 2.4f);
+		m_Camera = new PinholeCamera(desc, 1.0f, 400 /** 2.4f*/);
 		m_Camera->ComputeONB();
 		BuildObjects(num_samples);
 		/************************************************************************/
@@ -777,10 +820,6 @@ namespace IRadiance
 		//plane_ptr->SetMaterial(matte_ptr5);
 		//m_Scene->AddObject(plane_ptr);
 
-	}
-
-	void Renderer::PreRender()
-	{
 	}
 
 	bool Renderer::Render()

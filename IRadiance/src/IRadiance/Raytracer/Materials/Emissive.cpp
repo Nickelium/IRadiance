@@ -10,6 +10,13 @@ namespace IRadiance
 		return BLACK;
 	}
 
+	RGBSpectrum Emissive::WhittedShading(HitRecord& _hr)
+	{
+		if (Dot(_hr.normal, -_hr.ray.d) > 0.0f)
+			return Le();
+		return BLACK;
+	}
+
 	RGBSpectrum Emissive::AreaLightShading(HitRecord& _hr)
 	{
 		if (Dot(_hr.normal, -_hr.ray.d) > 0.0f)

@@ -5,11 +5,25 @@
 class ExampleLayer : public IRadiance::BaseLayer
 {
 	IRadiance::DataTime m_Time;
-	IRadiance::Renderer m_World;
+	IRadiance::Renderer m_Renderer;
 
 	std::thread renderThread;
+
+	int m_NbSamples;
+
+	void CloseRenderThread()
+	{
+		m_Renderer.Stop();
+		if (renderThread.joinable())
+			renderThread.join();
+	}
+
+	void StartRenderThread()
+	{
+		m_Renderer.Run();
+		renderThread = std::thread(&IRadiance::Renderer::Render, std::ref(m_Renderer));
+	}
 	
-	bool render = false;
 public:
 	ExampleLayer(IRadiance::Application* _application)
 		: BaseLayer(_application)
@@ -17,18 +31,17 @@ public:
 		using namespace IRadiance;
 
 		RenderDevice* renderDevice = Locator::Get<RenderDevice>();
-		int width = int(720 * (16.0f / 9.0f));
-		int height = 720;
+		int width = int(300 * (16.0f / 9.0f));
+		int height = 300;
 		m_Texture = renderDevice->CreateTexture2D(width, height);
 
-		m_World.Build(m_Texture->GetImageBuffer());
-		m_World.PreRender();
+		m_Renderer.Build(m_Texture->GetImageBuffer());
+		m_Renderer.Run();
 	}
 
 	virtual ~ExampleLayer()
 	{
-		if (renderThread.joinable())
-			renderThread.join();
+		CloseRenderThread();
 	}
 
 	virtual void Update(IRadiance::DataTime _time) 
@@ -47,15 +60,19 @@ public:
 		if (ImGui::Button("Rendering"))
 		{
 			IRAD_INFO("Starting Rendering ...");
-			render = true;
-			m_World.PreRender();
-			renderThread = std::thread(&Renderer::Render, std::ref(m_World));
+			CloseRenderThread();
+			StartRenderThread();
 		}
+		/*m_NbSamples = m_Renderer.GetNbSamples();
+		if (ImGui::InputInt("Number of Samples", &m_NbSamples))
+		{
+			m_Renderer.SetNbSamples(m_NbSamples);
+		}*/
 		if (ImGui::Button("Clear"))
 		{
 			IRAD_INFO("Clearing ImageBuffer");
+			CloseRenderThread();
 			m_Texture->GetImageBuffer()->Clear();
-			render = false;
 		}
 		if (ImGui::Button("Save As"))
 		{
@@ -67,7 +84,6 @@ public:
 
 	virtual void OnEvent(IRadiance::Event& /*_event*/) 
 	{
-
 	}
 };
 
@@ -75,6 +91,7 @@ class SandboxApplication : public IRadiance::Application
 {
 public:
 	SandboxApplication()
+		: Application(1600, 900)
 	{
 		using namespace IRadiance;
 		IRAD_INFO("Creating Sandbox Application");

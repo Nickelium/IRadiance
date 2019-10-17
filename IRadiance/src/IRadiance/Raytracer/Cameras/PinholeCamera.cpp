@@ -45,6 +45,9 @@ namespace IRadiance
 		{
 			for (int col = 0; col < viewPlane.m_HorRes; ++col)
 			{
+				if (!_renderer->IsRunning())
+					return true;
+
 				RGBSpectrum L = BLACK;
 				//https://stackoverflow.com/questions/11095309/openmp-set-num-threads-is-not-working
 				omp_set_dynamic(0);     // Explicitly disable dynamic teams
@@ -59,13 +62,11 @@ namespace IRadiance
 					L += tracer->RayTrace(ray, depth);
 				}
 				L /= (float)viewPlane.m_NumSamples;
-				//L /= 2;
 				L *= m_ExposureTime;
 
 				bufferRef[row][col] = 
 					display->ConvertDisplay(toneMapper->ToneMap(L));
 			}
-			//IRAD_CORE_INFO(omp_get_num_threads());
 		}
 		IRAD_INFO("Rendering Completed ...");
 		return true;

@@ -12,7 +12,7 @@ namespace IRadiance
 	class Application 
 	{
 	public:
-		Application();
+		Application(unsigned int _width, unsigned int _height);
 		virtual ~Application();
 		
 		void Run();

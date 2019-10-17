@@ -38,11 +38,17 @@ namespace IRadiance
 		ImageBuffer* GetImageBuffer() const;
 		CollisionHandler* GetCollisionHandler() const;
 
+		void SetNbSamples(int _nbSamples);
+		int GetNbSamples() const;
+
+		bool IsRunning() const;
+		void Stop();
+		void Run();
+
 		int MaxDepth() const;
 
 		void Build(ImageBuffer* _buffer);
 
-		void PreRender();
 		bool Render();
 	private:
 		void BuildObjects(int _nbSamples);
@@ -60,5 +66,7 @@ namespace IRadiance
 		ImageBuffer* m_Buffer;
 
 		int m_MaxDepth;
+
+		std::atomic<bool> m_IsRunning;
 	};
 }

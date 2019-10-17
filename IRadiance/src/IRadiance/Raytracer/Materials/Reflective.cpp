@@ -29,6 +29,23 @@ namespace IRadiance
 		return L;
 	}
 
+	RGBSpectrum Reflective::WhittedShading(HitRecord& _hr)
+	{
+		RGBSpectrum L = Phong::AreaLightShading(_hr); //Direct illumination
+		Vector wO = -_hr.ray.d;
+		Vector wI;
+		float pdf;
+		RGBSpectrum fr = m_ReflectiveBRDF->Sample_f(_hr, wO, wI, pdf);
+
+		Ray reflected;
+		reflected.o = _hr.hitPoint;
+		reflected.d = wI;
+
+		L += fr * _hr.renderer->GetTracer()->RayTrace(reflected, _hr.depth + 1) * Dot(wI, _hr.normal);
+
+		return L;
+	}
+
 	RGBSpectrum Reflective::AreaLightShading(HitRecord& _hr)
 	{
 		RGBSpectrum L = Phong::AreaLightShading(_hr); //Direct illumination
@@ -48,6 +65,12 @@ namespace IRadiance
 
 	RGBSpectrum Reflective::PathShading(HitRecord& _hr)
 	{
+		const float stopProbablity = std::min(1.0f, 0.0625f * _hr.depth);
+		if (RandUNorm() < stopProbablity)
+			return BLACK;
+		float contributionFactor = 1.0f / (1.0f - stopProbablity);
+		contributionFactor = 1.0f;
+
 		Vector wO = -_hr.ray.d;
 		Vector wI;
 		float pdf;
@@ -56,7 +79,16 @@ namespace IRadiance
 		reflected.o = _hr.hitPoint;
 		reflected.d = wI;
 		float nCosWi = Dot(_hr.normal, wI);
-		return (f * _hr.renderer->GetTracer()->RayTrace(reflected, _hr.depth + 1) * nCosWi) / pdf;
+		return ((f * _hr.renderer->GetTracer()->RayTrace(reflected, _hr.depth + 1) * nCosWi)) 
+			* contributionFactor;
+	}
+
+	RGBSpectrum Reflective::HybridPathShading(HitRecord& _hr)
+	{
+		//RGBSpectrum L;
+		//if (_hr.depth == 1)
+		//	L = AreaLightShading(_hr); //Next Event Estimation
+		return /*L +*/ PathShading(_hr);
 	}
 
 	void Reflective::SetKr(float _kr)
