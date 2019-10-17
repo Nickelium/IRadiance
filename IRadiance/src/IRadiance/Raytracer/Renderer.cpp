@@ -133,7 +133,7 @@ namespace IRadiance
 		return m_MaxDepth;
 	}
 
-	void Renderer::BuildObjects(int _nbSamples)
+	void Renderer::BuildCornellBox(int _nbSamples)
 	{
 		Point3 p0;
 		Vector a, b;
@@ -203,22 +203,6 @@ namespace IRadiance
 		m_Scene->AddObject(right_wall_ptr);
 
 		// back wall
-		Reflective* reflective = new Reflective;
-		reflective->SetKa(0.0f);
-		reflective->SetKd(0.0f);
-		reflective->SetCd(BLACK);
-		reflective->SetKs(0.0f);		// default value
-		reflective->SetExp(1.0f);		// default value, but irrelevant in this case
-		reflective->SetKr(0.9f);
-		reflective->SetCr({1.0f, 0.75f, 0.5f});
-
-				Matte* matte_ptr4 = new Matte;
-		matte_ptr4->SetKa(0.0f);
-		matte_ptr4->SetKd(0.6f);
-		matte_ptr4->SetCd({ 0.0f, 0.0f, 1.0f });	 // white
-		matte_ptr4->SetSampler(new MultiJitteredSampler(num_samples));
-
-		//Material* matte_ptr3 = reflective;
 		Matte* matte_ptr3 = new Matte;
 		matte_ptr3->SetKa(0.0f);
 		matte_ptr3->SetKd( 0.6f);
@@ -230,7 +214,7 @@ namespace IRadiance
 		b = Vector(0.0, height, 0.0f);
 		normal = Vector(0.0f, 0.0f, -1.0f);
 		Rectangle* back_wall_ptr = new Rectangle(p0, a, b, normal);
-		back_wall_ptr->SetMaterial(matte_ptr4);
+		back_wall_ptr->SetMaterial(matte_ptr3);
 		m_Scene->AddObject(back_wall_ptr);
 
 
@@ -241,7 +225,7 @@ namespace IRadiance
 		b = Vector(width, 0.0f, 0.0f);
 		normal = Vector(0.0f, 1.0f, 0.0f);
 		Rectangle* floor_ptr = new Rectangle(p0, a, b, normal);
-		floor_ptr->SetMaterial(reflective);
+		floor_ptr->SetMaterial(matte_ptr3);
 		m_Scene->AddObject(floor_ptr);
 
 
@@ -268,7 +252,7 @@ namespace IRadiance
 		normal = Vector(0.0f, 1.0f, 0.0f);
 		Rectangle* short_top_ptr = new Rectangle(p0, a, b, normal);
 		//short_top_ptr->SetMaterial(matte_ptr3);
-		short_top_ptr->SetMaterial(reflective);
+		short_top_ptr->SetMaterial(matte_ptr3);
 		m_Scene->AddObject(short_top_ptr);
 
 
@@ -361,12 +345,59 @@ namespace IRadiance
 		m_Scene->AddObject(tall_side_ptr4);
 	}
 
+	void Renderer::BuildCaustics(int _nbSamples)
+	{
+		// emissive sphere
+		Emissive* emissive_ptr = new Emissive;
+		emissive_ptr->SetCe({ 0.75f, 1, 0.75f });
+		emissive_ptr->SetLs(30.0f);
+
+		Sphere* sphere_ptr = new Sphere(Point3(-2, 7, 6), 1);
+		sphere_ptr->SetMaterial(emissive_ptr);
+		sphere_ptr->SetSampler(new MultiJitteredSampler(_nbSamples));
+		m_Scene->AddObject(sphere_ptr);
+
+
+		// reflective open half cylinder
+
+		Reflective* reflective_ptr = new Reflective;
+		reflective_ptr->SetKa(0.0f);
+		reflective_ptr->SetKd(0.4f);
+		reflective_ptr->SetKs(0.0f);
+		reflective_ptr->SetExp(1.0f);
+		reflective_ptr->SetKr(0.95f);
+		reflective_ptr->SetCr({1.0f, 0.5f, 0.25f});  // orange 
+
+		float y0 = -1.0f;
+		float y1 = 3.0f;
+		float radius = 3.0f;
+		float phi_min = 90.0f;
+		float phi_max = 270.0f;
+
+		//ConcavePartCylinder* cylinder_ptr = new ConcavePartCylinder(y0, y1, radius, phi_min, phi_max);
+		//cylinder_ptr->SetMaterial(reflective_ptr);
+		//m_Scene->AddObject(cylinder_ptr);
+
+
+		// plane
+
+		Matte* matte_ptr = new Matte;
+		matte_ptr->SetKa(0.0f);
+		matte_ptr->SetKd(0.75f);
+		matte_ptr->SetCd(1);
+		matte_ptr->SetSampler(new MultiJitteredSampler(_nbSamples));
+
+		Plane* plane_ptr = new Plane(Point3(0, -1.0f, 0), Vector(0, 1, 0));
+		plane_ptr->SetMaterial(matte_ptr);
+		m_Scene->AddObject(plane_ptr);
+	}
+
 	void Renderer::Build(ImageBuffer* _buffer)
 	{
 		m_Buffer = _buffer;
 
 		m_Display = new Display;
-		m_Display->SetGamma(2.2f);
+		m_Display->SetGamma(1.0f);
 		//TODO, do actually need to gamma correct because not sampling for texture or so
 		//TODO reflection and phong or broken
 
@@ -378,7 +409,7 @@ namespace IRadiance
 		m_MaxDepth = 1;
 
 		//int num_samples = 100;   		// for Figure 18.4(a)
-		int num_samples = 3000;   	// for Figure 18.4(b) & (c)
+		int num_samples = 1024;   	// for Figure 18.4(b) & (c)
 
 		//Sampler* sampler_ptr = new MultiJitteredSampler(num_samples);
 
@@ -392,11 +423,11 @@ namespace IRadiance
 		m_Tracer = new HybridPathTracer(this);
 
 		CameraDesc desc;
-		desc.eye = { 10.6f, 40.4f, -80.0f };
+		desc.eye = { 27.6f, 27.4f, -80.0f };
 		desc.lookAt = { 27.6f, 27.4f, 0.0f };
 		m_Camera = new PinholeCamera(desc, 1.0f, 400 /** 2.4f*/);
 		m_Camera->ComputeONB();
-		BuildObjects(num_samples);
+		BuildCornellBox(num_samples);
 		/************************************************************************/
 		/* Test Environment Light                                               */
 		/************************************************************************/

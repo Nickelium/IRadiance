@@ -21,6 +21,7 @@ namespace IRadiance
 
 		wI = Normalize(p.x * u + p.y * v + p.z * w);
 		pdf = Dot(wI, _hr.normal) * Constants::InvPI;
+		//pdf = 1.0f / Constants::TwoPi;
 		return rho(_hr, wO) * Constants::InvPI;
 	}
 

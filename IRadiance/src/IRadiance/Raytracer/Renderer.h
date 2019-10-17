@@ -51,7 +51,8 @@ namespace IRadiance
 
 		bool Render();
 	private:
-		void BuildObjects(int _nbSamples);
+		void BuildCornellBox(int _nbSamples);
+		void BuildCaustics(int _nbSamples);
 		Display* m_Display;
 		ViewPlane m_ViewingPlane;
 		ToneMapper* m_ToneMapper;
