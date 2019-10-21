@@ -45,6 +45,8 @@
 #include "Materials/Reflective.h"
 #include "Tracers/PathTracer.h"
 #include "Tracers/HybridPathTracer.h"
+#include "Geometry/Triangle.h"
+#include "Geometry/OpenCylinder.h"
 
 
 namespace IRadiance
@@ -135,6 +137,11 @@ namespace IRadiance
 
 	void Renderer::BuildCornellBox(int _nbSamples)
 	{
+		CameraDesc desc;
+		desc.eye = { 27.6f, 27.4f, -80.0f };
+		desc.lookAt = { 27.6f, 27.4f, 0.0f };
+		m_Camera = new PinholeCamera(desc, 1.0f, 400 /** 2.4f*/);
+
 		Point3 p0;
 		Vector a, b;
 		Vector normal;
@@ -167,7 +174,6 @@ namespace IRadiance
 		light_ptr->SetSampler(new MultiJitteredSampler(num_samples));
 		light->SetShadow(true);
 		m_Scene->AddLight(light);
-
 
 		// left wall
 
@@ -228,7 +234,6 @@ namespace IRadiance
 		floor_ptr->SetMaterial(matte_ptr3);
 		m_Scene->AddObject(floor_ptr);
 
-
 		// ceiling
 
 		p0 = Point3(0.0f, height, 0.0f);
@@ -238,7 +243,6 @@ namespace IRadiance
 		Rectangle* ceiling_ptr = new Rectangle(p0, a, b, normal);
 		ceiling_ptr->SetMaterial(matte_ptr3);
 		m_Scene->AddObject(ceiling_ptr);
-
 
 		// the two boxes defined as 5 rectangles each
 
@@ -347,15 +351,24 @@ namespace IRadiance
 
 	void Renderer::BuildCaustics(int _nbSamples)
 	{
+		CameraDesc desc;
+		desc.eye = { -50, 100, 50 };
+		desc.lookAt = { 0, 0.0f, 0.0f };
+		m_Camera = new PinholeCamera(desc, 1.0f, 8000/** 2.4f*/);
+
 		// emissive sphere
 		Emissive* emissive_ptr = new Emissive;
 		emissive_ptr->SetCe({ 0.75f, 1, 0.75f });
-		emissive_ptr->SetLs(30.0f);
+		emissive_ptr->SetLs(100.0f);
 
-		Sphere* sphere_ptr = new Sphere(Point3(-2, 7, 6), 1);
+		Sphere* sphere_ptr = new Sphere(Point3(-2, 10, 12), 1);
 		sphere_ptr->SetMaterial(emissive_ptr);
 		sphere_ptr->SetSampler(new MultiJitteredSampler(_nbSamples));
 		m_Scene->AddObject(sphere_ptr);
+
+		AreaLight* light = new AreaLight;
+		light->SetObject(sphere_ptr);
+		m_Scene->AddLight(light);
 
 
 		// reflective open half cylinder
@@ -371,12 +384,12 @@ namespace IRadiance
 		float y0 = -1.0f;
 		float y1 = 3.0f;
 		float radius = 3.0f;
-		float phi_min = 90.0f;
-		float phi_max = 270.0f;
+		//float phi_min = 90.0f;
+		//float phi_max = 270.0f;
 
-		//ConcavePartCylinder* cylinder_ptr = new ConcavePartCylinder(y0, y1, radius, phi_min, phi_max);
-		//cylinder_ptr->SetMaterial(reflective_ptr);
-		//m_Scene->AddObject(cylinder_ptr);
+		OpenCylinder* cylinder_ptr = new OpenCylinder(radius, y0, y1);
+		cylinder_ptr->SetMaterial(reflective_ptr);
+		m_Scene->AddObject(cylinder_ptr);
 
 
 		// plane
@@ -384,7 +397,7 @@ namespace IRadiance
 		Matte* matte_ptr = new Matte;
 		matte_ptr->SetKa(0.0f);
 		matte_ptr->SetKd(0.75f);
-		matte_ptr->SetCd(1);
+		matte_ptr->SetCd({0.75f, 0.65f, 0.65f});
 		matte_ptr->SetSampler(new MultiJitteredSampler(_nbSamples));
 
 		Plane* plane_ptr = new Plane(Point3(0, -1.0f, 0), Vector(0, 1, 0));
@@ -392,12 +405,61 @@ namespace IRadiance
 		m_Scene->AddObject(plane_ptr);
 	}
 
+	void Renderer::BuildTest(int /*_nbSamples*/)
+	{
+		CameraDesc desc;
+		desc.eye = { 25, 200, 100 };
+		desc.lookAt = { -0.0f, 0, 0 };
+		m_Camera = new PinholeCamera(desc, 1.0f, 8000 /** 2.4f*/);
+
+		PointLight* light_ptr1 = new PointLight;
+		light_ptr1->SetPosition({ 1, 5, 0 });
+		light_ptr1->SetLs(3.0f);
+		light_ptr1->SetShadow(true);
+		m_Scene->AddLight(light_ptr1);
+		// yellow triangle
+
+		Matte* matte_ptr1 = new Matte;
+		matte_ptr1->SetKa(0.25f);
+		matte_ptr1->SetKd(0.75f);
+		matte_ptr1->SetCd({ 1, 1, 0 });
+
+		Triangle* triangle_ptr1 = new Triangle(Point3(2, 0.5f, 5), Point3(2, 1.5f, -5), Point3(-1, 0, -4));
+		triangle_ptr1->SetMaterial(matte_ptr1);
+		m_Scene->AddObject(triangle_ptr1);
+
+
+		// dark green triangle (transformed)
+
+		Matte* matte_ptr2 = new Matte;
+		matte_ptr2->SetKa(0.25f);
+		matte_ptr2->SetKd(0.75f);
+		matte_ptr2->SetCd({0.0f, 0.5f, 0.41f});
+
+		Triangle* triangle_ptr2 = new Triangle(Point3(2, 1, 5), Point3(2, 0.5f, -5), Point3(-1, -1, -4));
+		triangle_ptr2->SetMaterial(matte_ptr2);
+		m_Scene->AddObject(triangle_ptr2);
+
+
+		// brown triangle (transformed)
+
+		Matte* matte_ptr3 = new Matte;
+		matte_ptr3->SetKa(0.25f);
+		matte_ptr3->SetKd(0.75f);
+		matte_ptr3->SetCd({ 0.71f, 0.40f, 0.16f });
+
+		float offset = -5;
+		Triangle* triangle_ptr3 = new Triangle(Point3(2 - offset, 0, 5), Point3(2 - offset, 1, -5), Point3(-1 - offset, 0, -4));
+		triangle_ptr3->SetMaterial(matte_ptr3);
+		m_Scene->AddObject(triangle_ptr3);
+	}
+
 	void Renderer::Build(ImageBuffer* _buffer)
 	{
 		m_Buffer = _buffer;
 
 		m_Display = new Display;
-		m_Display->SetGamma(1.0f);
+		m_Display->SetGamma(2.2f);
 		//TODO, do actually need to gamma correct because not sampling for texture or so
 		//TODO reflection and phong or broken
 
@@ -409,7 +471,7 @@ namespace IRadiance
 		m_MaxDepth = 1;
 
 		//int num_samples = 100;   		// for Figure 18.4(a)
-		int num_samples = 1024;   	// for Figure 18.4(b) & (c)
+		int num_samples = 1000;   	// for Figure 18.4(b) & (c)
 
 		//Sampler* sampler_ptr = new MultiJitteredSampler(num_samples);
 
@@ -422,12 +484,10 @@ namespace IRadiance
 
 		m_Tracer = new HybridPathTracer(this);
 
-		CameraDesc desc;
-		desc.eye = { 27.6f, 27.4f, -80.0f };
-		desc.lookAt = { 27.6f, 27.4f, 0.0f };
-		m_Camera = new PinholeCamera(desc, 1.0f, 400 /** 2.4f*/);
+		//BuildCornellBox(num_samples);
+		//BuildTest(num_samples);
+		BuildCaustics(num_samples);
 		m_Camera->ComputeONB();
-		BuildCornellBox(num_samples);
 		/************************************************************************/
 		/* Test Environment Light                                               */
 		/************************************************************************/
