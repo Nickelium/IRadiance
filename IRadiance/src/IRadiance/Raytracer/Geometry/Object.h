@@ -13,7 +13,7 @@ namespace IRadiance
 	public:
 
 		virtual bool Hit(const Ray& _ray, float& _tMin, HitRecord& _sr) const = 0;
-		virtual bool ShadowHit(const Ray& /*_ray*/, float& /*_t*/) const = 0;
+		virtual bool ShadowHit(const Ray& _ray, float& _t) const = 0;
 
 		void SetShadow(bool _shadow) { m_Shadow = _shadow; }
 		bool CastShadow() const { return m_Shadow; }

@@ -102,7 +102,7 @@ namespace IRadiance
 		//Smallptr
 		const float stopProbablity = std::min(1.0f, 0.0625f * _hr.depth);
 		if (RandUNorm() < stopProbablity)
-			return BLACK;
+			return AreaLightShading(_hr);
 		float contributionFactor = 1.0f / (1.0f - stopProbablity);
 
 		Vector wO = -_hr.ray.d;
@@ -120,10 +120,7 @@ namespace IRadiance
 
 	RGBSpectrum Matte::HybridPathShading(HitRecord& _hr)
 	{
-		RGBSpectrum L;
-		if (_hr.depth == 0)
-			L = AreaLightShading(_hr);
-		return L + PathShading(_hr);
+		return AreaLightShading(_hr) + PathShading(_hr);
 	}
 
 	void Matte::SetSampler(Sampler* _sampler)

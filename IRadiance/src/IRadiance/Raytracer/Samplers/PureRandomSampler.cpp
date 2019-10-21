@@ -10,9 +10,11 @@ namespace IRadiance
 		//Init();
 	}
 
-	IRadiance::Point2 PureRandomSampler::SampleUnitSquare()
-	{
-		return Point2(RandUNorm(), RandUNorm());
-	}
+	//TODO REMOVE
+
+	//IRadiance::Point2 PureRandomSampler::SampleUnitSquare()
+	//{
+	//	return Point2(RandUNorm(), RandUNorm());
+	//}
 
 }

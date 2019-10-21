@@ -31,8 +31,8 @@ public:
 		using namespace IRadiance;
 
 		RenderDevice* renderDevice = Locator::Get<RenderDevice>();
-		int width = int(300 * (16.0f / 9.0f));
-		int height = 300;
+		int width = 720;// int(720 * (16.0f / 9.0f));
+		int height = 720;
 		m_Texture = renderDevice->CreateTexture2D(width, height);
 
 		m_Renderer.Build(m_Texture->GetImageBuffer());
@@ -91,7 +91,7 @@ class SandboxApplication : public IRadiance::Application
 {
 public:
 	SandboxApplication()
-		: Application(1600, 900)
+		: Application(720, 720)
 	{
 		using namespace IRadiance;
 		IRAD_INFO("Creating Sandbox Application");
