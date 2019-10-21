@@ -18,10 +18,6 @@ namespace IRadiance
 		{
 			hr.ray = _ray;
 			hr.depth = _depth;
-
-			//RGBSpectrum L;
-			//if (hr.depth == 0)
-			//	L = hr.material->AreaLightShading(hr);
 			return hr.material->HybridPathShading(hr);
 		}
 		return m_Renderer->GetBackColor();

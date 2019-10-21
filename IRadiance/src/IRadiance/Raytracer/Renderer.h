@@ -53,6 +53,8 @@ namespace IRadiance
 	private:
 		void BuildCornellBox(int _nbSamples);
 		void BuildCaustics(int _nbSamples);
+		void BuildTest(int _nbSamples);
+
 		Display* m_Display;
 		ViewPlane m_ViewingPlane;
 		ToneMapper* m_ToneMapper;

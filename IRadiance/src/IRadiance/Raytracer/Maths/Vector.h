@@ -36,8 +36,9 @@ namespace IRadiance
 	Vector operator*(float _f, const Vector& _v);
 	Vector operator/(const Vector& _v, float _f);
 
-	
+	Point3 operator+(const Vector& _v, const Point3& _p);
 
+	
 	float Length(const Vector& _v);
 	float LengthSquared(const Vector& _v);
 

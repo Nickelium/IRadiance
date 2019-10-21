@@ -30,10 +30,13 @@
     <ClInclude Include="src\IRadiance\Raytracer\Cameras\PinholeCamera.h" />
     <ClInclude Include="src\IRadiance\Raytracer\Collision\CollisionHandler.h" />
     <ClInclude Include="src\IRadiance\Raytracer\Geometry\Box.h" />
+    <ClInclude Include="src\IRadiance\Raytracer\Geometry\Disk.h" />
     <ClInclude Include="src\IRadiance\Raytracer\Geometry\Object.h" />
+    <ClInclude Include="src\IRadiance\Raytracer\Geometry\OpenCylinder.h" />
     <ClInclude Include="src\IRadiance\Raytracer\Geometry\Plane.h" />
     <ClInclude Include="src\IRadiance\Raytracer\Geometry\Rectangle.h" />
     <ClInclude Include="src\IRadiance\Raytracer\Geometry\Sphere.h" />
+    <ClInclude Include="src\IRadiance\Raytracer\Geometry\Triangle.h" />
     <ClInclude Include="src\IRadiance\Raytracer\Lights\AmbientLight.h" />
     <ClInclude Include="src\IRadiance\Raytracer\Lights\AreaLight.h" />
     <ClInclude Include="src\IRadiance\Raytracer\Lights\DirectionalLight.h" />
@@ -135,9 +138,12 @@
     <ClCompile Include="src\IRadiance\Raytracer\Cameras\PinholeCamera.cpp" />
     <ClCompile Include="src\IRadiance\Raytracer\Collision\CollisionHandler.cpp" />
     <ClCompile Include="src\IRadiance\Raytracer\Geometry\Box.cpp" />
+    <ClCompile Include="src\IRadiance\Raytracer\Geometry\Disk.cpp" />
+    <ClCompile Include="src\IRadiance\Raytracer\Geometry\OpenCylinder.cpp" />
     <ClCompile Include="src\IRadiance\Raytracer\Geometry\Plane.cpp" />
     <ClCompile Include="src\IRadiance\Raytracer\Geometry\Rectangle.cpp" />
     <ClCompile Include="src\IRadiance\Raytracer\Geometry\Sphere.cpp" />
+    <ClCompile Include="src\IRadiance\Raytracer\Geometry\Triangle.cpp" />
     <ClCompile Include="src\IRadiance\Raytracer\Lights\AmbientLight.cpp" />
     <ClCompile Include="src\IRadiance\Raytracer\Lights\AreaLight.cpp" />
     <ClCompile Include="src\IRadiance\Raytracer\Lights\DirectionalLight.cpp" />

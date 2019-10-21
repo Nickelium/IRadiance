@@ -62,7 +62,7 @@ namespace IRadiance
 			for (int i = 0; i < shadowRays; ++i)
 			{
 				Vector wI = light->GetDirection(_hr);
-				float nCosWi = Dot(_hr.normal, wI);
+				float nCosWi = -Dot(_hr.normal, wI);
 				if (nCosWi > 0.0f)
 				{
 					bool inShadow = false;

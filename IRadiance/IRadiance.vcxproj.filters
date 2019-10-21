@@ -330,6 +330,15 @@
     <ClInclude Include="src\IRadiance\Raytracer\Tracers\PathTracer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\IRadiance\Raytracer\Geometry\Triangle.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\IRadiance\Raytracer\Geometry\Disk.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\IRadiance\Raytracer\Geometry\OpenCylinder.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\pch.cpp">
@@ -564,6 +573,15 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\IRadiance\Raytracer\Tracers\HybridPathTracer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\IRadiance\Raytracer\Geometry\Triangle.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\IRadiance\Raytracer\Geometry\Disk.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\IRadiance\Raytracer\Geometry\OpenCylinder.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

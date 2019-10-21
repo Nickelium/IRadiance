@@ -74,6 +74,11 @@ namespace IRadiance
 		return _v;
 	}
 
+	Point3 operator+(const Vector& _v, const Point3& _p)
+	{
+		return _p + _v;
+	}
+
 	Vector operator-(const Vector& _v)
 	{
 		return Vector(-_v.x, -_v.y, -_v.z);
