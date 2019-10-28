@@ -40,7 +40,7 @@ namespace IRadiance
 		const Tracer* tracer = _renderer->GetTracer();
 	
 		float zoomedPixelSize = viewPlane.m_PixelSize / m_Zoom;
-
+		std::chrono::steady_clock::time_point begin = std::chrono::steady_clock::now();
 		for (int row = 0; row < viewPlane.m_VertRes; ++row)
 		{
 			for (int col = 0; col < viewPlane.m_HorRes; ++col)
@@ -68,7 +68,11 @@ namespace IRadiance
 					display->ConvertDisplay(toneMapper->ToneMap(L));
 			}
 		}
+		std::chrono::steady_clock::time_point end = std::chrono::steady_clock::now();
 		IRAD_INFO("Rendering Completed ...");
+		std::stringstream ss;
+		ss << "Time difference = " << std::chrono::duration_cast<std::chrono::microseconds>(end - begin).count() * 1e-6f << "[s]" << std::endl;
+		IRAD_INFO(ss.str());
 		return true;
 	}
 

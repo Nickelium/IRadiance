@@ -1,7 +1,7 @@
 #include "pch.h"
 #include "Matte.h"
 
-#include "IRadiance/Raytracer/BRDF/Lambertian.h"
+#include "IRadiance/Raytracer/BxDF/Lambertian.h"
 #include "IRadiance/Raytracer/Renderer.h"
 #include "IRadiance/Raytracer/Tracers/Tracer.h"
 
@@ -50,7 +50,7 @@ namespace IRadiance
 					inShadow = light->InShadow(shadowRay, _hr);
 				}
 
-				if(!inShadow)
+				if (!inShadow)
 					L += diffuseBRDF->f(_hr, wO, wI) * light->L(_hr) * cosNwI;
 			}
 		}
@@ -98,8 +98,6 @@ namespace IRadiance
 
 	RGBSpectrum Matte::PathShading(HitRecord& _hr)
 	{
-		//Russian roulette
-		//Smallptr
 		const float stopProbablity = std::min(1.0f, 0.0625f * _hr.depth);
 		if (RandUNorm() < stopProbablity)
 			return AreaLightShading(_hr);
@@ -114,8 +112,7 @@ namespace IRadiance
 		reflected.o = _hr.hitPoint;
 		reflected.d = wI;
 
-		return ((f * _hr.renderer->GetTracer()->RayTrace(reflected, _hr.depth + 1) * nCosWi) / pdf) 
-			* contributionFactor;
+		return ((f * _hr.renderer->GetTracer()->RayTrace(reflected, _hr.depth + 1) * nCosWi) / pdf) * contributionFactor;
 	}
 
 	RGBSpectrum Matte::HybridPathShading(HitRecord& _hr)

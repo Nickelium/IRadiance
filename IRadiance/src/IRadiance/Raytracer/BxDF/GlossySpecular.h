@@ -1,6 +1,6 @@
 #pragma once
 
-#include "IRadiance/Raytracer/BRDF/BRDF.h"
+#include "IRadiance/Raytracer/BxDF/BRDF.h"
 
 namespace IRadiance
 {

@@ -21,7 +21,7 @@ namespace IRadiance
 	};
 }
 
-#if defined(DEBUG) || defined(_DEBUG)
+#if 1 /*defined(DEBUG) || defined(_DEBUG)*/
 // Core log macros
 #define IRAD_CORE_TRACE(...)    ::IRadiance::Logger::GetInstance().GetCoreLogger()->trace(__VA_ARGS__)
 #define IRAD_CORE_INFO(...)     ::IRadiance::Logger::GetInstance().GetCoreLogger()->info(__VA_ARGS__)

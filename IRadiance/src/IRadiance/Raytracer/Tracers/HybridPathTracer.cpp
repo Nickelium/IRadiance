@@ -18,9 +18,11 @@ namespace IRadiance
 		{
 			hr.ray = _ray;
 			hr.depth = _depth;
+
 			return hr.material->HybridPathShading(hr);
 		}
 		return m_Renderer->GetBackColor();
+
 	}
 
 }

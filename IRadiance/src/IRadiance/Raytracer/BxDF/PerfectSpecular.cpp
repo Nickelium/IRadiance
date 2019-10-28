@@ -3,6 +3,12 @@
 
 namespace IRadiance
 {
+
+	PerfectSpecular::PerfectSpecular()
+		: kr(0.0f), cr(WHITE)
+	{
+	}
+
 	//This is a diract delta BRDF therefore, f & rho doesn't apply
 	RGBSpectrum PerfectSpecular::f(const HitRecord& /*_hr*/, const Vector& /*wO*/, const Vector& /*wI*/) const
 	{

@@ -31,6 +31,8 @@ namespace IRadiance
 		{
 			if (!object->CastShadow())
 				continue;
+			if(object == m_Object)
+				continue;
 			if (object->ShadowHit(_ray, t) && t < d)
 				return true;
 		}

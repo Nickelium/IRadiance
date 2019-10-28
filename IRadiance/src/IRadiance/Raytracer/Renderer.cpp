@@ -47,6 +47,8 @@
 #include "Tracers/HybridPathTracer.h"
 #include "Geometry/Triangle.h"
 #include "Geometry/OpenCylinder.h"
+#include "Geometry/ConcaveSphere.h"
+#include "Materials/Transparent.h"
 
 
 namespace IRadiance
@@ -137,6 +139,8 @@ namespace IRadiance
 
 	void Renderer::BuildCornellBox(int _nbSamples)
 	{
+		m_MaxDepth = 10;
+
 		CameraDesc desc;
 		desc.eye = { 27.6f, 27.4f, -80.0f };
 		desc.lookAt = { 27.6f, 27.4f, 0.0f };
@@ -379,7 +383,8 @@ namespace IRadiance
 		reflective_ptr->SetKs(0.0f);
 		reflective_ptr->SetExp(1.0f);
 		reflective_ptr->SetKr(0.95f);
-		reflective_ptr->SetCr({1.0f, 0.5f, 0.25f});  // orange 
+		reflective_ptr->SetCd({ 1.0f, 0.5f, 0.25f });  // orange 
+		reflective_ptr->SetCr({ 1.0f, 0.5f, 0.25f });  // orange 
 
 		float y0 = -1.0f;
 		float y1 = 3.0f;
@@ -397,7 +402,7 @@ namespace IRadiance
 		Matte* matte_ptr = new Matte;
 		matte_ptr->SetKa(0.0f);
 		matte_ptr->SetKd(0.75f);
-		matte_ptr->SetCd({0.75f, 0.65f, 0.65f});
+		matte_ptr->SetCd({ 0.75f, 0.65f, 0.65f });
 		matte_ptr->SetSampler(new MultiJitteredSampler(_nbSamples));
 
 		Plane* plane_ptr = new Plane(Point3(0, -1.0f, 0), Vector(0, 1, 0));
@@ -405,53 +410,230 @@ namespace IRadiance
 		m_Scene->AddObject(plane_ptr);
 	}
 
-	void Renderer::BuildTest(int /*_nbSamples*/)
+	void Renderer::BuildReflection(int _nbSamples)
 	{
+		m_MaxDepth = 10;
+
+		m_BackColor = RGBSpectrum({ 0.0f, 0.0f, 0.0f });
+
 		CameraDesc desc;
-		desc.eye = { 25, 200, 100 };
-		desc.lookAt = { -0.0f, 0, 0 };
-		m_Camera = new PinholeCamera(desc, 1.0f, 8000 /** 2.4f*/);
+		desc.eye = { 100, 45, 100 };
+		desc.lookAt = { -10, 40, 0 };
+		m_Camera = new PinholeCamera(desc, 1.0f, 400);
 
-		PointLight* light_ptr1 = new PointLight;
-		light_ptr1->SetPosition({ 1, 5, 0 });
-		light_ptr1->SetLs(3.0f);
-		light_ptr1->SetShadow(true);
-		m_Scene->AddLight(light_ptr1);
-		// yellow triangle
+		Emissive* emissive_ptr = new Emissive;
+		emissive_ptr->SetLs(0.90f);
+		emissive_ptr->SetCe({ 1.0f, 1.0f, 0.5f }); 	// lemon yellow
 
-		Matte* matte_ptr1 = new Matte;
-		matte_ptr1->SetKa(0.25f);
-		matte_ptr1->SetKd(0.75f);
-		matte_ptr1->SetCd({ 1, 1, 0 });
+		ConcaveSphere* sphere_ptr = new ConcaveSphere(1000.0f);
+		sphere_ptr->SetMaterial(emissive_ptr);
+		sphere_ptr->SetShadow(false);
+		m_Scene->AddObject(sphere_ptr);
 
-		Triangle* triangle_ptr1 = new Triangle(Point3(2, 0.5f, 5), Point3(2, 1.5f, -5), Point3(-1, 0, -4));
-		triangle_ptr1->SetMaterial(matte_ptr1);
-		m_Scene->AddObject(triangle_ptr1);
+		EnvironmentLight* environment_light_ptr = new EnvironmentLight;
+		environment_light_ptr->SetMaterial(emissive_ptr);
+		environment_light_ptr->SetSampler(new MultiJitteredSampler(_nbSamples));
+		environment_light_ptr->SetShadow(true);
+		m_Scene->AddLight(environment_light_ptr);
 
 
-		// dark green triangle (transformed)
+		// common reflective material for large sphere, medium sphere, and cylinder
+
+		Reflective* reflective_ptr = new Reflective;
+		reflective_ptr->SetKa(0.0f);
+		reflective_ptr->SetKd(0.0f);
+		reflective_ptr->SetCd(BLACK);
+		reflective_ptr->SetKs(0.0f);
+		reflective_ptr->SetExp(1.0f);
+		reflective_ptr->SetKr(0.9f);
+		reflective_ptr->SetCr({ 1.0f, 0.75f, 0.5f });   // orange
+
+		Transparent* transparent_ptr = new Transparent;
+		transparent_ptr->SetKa(0.0f);
+		transparent_ptr->SetKd(0.0f);
+		transparent_ptr->SetCd(BLACK);
+		transparent_ptr->SetKs(0.0f);
+		transparent_ptr->SetExp(1.0f);
+		transparent_ptr->SetKr(0.9f);
+		transparent_ptr->SetCr({ 1.0f, 0.75f, 0.5f });   // orange
+		transparent_ptr->SetIOR(1.0f);
+
+		Material* material = reflective_ptr;
+
+		float ka = 0.2f;  // commom ambient reflection coefficient for other objects
+
+			// large sphere
+
+		Sphere* sphere_ptr1 = new Sphere(Point3(38, 20, -24), 20);
+		sphere_ptr1->SetMaterial(material);
+		m_Scene->AddObject(sphere_ptr1);
+
+
+		// small sphere
 
 		Matte* matte_ptr2 = new Matte;
-		matte_ptr2->SetKa(0.25f);
-		matte_ptr2->SetKd(0.75f);
-		matte_ptr2->SetCd({0.0f, 0.5f, 0.41f});
+		matte_ptr2->SetKa(ka);
+		matte_ptr2->SetKd(0.5f);
+		matte_ptr2->SetCd({ 0.85f, 0.85f, 0.85f });
+		matte_ptr2->SetSampler(new MultiJitteredSampler(_nbSamples));
 
-		Triangle* triangle_ptr2 = new Triangle(Point3(2, 1, 5), Point3(2, 0.5f, -5), Point3(-1, -1, -4));
-		triangle_ptr2->SetMaterial(matte_ptr2);
-		m_Scene->AddObject(triangle_ptr2);
+		Sphere* sphere_ptr2 = new Sphere(Point3(34, 12, 13), 12);
+		sphere_ptr2->SetMaterial(material);
+		m_Scene->AddObject(sphere_ptr2);
 
 
-		// brown triangle (transformed)
+		// medium sphere
 
-		Matte* matte_ptr3 = new Matte;
-		matte_ptr3->SetKa(0.25f);
-		matte_ptr3->SetKd(0.75f);
-		matte_ptr3->SetCd({ 0.71f, 0.40f, 0.16f });
+		Sphere* sphere_ptr3 = new Sphere(Point3(-7, 15, 42), 16);
+		sphere_ptr3->SetMaterial(material);
+		m_Scene->AddObject(sphere_ptr3);
 
-		float offset = -5;
-		Triangle* triangle_ptr3 = new Triangle(Point3(2 - offset, 0, 5), Point3(2 - offset, 1, -5), Point3(-1 - offset, 0, -4));
-		triangle_ptr3->SetMaterial(matte_ptr3);
-		m_Scene->AddObject(triangle_ptr3);
+
+		// cylinder
+
+		float bottom = 0.0f;
+		float top = 85;
+		float radius = 22;
+		OpenCylinder* cylinder_ptr = new OpenCylinder(radius, bottom, top);
+		cylinder_ptr->SetMaterial(material);
+		m_Scene->AddObject(cylinder_ptr);
+
+
+		// box
+
+		Matte* matte_ptr5 = new Matte;
+		matte_ptr5->SetKa(ka);
+		matte_ptr5->SetKd(0.5f);
+		matte_ptr5->SetCd({ 0.95f, 0.95f, 0.95f });
+		matte_ptr5->SetSampler(new MultiJitteredSampler(_nbSamples));
+
+		Box* box_ptr = new Box(Point3(-35, 0, -110), Point3(-25, 60, 65));
+		box_ptr->SetMaterial(matte_ptr5);
+		m_Scene->AddObject(box_ptr);
+
+
+		// ground plane
+
+		Matte* matte_ptr6 = new Matte;
+		matte_ptr6->SetKa(0.15f);
+		matte_ptr6->SetKd(0.5f);
+		matte_ptr6->SetCd({0.7f, 0.7f, 0.7f});
+		matte_ptr6->SetSampler(new MultiJitteredSampler(_nbSamples));
+
+		Plane* plane_ptr = new Plane(Point3(0, 0.01f, 0), Vector(0, 1, 0));
+		plane_ptr->SetMaterial(matte_ptr6);
+		m_Scene->AddObject(plane_ptr);
+	}
+
+	void Renderer::BuildRefraction(int _nbSamples)
+	{
+		m_MaxDepth = 10;
+
+		m_BackColor = BLACK;
+
+		CameraDesc desc;
+		desc.eye = { -8, 5.5f, 40 };
+		desc.lookAt = { 1, 4, 0 };
+		m_Camera = new PinholeCamera(desc, 1.0f, 2400.0f);
+
+		Emissive* emissive_ptr = new Emissive;
+		emissive_ptr->SetCe({ 1.0f, 0.73f, 0.4f });
+		emissive_ptr->SetLs(500.5f);
+
+		Point3 p0 = Point3({ 8, 10, 4 });
+		Vector a = Vector(0.0f, 0.0f, 3.5f);
+		Vector b = Vector(3.0f, 0.0f, 0.0f);
+		Vector normal = Vector(0.0f, -1.0f, 0.0f);
+		Rectangle* light_ptr = new Rectangle(p0, a, b, normal);
+		light_ptr->SetMaterial(emissive_ptr);
+		m_Scene->AddObject(light_ptr);
+
+		AreaLight* light = new AreaLight;
+		light->SetObject(light_ptr);
+		light_ptr->SetSampler(new MultiJitteredSampler(_nbSamples));
+		light->SetShadow(true);
+		m_Scene->AddLight(light);
+
+		//p0 = Point3({ -10, 12, -40 });
+		//a = Vector(0.0f, 0.0f, 3.5f);
+		//b = Vector(3.0f, 0.0f, 0.0f);
+		//normal = Vector(0.0f, -1.0f, 0.0f);
+		//Rectangle* light_ptr2 = new Rectangle(p0, a, b, normal);
+		//light_ptr2->SetMaterial(emissive_ptr);
+		//m_Scene->AddObject(light_ptr2);
+
+		//AreaLight* light2 = new AreaLight;
+		//light2->SetObject(light_ptr2);
+		//light_ptr2->SetSampler(new MultiJitteredSampler(_nbSamples));
+		//light2->SetShadow(true);
+		//m_Scene->AddLight(light2);
+
+		// point light 
+		/*PointLight* light_ptr1 = new PointLight;
+		light_ptr1->SetPosition({ 40, 50, 0 });
+		light_ptr1->SetLs(4.5f);
+		light_ptr1->SetShadow(true);
+		m_Scene->AddLight(light_ptr1);*/
+
+
+		// point light 
+		/*PointLight* light_ptr2 = new PointLight;
+		light_ptr2->SetPosition({ -10, 20, 10 });
+		light_ptr2->SetLs(4.5);
+		light_ptr2->SetShadow(true);
+		m_Scene->AddLight(light_ptr2);*/
+
+
+		// directional light 
+		/*DirectionalLight* light_ptr3 = new DirectionalLight;
+		light_ptr3->SetDirection({-1, 0, 0});
+		light_ptr3->SetLs(4.5f);
+		light_ptr3->SetShadow(true);
+		m_Scene->AddLight(light_ptr3);*/
+
+
+		// transparent sphere
+		Transparent* glass_ptr = new Transparent;
+		glass_ptr->SetKs(0.2f);
+		glass_ptr->SetExp(2000.0f);
+		glass_ptr->SetIOR(1.0f);
+		glass_ptr->SetKr(0.1f);
+		glass_ptr->SetCt(WHITE);
+
+		Sphere* sphere_ptr1 = new Sphere(Point3(0.0f, 4.5f, 0.0f), 3.0f);
+		sphere_ptr1->SetMaterial(glass_ptr);
+		m_Scene->AddObject(sphere_ptr1);
+
+
+		// red sphere
+		Reflective* reflective_ptr = new Reflective;
+		reflective_ptr->SetKa(0.3f);
+		reflective_ptr->SetKd(0.3f);
+		reflective_ptr->SetCd(RED);
+		reflective_ptr->SetKs(0.2f);
+		reflective_ptr->SetExp(2000.0f);
+		reflective_ptr->SetKr(0.25f);
+		//reflective_ptr->SetCr(RED);
+
+		Sphere* sphere_ptr2 = new Sphere(Point3(4, 4, -6), 3);
+		sphere_ptr2->SetMaterial(reflective_ptr);
+		m_Scene->AddObject(sphere_ptr2);
+
+		Matte* matte_ptr = new Matte;
+		matte_ptr->SetKa(0.5f);
+		matte_ptr->SetKd(0.35f);
+		matte_ptr->SetCd(WHITE);
+		matte_ptr->SetSampler(new MultiJitteredSampler(_nbSamples));
+
+		// rectangle
+
+		p0 = { -20, 0, -100 };
+		a = {0, 0, 120};
+		b = { 40, 0, 0 };
+
+		Rectangle* rectangle_ptr = new Rectangle(p0, a, b);
+		rectangle_ptr->SetMaterial(matte_ptr);
+		m_Scene->AddObject(rectangle_ptr);
 	}
 
 	void Renderer::Build(ImageBuffer* _buffer)
@@ -468,449 +650,21 @@ namespace IRadiance
 
 		m_ToneMapper = new Clamper;
 
-		m_MaxDepth = 1;
-
-		//int num_samples = 100;   		// for Figure 18.4(a)
-		int num_samples = 1000;   	// for Figure 18.4(b) & (c)
-
-		//Sampler* sampler_ptr = new MultiJitteredSampler(num_samples);
+		int num_samples = 1024;   	
 
 		m_ViewingPlane.m_HorRes = m_Buffer->GetWidth();
 		m_ViewingPlane.m_VertRes = m_Buffer->GetHeight();
 		SetNbSamples(num_samples);
-		//m_ViewingPlane.SetSampler(sampler_ptr);
 
-		m_BackColor = RGBSpectrum({ 0.0f, 0.0f, 0.0f});
+		m_Tracer = new Whitted(this);
+		//m_Tracer = new HybridPathTracer(this);
 
-		m_Tracer = new HybridPathTracer(this);
-
-		//BuildCornellBox(num_samples);
-		//BuildTest(num_samples);
-		BuildCaustics(num_samples);
+		BuildCornellBox(num_samples); // OK
+		//BuildCaustics(num_samples); // FACTOR 10 light to approx
+		//BuildReflection(num_samples); // OK
+		//BuildRefraction(num_samples); // OK
 		m_Camera->ComputeONB();
-		/************************************************************************/
-		/* Test Environment Light                                               */
-		/************************************************************************/
-		//CameraDesc desc;
-		//desc.eye = { 100, 45, 100};
-		//desc.lookAt = { -10, 40, 0 };
-		//m_Camera = new PinholeCamera(desc, 1.0f, 400);
-		//m_Camera->ComputeONB();
-
-		//Emissive* emissive_ptr = new Emissive;
-		//emissive_ptr->SetLs(5.90f);
-		//emissive_ptr->SetCe({ 1.0f, 1.0f, 0.5f });   			// white
-
-		////ConcaveSphere* sphere_ptr = new ConcaveSphere;
-		////sphere_ptr->set_radius(1000000.0);
-		////sphere_ptr->set_material(emissive_ptr);
-		////sphere_ptr->set_shadows(false);
-		////add_object(sphere_ptr);
-
-
-		//EnvironmentLight* environment_light_ptr = new EnvironmentLight;
-		//environment_light_ptr->SetMaterial(emissive_ptr);
-		//environment_light_ptr->SetSampler(new MultiJitteredSampler(num_samples));
-		//environment_light_ptr->SetShadow(true);
-		//m_Scene->AddLight(environment_light_ptr);			// for Figure 18.7 (b) & (c)
-
-		//Reflective* reflective_ptr = new Reflective;
-		//reflective_ptr->SetKa(0.0f);
-		//reflective_ptr->SetKd(0.0f);
-		//reflective_ptr->SetCd(BLACK);    	// yellow
-		//reflective_ptr->SetKs(0.0f);
-		//reflective_ptr->SetExp(1.0f);
-		//reflective_ptr->SetKr(0.9f);
-		//reflective_ptr->SetCr({ 1.0f, 0.75f, 0.5f });
-		//float ka = 0.2f;  // commom ambient reflection coefficient for other objects
-
-		//// large sphere
-
-		//Sphere* sphere_ptr1 = new Sphere(Point3(38, 20, -24), 20);
-		//sphere_ptr1->SetMaterial(reflective_ptr);
-		//m_Scene->AddObject(sphere_ptr1);
-
-
-		//// small sphere
-
-		//Matte* matte_ptr2 = new Matte;
-		//matte_ptr2->SetKa(ka);
-		//matte_ptr2->SetKd(0.5f);
-		//matte_ptr2->SetCd({ 0.85f, 0.85f, 0.85f });
-
-		//Sphere* sphere_ptr2 = new Sphere(Point3(34, 12, 13), 12);
-		//sphere_ptr2->SetMaterial(matte_ptr2);
-		//m_Scene->AddObject(sphere_ptr2);
-
-
-		//// medium sphere
-
-		//Sphere* sphere_ptr3 = new Sphere(Point3(-7, 15, 42), 16);
-		//sphere_ptr3->SetMaterial(reflective_ptr);
-		//m_Scene->AddObject(sphere_ptr3);
-
-
-		//// cylinder
-
-		////double bottom = 0.0;
-		////double top = 85;
-		////double radius = 22;
-		////SolidCylinder* cylinder_ptr = new SolidCylinder(bottom, top, radius);
-		////cylinder_ptr->set_material(reflective_ptr);
-		////add_object(cylinder_ptr);
-
-
-		//// box
-
-		//Matte* matte_ptr5 = new Matte;
-		//matte_ptr5->SetKa(ka);
-		//matte_ptr5->SetKd(0.5f);
-		//matte_ptr5->SetCd({ 0.95f, 0.95f, 0.95f});
-
-		//Box* box_ptr = new Box(Point3(-35, 0, -110), Point3(-25, 60, 65));
-		//box_ptr->SetMaterial(matte_ptr5);
-		//m_Scene->AddObject(box_ptr);
-
-
-		//// ground plane
-
-		//Matte* matte_ptr6 = new Matte;
-		//matte_ptr6->SetKa(0.15f);
-		//matte_ptr6->SetKd(0.5f);
-		//matte_ptr6->SetCd({ 0.7f, 0.7f, 0.7f });
-
-		//Plane* plane_ptr = new Plane(Point3(0, 0.01f, 0), Vector(0, 1, 0));
-		//plane_ptr->SetMaterial(matte_ptr6);
-		//m_Scene->AddObject(plane_ptr);
-
-		//float radius = 23.0f;
-		//Sphere* sphere_ptr1 = new Sphere(Point3(38, radius, -25), radius);
-		//sphere_ptr1->SetMaterial(reflective_ptr1);
-		//m_Scene->AddObject(sphere_ptr1);
-
-		//// orange non-reflective sphere
-
-		//Matte* matte_ptr1 = new Matte;
-		//matte_ptr1->SetKa(0.45f);
-		//matte_ptr1->SetKd(0.75f);
-		//matte_ptr1->SetCd({ 0.75f, 0.25f, 0.0f });   // orange
-
-		//Sphere* sphere_ptr2 = new Sphere(Point3(-7, 10, 42), 20);
-		//sphere_ptr2->SetMaterial(matte_ptr1);
-		//m_Scene->AddObject(sphere_ptr2);
-
-
-		//// sphere on top of box
-
-		//Reflective* reflective_ptr2 = new Reflective;
-		//reflective_ptr2->SetKa(0.35f);
-		//reflective_ptr2->SetKd(0.75f);
-		//reflective_ptr2->SetCd(BLACK);
-		//reflective_ptr2->SetKs(0.0f);		// default value
-		//reflective_ptr2->SetExp(1.0f);		// default value, but irrelevant in this case
-		//reflective_ptr2->SetKr(0.75f);
-		//reflective_ptr2->SetCr(WHITE);
-
-		//Sphere* sphere_ptr3 = new Sphere(Point3(-30, 59, 35), 20);
-		//sphere_ptr3->SetMaterial(reflective_ptr2);
-		//m_Scene->AddObject(sphere_ptr3);
-
-		//// cylinder
-
-		//Reflective* reflective_ptr3 = new Reflective;
-		//reflective_ptr3->SetKa(0.35f);
-		//reflective_ptr3->SetKd(0.5f);
-		//reflective_ptr3->SetCd({ 0, 0.5f, 0.75f });   // cyan
-		//reflective_ptr3->SetKs(0.2f);
-		//reflective_ptr3->SetExp(100.0f);
-		//reflective_ptr3->SetKr(0.75f);
-		//reflective_ptr3->SetCr(WHITE);
-
-		////float bottom = 0.0f;
-		////float top = 85;
-		////float cylinder_radius = 22;
-
-		//// box
-
-		//Matte* matte_ptr2 = new Matte;
-		//matte_ptr2->SetKa(0.15f);
-		//matte_ptr2->SetKd(0.5f);
-		//matte_ptr2->SetCd({ 0.75f, 1.0f, 0.75 });   // light green
-
-		//Box* box_ptr = new Box(Point3(-35, 0, -110), Point3(-25, 60, 65));
-		//box_ptr->SetMaterial(matte_ptr2);
-		//m_Scene->AddObject(box_ptr);
-
-
-		//// ground plane
-
-		//Matte* sv_matte_ptr = new Matte;
-		//sv_matte_ptr->SetKa(0.30f);
-		//sv_matte_ptr->SetKd(0.9f);
-		//sv_matte_ptr->SetCd(WHITE);
-
-		//Plane* plane_ptr = new Plane(Point3{}, Vector(0, 1, 0));
-		//plane_ptr->SetMaterial(sv_matte_ptr);
-		//m_Scene->AddObject(plane_ptr);
-
-		//////////////////////////////////////////////////////////////////////////
-		//EnvironmentLight
-		//////////////////////////////////////////////////////////////////////////
-		//float ka = 0.2f;  	// common ambient reflection coefficient
-
-		//// large sphere
-
-		//Matte* matte_ptr1 = new Matte;
-		//matte_ptr1->SetKa(ka);
-		//matte_ptr1->SetKd(0.60f);
-		//matte_ptr1->SetCd({ 0.75f });
-
-		//Sphere* sphere_ptr1 = new Sphere(Point3(-10, 20, -10), 20);
-		//sphere_ptr1->SetMaterial(matte_ptr1);
-		//m_Scene->AddObject(sphere_ptr1);
-
-
-		//// small sphere
-
-		//Matte* matte_ptr2 = new Matte;
-		//matte_ptr2->SetKa(ka);
-		//matte_ptr2->SetKd(0.5f);
-		//matte_ptr2->SetCd(0.85f);
-
-		//Sphere* sphere_ptr2 = new Sphere(Point3(34, 12, 13), 12);
-		//sphere_ptr2->SetMaterial(matte_ptr2);
-		//m_Scene->AddObject(sphere_ptr2);
-
-
-		//// medium sphere
-
-		//Matte* matte_ptr3 = new Matte;
-		//matte_ptr3->SetKa(ka);
-		//matte_ptr3->SetKd(0.5f);
-		//matte_ptr3->SetCd({ 0.75f });
-
-		//Sphere* sphere_ptr3 = new Sphere(Point3(-7, 15, 42), 16);
-		//sphere_ptr3->SetMaterial(matte_ptr3);
-		//m_Scene->AddObject(sphere_ptr3);
-
-		//// box
-
-		//Matte* matte_ptr5 = new Matte;
-		//matte_ptr5->SetKa(ka);
-		//matte_ptr5->SetKd(0.5f);
-		//matte_ptr5->SetCd({ 0.95f });
-
-		//Box* box_ptr = new Box(Point3(-35, 0, -110), Point3(-25, 60, 65));
-		//box_ptr->SetMaterial(matte_ptr5);
-		//m_Scene->AddObject(box_ptr);
-
-
-		//// ground plane
-
-		//Matte* matte_ptr6 = new Matte;
-		//matte_ptr6->SetKa(0.15f);
-		//matte_ptr6->SetKd(0.5f);
-		//matte_ptr6->SetCd(0.7f);
-
-		//Plane* plane_ptr = new Plane(Point3(0, 0.01f, 0), Vector(0, 1, 0));
-		//plane_ptr->SetMaterial(matte_ptr6);
-		//m_Scene->AddObject(plane_ptr);
-
-		/************************************************************************/
-		/* Area Light                                                           */
-		/************************************************************************/
-		//CameraDesc desc;
-		//desc.eye = { 100, 45, 100 };
-		//desc.lookAt = { -10, 40, 0 };
-		//m_Camera = new PinholeCamera(desc, 1.0f, 400);
-
-		//Emissive* emissive_ptr = new Emissive;
-		//emissive_ptr->SetLs(0.6f);
-		//emissive_ptr->SetCe({0.9f});
-
-		//// define a rectangle for the rectangular light
-
-		//float width = 4.0f;				// for Figure 18.4(a) & (b)
-		//float height = 4.0f;
-		////	float width = 2.0;				// for Figure 18.4(c)
-		////	float height = 2.0;
-		//Point3 center(0.0f, 7.0f, -7.0f);	// center of each area light (rectangular, disk, and spherical)
-		//Point3 p0(-0.5f * width, center.y - 0.5f * height, center.z);
-		//Vector a(width, 0.0f, 0.0f);
-		//Vector b(0.0f, height, 0.0f);
-
-		////Rectangle* rectangle_ptr = new Rectangle(p0, a, b);
-		////rectangle_ptr->SetMaterial(emissive_ptr);
-		////rectangle_ptr->SetSampler(sampler_ptr);
-		////rectangle_ptr->SetShadow(false);
-		////m_Scene->AddObject(rectangle_ptr);
-
-
-		//EnvironmentLight* area_light_ptr = new EnvironmentLight;
-		////area_light_ptr->SetPosition({ 5.0f, 5.0f, 5.0f });
-		////area_light_ptr->SetLs(5.0f);
-		////area_light_ptr->SetC({ 0.75f, 0.25f, 0.1f });
-		////area_light_ptr->SetObject(rectangle_ptr);
-		//area_light_ptr->SetSampler(sampler_ptr);
-		//area_light_ptr->SetMaterial(emissive_ptr);
-		//area_light_ptr->SetShadow(true);
-		//m_Scene->AddLight(area_light_ptr);
-
-
-		//// Four axis aligned boxes
-
-		//float box_width = 1.0f; 		// x dimension
-		//float box_depth = 1.0f; 		// z dimension
-		//float box_height = 4.5f; 		// y dimension
-		//float gap = 3.0f;
-
-		//Matte* matte_ptr1 = new Matte;
-		//matte_ptr1->SetKa(0.25f);
-		//matte_ptr1->SetKd(0.75f);
-		//matte_ptr1->SetCd({ 0.4f, 0.7f, 0.4f });     // green
-
-		//Box* box_ptr0 = new Box(Point3(-1.5f * gap - 2.0f * box_width, 0.0f, -0.5f * box_depth),
-		//	Point3(-1.5f * gap - box_width, box_height, 0.5f * box_depth));
-		//box_ptr0->SetMaterial(matte_ptr1);
-		//m_Scene->AddObject(box_ptr0);
-
-		//Box* box_ptr1 = new Box(Point3(-0.5f * gap - box_width, 0.0f, -0.5f * box_depth),
-		//	Point3(-0.5f * gap, box_height, 0.5f * box_depth));
-		//box_ptr1->SetMaterial(matte_ptr1);
-		//m_Scene->AddObject(box_ptr1);
-
-		//Box* box_ptr2 = new Box(Point3(0.5f * gap, 0.0f, -0.5f * box_depth),
-		//	Point3(0.5f * gap + box_width, box_height, 0.5f * box_depth));
-		//box_ptr2->SetMaterial(matte_ptr1);
-		//m_Scene->AddObject(box_ptr2);
-
-		//Box* box_ptr3 = new Box(Point3(1.5f * gap + box_width, 0.0f, -0.5f * box_depth),
-		//	Point3(1.5f * gap + 2.0f * box_width, box_height, 0.5f * box_depth));
-		//box_ptr3->SetMaterial(matte_ptr1);
-		//m_Scene->AddObject(box_ptr3);
-
-		//Box* box_ptr4 = new Box(Point3(1.5f * gap + box_width, 0.0f, -2.5f * box_depth),
-		//	Point3(1.5f * gap + 2.0f * box_width, box_height * 1.5f, -1.0f * box_depth));
-		//box_ptr4->SetMaterial(matte_ptr1);
-		//m_Scene->AddObject(box_ptr4);
-
-
-		//// ground plane
-
-		//Matte* matte_ptr2 = new Matte;
-		//matte_ptr2->SetKa(0.1f);
-		//matte_ptr2->SetKd(0.90f);
-		//matte_ptr2->SetCd(WHITE);
-
-		//Plane* plane_ptr = new Plane(Point3(0.0f), Vector(0, 1, 0));
-		//plane_ptr->SetMaterial(matte_ptr2);
-		//m_Scene->AddObject(plane_ptr);
-
-		/************************************************************************/
-		/* Previous Scene                                                       */
-		/************************************************************************/
-
-		//int nbSamples = 4;
-		//Sampler* sampler = new MultiJitteredSampler(nbSamples);
-		//m_ViewingPlane.m_HorRes = m_Buffer->GetWidth();
-		//m_ViewingPlane.m_VertRes = m_Buffer->GetHeight();
-		//m_ViewingPlane.m_PixelSize = 1.0f;
-		//m_ViewingPlane.SetSampler(sampler);
-
-		//CameraDesc desc;
-		//desc.eye = { 0, 25, 100 };
-		//desc.lookAt = { 0, 0, 0 };
-
-		//m_Camera = new PinholeCamera(desc, 1.0f, 6500);
-		//m_Camera->ComputeONB();
-
-		//m_BackColor = RED;
-		//m_Tracer = new AreaLighting(this);
-
-		//AmbientLight* ambientLight = new AmbientLight;
-		//ambientLight->SetLs(0.01f);
-		//m_Scene->SetAmbientLight(ambientLight);
-
-		//float width = 2.0f;				// for Figure 18.4(a) & (b)
-		//float height = 2.0f;
-		////	float width = 2.0;				// for Figure 18.4(c)
-		////	float height = 2.0;
-		//Point3 center(0.0f, 2.5f, -1.0f);	// center of each area light (rectangular, disk, and spherical)
-		//Point3 p0(-0.5f * width, center.y - 0.5f * height, center.z);
-		//Vector a(width, 0.0f, 0.0f);
-		//Vector b(0.0f, height, 0.0f);
-
-		//Emissive* emissive_ptr = new Emissive;
-		//emissive_ptr->SetLs(20.0);
-		//emissive_ptr->SetCe(WHITE);
-
-		//Rectangle* rectangle_ptr = new Rectangle(p0, a, b);
-		//rectangle_ptr->SetMaterial(emissive_ptr);
-		//rectangle_ptr->SetSampler(sampler);
-		//rectangle_ptr->SetShadow(false);
-		//m_Scene->AddObject(rectangle_ptr);
-		//AreaLight* light = new AreaLight;
-		//light->SetObject(rectangle_ptr);
-		//light->SetShadow(true);
-		//m_Scene->AddLight(light);
-		//
-		//float radius = 1.0f;
-		//float gap = 0.2f;	 // gap between spheres
-
-		//Matte* matte_ptr1 = new Matte;
-		//matte_ptr1->SetKa(0.0f);
-		//matte_ptr1->SetKd(0.75f);
-		//matte_ptr1->SetCd({ 1, 0, 0 });		// red
-		////matte_ptr1->SetExp(1.0f); 
-		//Sphere* sphere_ptr1 = new Sphere({ -3.0f * radius - 1.5f * gap, 0.0f, 0.0f }, radius);
-		//sphere_ptr1->SetMaterial(matte_ptr1);
-		//m_Scene->AddObject(sphere_ptr1);
-		//
-
-		//Matte* matte_ptr2 = new Matte;
-		//matte_ptr2->SetKa(0.0f);
-		//matte_ptr2->SetKd(0.75f);
-		//matte_ptr2->SetCd({ 1, 0.5f, 0 });		// orange
-		////matte_ptr2->SetExp(5.0f);
-
-		//Sphere* sphere_ptr2 = new Sphere({ -radius - 0.5f * gap, 0.0, 0.0 }, radius);
-		//sphere_ptr2->SetMaterial(matte_ptr2);
-		//m_Scene->AddObject(sphere_ptr2);
-
-
-		//Matte* matte_ptr3 = new Matte;
-		//matte_ptr3->SetKa(0.0);
-		//matte_ptr3->SetKd(0.75f);
-		//matte_ptr3->SetCd({ 1, 1, 0 });		// yellow
-		////matte_ptr3->SetExp(25.0f);
-
-		//Sphere* sphere_ptr3 = new Sphere({ radius + 0.5f * gap, 0.0, 0.0 }, radius);
-		//sphere_ptr3->SetMaterial(matte_ptr3);
-		//m_Scene->AddObject(sphere_ptr3);
-
-
-		//Matte* matte_ptr4 = new Matte;
-		//matte_ptr4->SetKa(0.0f);
-		//matte_ptr4->SetKd(0.75f);
-		//matte_ptr4->SetCd({0, 1, 0});		// green
-		////matte_ptr4->SetExp(50.0f);
-
-		//Sphere* sphere_ptr4 = new Sphere({3.0f * radius + 1.5f * gap, 0.0, 0.0}, radius);
-		//sphere_ptr4->SetMaterial(matte_ptr4);
-		//m_Scene->AddObject(sphere_ptr4);
-
-		//// ground plane
-
-		//Matte* matte_ptr5 = new Matte;
-		//matte_ptr5->SetKa(0.25f);
-		//matte_ptr5->SetKd(0.5f);
-		//matte_ptr5->SetCd(1.0f);
-		////matte_ptr5->SetKs(1.5f);
-		////matte_ptr5->SetExp(5.0f);
-		//Plane* plane_ptr = new Plane({0, -1, 0}, Vector(0, 1, 0));
-		//plane_ptr->SetMaterial(matte_ptr5);
-		//m_Scene->AddObject(plane_ptr);
-
+	
 	}
 
 	bool Renderer::Render()
