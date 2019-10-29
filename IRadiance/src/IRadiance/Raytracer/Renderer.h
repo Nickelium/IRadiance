@@ -51,6 +51,7 @@ namespace IRadiance
 
 		bool Render();
 	private:
+		void BuildCornellBoxData(int _nbSamples);
 		void BuildCornellBox(int _nbSamples);
 		void BuildCaustics(int _nbSamples);
 		void BuildReflection(int _nbSamples);

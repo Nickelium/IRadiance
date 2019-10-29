@@ -30,5 +30,3 @@
 
 #include <stdint.h>
 using Handle = uint32_t;
-
-using Handle = uint32_t;

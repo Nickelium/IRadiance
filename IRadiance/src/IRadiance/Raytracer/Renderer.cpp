@@ -137,6 +137,223 @@ namespace IRadiance
 		return m_MaxDepth;
 	}
 
+	void Renderer::BuildCornellBoxData(int _nbSamples)
+	{
+		m_MaxDepth = 10;
+
+		CameraDesc desc;
+		desc.eye = { 27.8f, 27.3f, -80.0f };
+		desc.lookAt = desc.eye + Vector{0.0f, 0.0f, 1.0f};
+		m_Camera = new PinholeCamera(desc, 1.0f, 418.0f * (300 / 300.0f)/** 2.4f*/);
+
+
+		Point3 p0;
+		Vector a, b;
+		Vector normal;
+
+		int num_samples = _nbSamples;
+
+		// box dimensions
+
+		float width = 55.28f;   	// x direction
+		float height = 54.88f;  	// y direction
+		float depth = 55.92f;	// z direction
+
+
+		// the ceiling light - doesn't need samples
+
+		Emissive* emissive_ptr = new Emissive;
+		emissive_ptr->SetCe({ 1.0f, 0.67f, 0.21f });
+		emissive_ptr->SetLs(40);
+
+		p0 = Point3(21.3f, height - 0.001f, 22.7f);
+		a = Vector(0.0f, 0.0f, 10.5f);
+		b = Vector(13.0f, 0.0f, 0.0f);
+		normal = Vector(0.0f, -1.0f, 0.0f);
+		Rectangle* light_ptr = new Rectangle(p0, a, b, normal);
+		light_ptr->SetMaterial(emissive_ptr);
+		m_Scene->AddObject(light_ptr);
+
+		AreaLight* light = new AreaLight;
+		light->SetObject(light_ptr);
+		light_ptr->SetSampler(new MultiJitteredSampler(num_samples));
+		light->SetShadow(true);
+		m_Scene->AddLight(light);
+
+		// left wall
+
+		Matte* matte_ptr1 = new Matte;
+		matte_ptr1->SetKa(0.0f);
+		matte_ptr1->SetKd(0.75f);
+		matte_ptr1->SetCd({ 0.57f, 0.025f, 0.025f });	 // red
+		matte_ptr1->SetSampler(new MultiJitteredSampler(num_samples));
+
+		p0 = Point3(width, 0.0f, 0.0f);
+		a = Vector(0.0f, 0.0f, depth);
+		b = Vector(0.0f, height, 0.0f);
+		normal = Vector(-1.0f, 0.0f, 0.0f);
+		Rectangle* left_wall_ptr = new Rectangle(p0, a, b, normal);
+		left_wall_ptr->SetMaterial(matte_ptr1);
+		m_Scene->AddObject(left_wall_ptr);
+
+
+		// right wall
+
+		Matte* matte_ptr2 = new Matte;
+		matte_ptr2->SetKa(0.0f);
+		matte_ptr2->SetKd(0.75f);
+		matte_ptr2->SetCd({ 0.025f,0.236f,0.025f });	 // green   from Photoshop
+		matte_ptr2->SetSampler(new MultiJitteredSampler(num_samples));
+
+		p0 = Point3(0.0f, 0.0f, 0.0f);
+		a = Vector(0.0f, 0.0f, depth);
+		b = Vector(0.0f, height, 0.0f);
+		normal = Vector(1.0f, 0.0f, 0.0f);
+		Rectangle* right_wall_ptr = new Rectangle(p0, a, b, normal);
+		right_wall_ptr->SetMaterial(matte_ptr2);
+		m_Scene->AddObject(right_wall_ptr);
+
+		// back wall
+		Matte* matte_ptr3 = new Matte;
+		matte_ptr3->SetKa(0.0f);
+		matte_ptr3->SetKd(0.75f);
+		matte_ptr3->SetCd({ 1.0f, 1.0f, 1.0f });	 // white
+		matte_ptr3->SetSampler(new MultiJitteredSampler(num_samples));
+
+		p0 = Point3(0.0f, 0.0f, depth);
+		a = Vector(width, 0.0f, 0.0f);
+		b = Vector(0.0, height, 0.0f);
+		normal = Vector(0.0f, 0.0f, -1.0f);
+		Rectangle* back_wall_ptr = new Rectangle(p0, a, b, normal);
+		back_wall_ptr->SetMaterial(matte_ptr3);
+		m_Scene->AddObject(back_wall_ptr);
+
+
+		// floor
+
+		p0 = Point3(0.0f, 0.0f, 0.0f);
+		a = Vector(0.0f, 0.0f, depth);
+		b = Vector(width, 0.0f, 0.0f);
+		normal = Vector(0.0f, 1.0f, 0.0f);
+		Rectangle* floor_ptr = new Rectangle(p0, a, b, normal);
+		floor_ptr->SetMaterial(matte_ptr3);
+		m_Scene->AddObject(floor_ptr);
+
+		// ceiling
+
+		p0 = Point3(0.0f, height, 0.0f);
+		a = Vector(0.0f, 0.0f, depth);
+		b = Vector(width, 0.0f, 0.0f);
+		normal = Vector(0.0f, -1.0f, 0.0f);
+		Rectangle* ceiling_ptr = new Rectangle(p0, a, b, normal);
+		ceiling_ptr->SetMaterial(matte_ptr3);
+		m_Scene->AddObject(ceiling_ptr);
+
+		// the two boxes defined as 5 rectangles each
+
+		// short box
+
+		// top
+
+		p0 = Point3(13.0f, 16.5f, 6.5f);
+		a = Vector(-4.8f, 0.0f, 16.0f);
+		b = Vector(16.0f, 0.0f, 4.9f);
+		normal = Vector(0.0f, 1.0f, 0.0f);
+		Rectangle* short_top_ptr = new Rectangle(p0, a, b, normal);
+		//short_top_ptr->SetMaterial(matte_ptr3);
+		short_top_ptr->SetMaterial(matte_ptr3);
+		m_Scene->AddObject(short_top_ptr);
+
+
+		// side 1
+
+		p0 = Point3(13.0f, 0.0f, 6.5f);
+		a = Vector(-4.8f, 0.0f, 16.0f);
+		b = Vector(0.0f, 16.5f, 0.0f);
+		Rectangle* short_side_ptr1 = new Rectangle(p0, a, b);
+		short_side_ptr1->SetMaterial(matte_ptr3);
+		m_Scene->AddObject(short_side_ptr1);
+
+
+		// side 2
+
+		p0 = Point3(8.2f, 0.0f, 22.5f);
+		a = Vector(15.8f, 0.0f, 4.7f);
+		Rectangle* short_side_ptr2 = new Rectangle(p0, a, b);
+		short_side_ptr2->SetMaterial(matte_ptr3);
+		m_Scene->AddObject(short_side_ptr2);
+
+
+		// side 3
+
+		p0 = Point3(24.2f, 0.0f, 27.4f);
+		a = Vector(4.8f, 0.0f, -16.0f);
+		Rectangle* short_side_ptr3 = new Rectangle(p0, a, b);
+		short_side_ptr3->SetMaterial(matte_ptr3);
+		m_Scene->AddObject(short_side_ptr3);
+
+
+		// side 4
+
+		p0 = Point3(29.0f, 0.0f, 11.4f);
+		a = Vector(-16.0f, 0.0f, -4.9f);
+		Rectangle* short_side_ptr4 = new Rectangle(p0, a, b);
+		short_side_ptr4->SetMaterial(matte_ptr3);
+		m_Scene->AddObject(short_side_ptr4);
+
+
+
+
+		// tall box
+
+		// top
+
+		p0 = Point3(42.3f, 33.0f, 24.7f);
+		a = Vector(-15.8f, 0.0f, 4.9f);
+		b = Vector(4.9f, 0.0f, 15.9f);
+		normal = Vector(0.0f, 1.0f, 0.0f);
+		Rectangle* tall_top_ptr = new Rectangle(p0, a, b, normal);
+		tall_top_ptr->SetMaterial(matte_ptr3);
+		m_Scene->AddObject(tall_top_ptr);
+
+
+		// side 1
+
+		p0 = Point3(42.3f, 0.0f, 24.7f);
+		a = Vector(-15.8f, 0.0f, 4.9f);
+		b = Vector(0.0f, 33.0f, 0.0f);
+		Rectangle* tall_side_ptr1 = new Rectangle(p0, a, b);
+		tall_side_ptr1->SetMaterial(matte_ptr3);
+		m_Scene->AddObject(tall_side_ptr1);
+
+
+		// side 2
+
+		p0 = Point3(26.5f, 0.0f, 29.6f);
+		a = Vector(4.9f, 0.0f, 15.9f);
+		Rectangle* tall_side_ptr2 = new Rectangle(p0, a, b);
+		tall_side_ptr2->SetMaterial(matte_ptr3);
+		m_Scene->AddObject(tall_side_ptr2);
+
+
+		// side 3
+
+		p0 = Point3(31.4f, 0.0f, 45.5f);
+		a = Vector(15.8f, 0.0f, -4.9f);
+		Rectangle* tall_side_ptr3 = new Rectangle(p0, a, b);
+		tall_side_ptr3->SetMaterial(matte_ptr3);
+		m_Scene->AddObject(tall_side_ptr3);
+
+
+		// side 4
+
+		p0 = Point3(47.2f, 0.0f, 40.6f);
+		a = Vector(-4.9f, 0.0f, -15.9f);
+		Rectangle* tall_side_ptr4 = new Rectangle(p0, a, b);
+		tall_side_ptr4->SetMaterial(matte_ptr3);
+		m_Scene->AddObject(tall_side_ptr4);
+	}
+
 	void Renderer::BuildCornellBox(int _nbSamples)
 	{
 		m_MaxDepth = 10;
@@ -144,7 +361,8 @@ namespace IRadiance
 		CameraDesc desc;
 		desc.eye = { 27.6f, 27.4f, -80.0f };
 		desc.lookAt = { 27.6f, 27.4f, 0.0f };
-		m_Camera = new PinholeCamera(desc, 1.0f, 400 /** 2.4f*/);
+		m_Camera = new PinholeCamera(desc, 1.0f, 418.0f * (300 / 300.0f)/** 2.4f*/);
+
 
 		Point3 p0;
 		Vector a, b;
@@ -358,12 +576,12 @@ namespace IRadiance
 		CameraDesc desc;
 		desc.eye = { -50, 100, 50 };
 		desc.lookAt = { 0, 0.0f, 0.0f };
-		m_Camera = new PinholeCamera(desc, 1.0f, 8000/** 2.4f*/);
+		m_Camera = new PinholeCamera(desc, 1.0f, 8000 /** 2.4f*/);
 
 		// emissive sphere
 		Emissive* emissive_ptr = new Emissive;
 		emissive_ptr->SetCe({ 0.75f, 1, 0.75f });
-		emissive_ptr->SetLs(100.0f);
+		emissive_ptr->SetLs(10000.0f);
 
 		Sphere* sphere_ptr = new Sphere(Point3(-2, 10, 12), 1);
 		sphere_ptr->SetMaterial(emissive_ptr);
@@ -641,7 +859,8 @@ namespace IRadiance
 		m_Buffer = _buffer;
 
 		m_Display = new Display;
-		m_Display->SetGamma(2.2f);
+		m_Display->SetGamma(1.9f);
+		//m_Display->SetGamma(1.0f);
 		//TODO, do actually need to gamma correct because not sampling for texture or so
 		//TODO reflection and phong or broken
 
@@ -656,10 +875,11 @@ namespace IRadiance
 		m_ViewingPlane.m_VertRes = m_Buffer->GetHeight();
 		SetNbSamples(num_samples);
 
-		m_Tracer = new Whitted(this);
-		//m_Tracer = new HybridPathTracer(this);
+		//m_Tracer = new Whitted(this);
+		m_Tracer = new HybridPathTracer(this);
 
-		BuildCornellBox(num_samples); // OK
+		BuildCornellBoxData(num_samples); // OK
+		//BuildCornellBox(num_samples); // OK
 		//BuildCaustics(num_samples); // FACTOR 10 light to approx
 		//BuildReflection(num_samples); // OK
 		//BuildRefraction(num_samples); // OK

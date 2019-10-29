@@ -26,7 +26,8 @@ namespace IRadiance
 		 * Create Texture2D from file
 		 */
 		virtual Texture2D* CreateTexture2D(const std::string& _filePath) const = 0;
-		virtual Texture2D* CreateTexture2D(int _width, int _height) const = 0;
+		virtual Texture2D* CreateWritableTexture2D(int _width, int _height) const = 0;
+		virtual Texture2D* CreateWritableTexture2D(const std::string& _filePath) const = 0;
 
 		static RenderDevice* Create();
 

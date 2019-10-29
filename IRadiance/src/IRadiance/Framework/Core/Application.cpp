@@ -3,6 +3,7 @@
 
 #include "IRadiance/Framework/Renderer/API/RenderCommand.h"
 #include "IRadiance/Framework/Renderer/API/RenderDevice.h"
+#include "IRadiance/Framework/Core/FileDialog.h"
 
 namespace IRadiance
 {
@@ -13,6 +14,7 @@ namespace IRadiance
 		m_Window = Window::Create({"IRadiance Engine - RAYTRACER", _width, _height});
 		m_Window->SetEventCallback(BIND_FN(Application::RootOnEvent));
 		Locator::Set(RenderDevice::Create());
+		Locator::Set(FileDialog::Create(m_Window));
 		m_ImGuiLayer = new ImGuiLayer(this);
 		PushOverlay(m_ImGuiLayer);
 

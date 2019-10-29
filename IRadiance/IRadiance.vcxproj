@@ -19,9 +19,12 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\IRadiance\Framework\Core\FileDialog.h" />
     <ClInclude Include="src\IRadiance\Framework\Core\Locator.h" />
     <ClInclude Include="src\IRadiance\Framework\Core\BaseLayer.h" />
     <ClInclude Include="src\IRadiance\Framework\Renderer\ImageBuffer.h" />
+    <ClInclude Include="src\IRadiance\Framework\Utility\DecimalSeparator.h" />
+    <ClInclude Include="src\IRadiance\Platform\Windows\WindowsFileDialog.h" />
     <ClInclude Include="src\IRadiance\Raytracer\BxDF\BRDF.h" />
     <ClInclude Include="src\IRadiance\Raytracer\BxDF\BTDF.h" />
     <ClInclude Include="src\IRadiance\Raytracer\BxDF\GlossySpecular.h" />
@@ -135,6 +138,7 @@
   <ItemGroup>
     <ClCompile Include="src\IRadiance\Framework\Core\BaseLayer.cpp" />
     <ClCompile Include="src\IRadiance\Framework\Renderer\ImageBuffer.cpp" />
+    <ClCompile Include="src\IRadiance\Platform\Windows\WindowsFileDialog.cpp" />
     <ClCompile Include="src\IRadiance\Raytracer\BxDF\GlossySpecular.cpp" />
     <ClCompile Include="src\IRadiance\Raytracer\BxDF\Lambertian.cpp" />
     <ClCompile Include="src\IRadiance\Raytracer\BxDF\PerfectSpecular.cpp" />

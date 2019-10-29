@@ -167,6 +167,8 @@
     <None Include="res\shaders\Basic2.vs" />
     <None Include="res\shaders\Quad.fs" />
     <None Include="res\shaders\Quad.vs" />
+    <None Include="res\shaders\QuadDiff.fs" />
+    <None Include="res\shaders\QuadDiff.vs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\IRadiance\IRadiance.vcxproj">

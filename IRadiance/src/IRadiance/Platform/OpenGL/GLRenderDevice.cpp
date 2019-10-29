@@ -40,9 +40,14 @@ namespace IRadiance
 		return new GLTexture2D(_filePath);
 	}
 
-	Texture2D* GLRenderDevice::CreateTexture2D(int _width, int _height) const
+	Texture2D* GLRenderDevice::CreateWritableTexture2D(int _width, int _height) const
 	{
 		return new GLAccessibleTexture2D(_width, _height);
+	}
+
+	Texture2D* GLRenderDevice::CreateWritableTexture2D(const std::string& _filePath) const
+	{
+		return new GLAccessibleTexture2D(_filePath);
 	}
 
 }

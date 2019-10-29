@@ -8,6 +8,8 @@
 #include "IRadiance/Raytracer/Samplers/Sampler.h"
 #include "IRadiance/Raytracer/Tracers/Tracer.h"
 
+#include "IRadiance/Framework/Utility/DecimalSeparator.h"
+
 #include <omp.h>
 
 namespace IRadiance
@@ -71,7 +73,8 @@ namespace IRadiance
 		std::chrono::steady_clock::time_point end = std::chrono::steady_clock::now();
 		IRAD_INFO("Rendering Completed ...");
 		std::stringstream ss;
-		ss << "Time difference = " << std::chrono::duration_cast<std::chrono::microseconds>(end - begin).count() * 1e-6f << "[s]" << std::endl;
+		ss.imbue(std::locale(std::cout.getloc(), new DecimalSeparator<char>(',')));
+		ss << "Time difference = " << std::chrono::duration_cast<std::chrono::microseconds>(end - begin).count() * 1e-6f /*<< "[s]"*/ << std::endl;
 		IRAD_INFO(ss.str());
 		return true;
 	}

@@ -22,8 +22,8 @@ namespace IRadiance
 		inline virtual void Update() override {}
 		inline virtual ImageBuffer* GetImageBuffer() const override { return nullptr; }
 
-	private:
 		Handle m_Handle;
+	private:
 		std::string m_FilePath;
 		unsigned char* m_Buffer;
 		int m_Width, m_Height, m_BPP;
@@ -34,6 +34,7 @@ namespace IRadiance
 	{
 	public:
 		GLAccessibleTexture2D(int _width, int _height);
+		GLAccessibleTexture2D(const std::string& _fileName);
 		virtual ~GLAccessibleTexture2D();
 
 		virtual void Bind(unsigned int _slot = 0) override;
@@ -46,8 +47,8 @@ namespace IRadiance
 
 		virtual void Update();
 
-	private:
 		Handle m_Handle;
+	private:
 		int m_Width, m_Height, m_BPP;
 		ImageBuffer* m_ImageBuffer;
 	};
