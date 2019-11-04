@@ -32,7 +32,7 @@ public:
 		using namespace IRadiance;
 
 		RenderDevice* renderDevice = Locator::Get<RenderDevice>();
-		int width = 300;// int(720 * (16.0f / 9.0f));
+		int width = 720;// int(720 * (16.0f / 9.0f));
 		int height = width;
 		m_Texture = renderDevice->CreateWritableTexture2D(width, height);
 
@@ -88,6 +88,83 @@ public:
 	}
 };
 
+void ComputeDifference(const IRadiance::Texture2D* tex1, const IRadiance::Texture2D* tex2, IRadiance::RenderDevice* rd, const std::string& _outFile)
+{
+	struct RGBAInt
+	{
+		int r, g, b, a;
+	};
+	using namespace IRadiance;
+	Texture2D* out = rd->CreateWritableTexture2D(tex1->GetWidth(), tex1->GetHeight());
+	ImageBuffer& bufferOut = *out->GetImageBuffer();
+	ImageBuffer& bufferTex1 = *tex1->GetImageBuffer();
+	ImageBuffer& bufferTex2 = *tex2->GetImageBuffer();
+
+	for (int i = 0; i < tex1->GetWidth(); ++i)
+	{
+		for (int j = 0; j < tex1->GetHeight(); ++j)
+		{
+			RGBAInt c1;
+			c1.r = bufferTex1[j][i].r;
+			c1.g = bufferTex1[j][i].g;
+			c1.b = bufferTex1[j][i].b;
+			RGBAInt c2;
+			c2.r = bufferTex2[j][i].r;
+			c2.g = bufferTex2[j][i].g;
+			c2.b = bufferTex2[j][i].b;
+			RGBA r;
+			r.r = std::abs(c1.r - c2.r);
+			r.g = std::abs(c1.g - c2.g);
+			r.b = std::abs(c1.b - c2.b);
+			r.a = 0xFF;
+			bufferOut[j][i] = r;
+		}
+	}
+	out->GetImageBuffer()->Write(_outFile);
+	delete out;
+}
+
+float ComputeMSE(const IRadiance::Texture2D* tex1, const IRadiance::Texture2D* tex2)
+{
+	using namespace IRadiance;
+
+	struct RGBAInt
+	{
+		int r, g, b, a;
+	};
+	float RMS = 0.0f;
+
+	ImageBuffer& bufferTex1 = *tex1->GetImageBuffer();
+	ImageBuffer& bufferTex2 = *tex2->GetImageBuffer();
+
+	for (int i = 0; i < tex1->GetWidth(); ++i)
+	{
+		for (int j = 0; j < tex1->GetHeight(); ++j)
+		{
+			RGBAInt c1;
+			c1.r = bufferTex1[j][i].r;
+			c1.g = bufferTex1[j][i].g;
+			c1.b = bufferTex1[j][i].b;
+			RGBAInt c2;
+			c2.r = bufferTex2[j][i].r;
+			c2.g = bufferTex2[j][i].g;
+			c2.b = bufferTex2[j][i].b;
+			RGBAInt r;
+			r.r = (c1.r - c2.r);
+			r.g = (c1.g - c2.g);
+			r.b = (c1.b - c2.b);
+			
+			float avgQuadError = (r.r * r.r + r.g * r.g + r.b * r.b) / 3.0f;
+			RMS += avgQuadError;
+
+		}
+	}
+
+	RMS /= tex1->GetWidth() * tex1->GetHeight();
+
+	return RMS;
+}
+
 class ShaderDifferenceLayer : public IRadiance::Layer
 {
 	IRadiance::MeshRender* m_QuadRender;
@@ -110,7 +187,15 @@ public:
 		m_DefaultTexture = renderDevice->CreateTexture2D("res/textures/checkerboard.tga");
 
 		m_Texture1 = renderDevice->CreateWritableTexture2D("res/textures/1.jpg");
-		m_Texture2 = renderDevice->CreateWritableTexture2D("res/textures/2.png");
+		m_Texture2 = renderDevice->CreateWritableTexture2D(
+			"output/Data/Accuracy/ReferencePOV.png");
+
+		//ComputeDifference(m_Texture1, m_Texture2, renderDevice);
+		float MSE1 = ComputeMSE(renderDevice->CreateWritableTexture2D(
+			"output/Data/Accuracy/Whitted/Original/16384.jpg"), m_Texture2);
+		float MSE2 = 
+			ComputeMSE(renderDevice->CreateWritableTexture2D(
+			"output/Data/Accuracy/Hybrid/Original/16384.jpg"), m_Texture2);
 
 		RenderCommand::SetClearColor({ 1.0f, 1.0f, 0.0f, 1.0f });
 
@@ -207,7 +292,8 @@ public:
 		if (ImGui::Button("Save As"))
 		{
 			//m_Texture->GetImageBuffer()->Write("output/image");
-			m_Texture2->GetImageBuffer()->Clear();
+			RenderDevice* rd = Locator::Get<RenderDevice>();
+			ComputeDifference(m_Texture1, m_Texture2, rd, "out");
 			IRAD_INFO("Image Saved");
 		}
 
@@ -219,6 +305,42 @@ public:
 	}
 };
 
+class SelectLayer : public IRadiance::Layer
+{
+	IRadiance::Layer* m_Layer1;
+	IRadiance::Layer* m_Layer2;
+
+	int m_ActiveLayer;
+public:
+	SelectLayer(IRadiance::Application* _app, IRadiance::Layer* _layer1, IRadiance::Layer* _layer2)
+		: Layer(_app), m_Layer1(_layer1), m_Layer2(_layer2)
+	{}
+
+	virtual void Update(IRadiance::DataTime)
+	{
+		if (m_ActiveLayer == 0)
+		{
+			m_Layer1->Activate();
+			m_Layer2->Deactivate();
+		}
+		else if(m_ActiveLayer == 1)
+		{
+			m_Layer2->Activate();
+			m_Layer1->Deactivate();
+		}
+
+	}
+
+	virtual void RenderGUI()
+	{
+		ImGui::Begin("Program");
+		ImGui::RadioButton("Raytracer", &m_ActiveLayer, 0);
+		ImGui::SameLine();
+		ImGui::RadioButton("Image Difference", &m_ActiveLayer, 1);
+		ImGui::End();
+	}
+};
+
 class SandboxApplication : public IRadiance::Application
 {
 public:
@@ -227,8 +349,10 @@ public:
 	{
 		using namespace IRadiance;
 		IRAD_INFO("Creating Sandbox Application");
-		//PushLayer(new RaytracerLayer(this));
-		PushLayer(new ShaderDifferenceLayer(this));
+		Layer* layer1, *layer2;
+		PushLayer(layer1 = new RaytracerLayer(this));
+		PushLayer(layer2 = new ShaderDifferenceLayer(this));
+		PushLayer(new SelectLayer(this, layer1, layer2));
 	}
 
 	virtual ~SandboxApplication()

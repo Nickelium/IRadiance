@@ -144,7 +144,7 @@ namespace IRadiance
 		CameraDesc desc;
 		desc.eye = { 27.8f, 27.3f, -80.0f };
 		desc.lookAt = desc.eye + Vector{0.0f, 0.0f, 1.0f};
-		m_Camera = new PinholeCamera(desc, 1.0f, 418.0f * (300 / 300.0f)/** 2.4f*/);
+		m_Camera = new PinholeCamera(desc, 1.0f, 418.0f * (720 / 300.0f)/** 2.4f*/);
 
 
 		Point3 p0;
@@ -361,7 +361,7 @@ namespace IRadiance
 		CameraDesc desc;
 		desc.eye = { 27.6f, 27.4f, -80.0f };
 		desc.lookAt = { 27.6f, 27.4f, 0.0f };
-		m_Camera = new PinholeCamera(desc, 1.0f, 418.0f * (300 / 300.0f)/** 2.4f*/);
+		m_Camera = new PinholeCamera(desc, 1.0f, 418.0f * (720 / 300.0f)/** 2.4f*/);
 
 
 		Point3 p0;
@@ -581,7 +581,7 @@ namespace IRadiance
 		// emissive sphere
 		Emissive* emissive_ptr = new Emissive;
 		emissive_ptr->SetCe({ 0.75f, 1, 0.75f });
-		emissive_ptr->SetLs(10000.0f);
+		emissive_ptr->SetLs(150.0f);
 
 		Sphere* sphere_ptr = new Sphere(Point3(-2, 10, 12), 1);
 		sphere_ptr->SetMaterial(emissive_ptr);
@@ -637,7 +637,7 @@ namespace IRadiance
 		CameraDesc desc;
 		desc.eye = { 100, 45, 100 };
 		desc.lookAt = { -10, 40, 0 };
-		m_Camera = new PinholeCamera(desc, 1.0f, 400);
+		m_Camera = new PinholeCamera(desc, 1.0f, 525);
 
 		Emissive* emissive_ptr = new Emissive;
 		emissive_ptr->SetLs(0.90f);
@@ -869,7 +869,7 @@ namespace IRadiance
 
 		m_ToneMapper = new Clamper;
 
-		int num_samples = 1024;   	
+		int num_samples = 100 * 1;   	
 
 		m_ViewingPlane.m_HorRes = m_Buffer->GetWidth();
 		m_ViewingPlane.m_VertRes = m_Buffer->GetHeight();
@@ -878,11 +878,11 @@ namespace IRadiance
 		//m_Tracer = new Whitted(this);
 		m_Tracer = new HybridPathTracer(this);
 
-		BuildCornellBoxData(num_samples); // OK
+		//BuildCornellBoxData(num_samples); // OK
 		//BuildCornellBox(num_samples); // OK
 		//BuildCaustics(num_samples); // FACTOR 10 light to approx
 		//BuildReflection(num_samples); // OK
-		//BuildRefraction(num_samples); // OK
+		BuildRefraction(num_samples); // OK
 		m_Camera->ComputeONB();
 	
 	}
