@@ -12,15 +12,10 @@ namespace IRadiance
 	{
 	}
 
-	void ViewPlane::SetSampler(Sampler* _sampler)
+	void ViewPlane::SetSampler(Sampler** _sampler)
 	{
-		if (m_Sampler)
-		{
-			delete m_Sampler;
-			m_Sampler = nullptr;
-		}
 		m_Sampler = _sampler;
-		m_NumSamples = m_Sampler->GetNumberSamples();
+		m_NumSamples = (*m_Sampler)->GetNumberSamples();
 	}
 
 }

@@ -255,12 +255,6 @@
     <ClInclude Include="src\IRadiance\Raytracer\Lights\DirectionalLight.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\IRadiance\Raytracer\BRDF\BRDF.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\IRadiance\Raytracer\BRDF\Lambertian.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="src\IRadiance\Raytracer\Tracers\RayCast.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -286,9 +280,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\IRadiance\Raytracer\Display.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\IRadiance\Raytracer\BRDF\GlossySpecular.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\IRadiance\Raytracer\Materials\Phong.h">
@@ -318,9 +309,6 @@
     <ClInclude Include="src\IRadiance\Raytracer\Tracers\Whitted.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\IRadiance\Raytracer\BRDF\PerfectSpecular.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="src\IRadiance\Raytracer\Materials\Reflective.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -337,6 +325,39 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\IRadiance\Raytracer\Geometry\OpenCylinder.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\IRadiance\Raytracer\Geometry\ConcaveSphere.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\IRadiance\Raytracer\BxDF\BRDF.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\IRadiance\Raytracer\BxDF\BTDF.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\IRadiance\Raytracer\BxDF\GlossySpecular.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\IRadiance\Raytracer\BxDF\Lambertian.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\IRadiance\Raytracer\BxDF\PerfectSpecular.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\IRadiance\Raytracer\BxDF\PerfectTransmitter.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\IRadiance\Raytracer\Materials\Transparent.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\IRadiance\Framework\Utility\DecimalSeparator.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\IRadiance\Framework\Core\FileDialog.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\IRadiance\Platform\Windows\WindowsFileDialog.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -512,9 +533,6 @@
     <ClCompile Include="src\IRadiance\Raytracer\Lights\PointLight.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\IRadiance\Raytracer\BRDF\Lambertian.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\IRadiance\Raytracer\Maths\Constants.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -531,9 +549,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\IRadiance\Raytracer\Display.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\IRadiance\Raytracer\BRDF\GlossySpecular.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\IRadiance\Raytracer\Materials\Phong.cpp">
@@ -563,9 +578,6 @@
     <ClCompile Include="src\IRadiance\Raytracer\Tracers\Whitted.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\IRadiance\Raytracer\BRDF\PerfectSpecular.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\IRadiance\Raytracer\Materials\Reflective.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -582,6 +594,27 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\IRadiance\Raytracer\Geometry\OpenCylinder.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\IRadiance\Raytracer\Geometry\ConcaveSphere.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\IRadiance\Raytracer\BxDF\GlossySpecular.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\IRadiance\Raytracer\BxDF\Lambertian.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\IRadiance\Raytracer\BxDF\PerfectSpecular.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\IRadiance\Raytracer\BxDF\PerfectTransmitter.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\IRadiance\Raytracer\Materials\Transparent.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\IRadiance\Platform\Windows\WindowsFileDialog.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

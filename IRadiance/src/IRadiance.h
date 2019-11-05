@@ -16,6 +16,8 @@
 #include "IRadiance/Framework/Core/KeyCodes.h"
 #include "IRadiance/Framework/Core/MouseButtonCodes.h"
 
+#include "IRadiance/Framework/Core/FileDialog.h"
+
 #include "IRadiance/Framework/Renderer/API/Shader.h"
 #include "IRadiance/Framework/Renderer/API/Buffer.h"
 #include "IRadiance/Framework/Renderer/API/VertexArray.h"
@@ -43,6 +45,7 @@
 // Vendor
 #include <glm/glm.hpp>
 #include <imgui.h>
+#include <imgui_internal.h>
 
 // EntryPoint
 #include "EntryPoint.h"

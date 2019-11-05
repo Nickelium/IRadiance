@@ -21,7 +21,7 @@ namespace IRadiance
 		void SetMaterial(Material* _material) { material = _material; }
 		Material* GetMaterial() const { return material; }
 
-		void SetSampler(Sampler* _sampler) { m_Sampler = _sampler; }
+		void SetSampler(Sampler** _sampler) { m_Sampler = _sampler; }
 
 		virtual Point3 Sample() const { return {}; }
 		virtual float pdf(const HitRecord& /*_hr*/) const { return 1.0f; }
@@ -32,7 +32,7 @@ namespace IRadiance
 		bool m_Shadow = true;
 
 		//For object sampling
-		Sampler* m_Sampler = nullptr;
+		Sampler** m_Sampler = nullptr;
 	};
 
 }

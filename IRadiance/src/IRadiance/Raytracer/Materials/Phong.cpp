@@ -1,8 +1,8 @@
 #include "pch.h"
 #include "Phong.h"
 
-#include "IRadiance/Raytracer/BRDF/Lambertian.h"
-#include "IRadiance/Raytracer/BRDF/GlossySpecular.h"	
+#include "IRadiance/Raytracer/BxDF/Lambertian.h"
+#include "IRadiance/Raytracer/BxDF/GlossySpecular.h"	
 
 #include "IRadiance/Raytracer/Renderer.h"
 #include "IRadiance/Raytracer/Tracers/Tracer.h"
@@ -46,9 +46,9 @@ namespace IRadiance
 		return L;
 	}
 
-	RGBSpectrum Phong::WhittedShading(HitRecord& /*_hr*/)
+	RGBSpectrum Phong::WhittedShading(HitRecord& _hr)
 	{
-		return BLACK;
+		return Phong::AreaLightShading(_hr);
 	}
 
 	RGBSpectrum Phong::AreaLightShading(HitRecord& _hr)
@@ -62,7 +62,7 @@ namespace IRadiance
 			for (int i = 0; i < shadowRays; ++i)
 			{
 				Vector wI = light->GetDirection(_hr);
-				float nCosWi = -Dot(_hr.normal, wI);
+				float nCosWi = Dot(_hr.normal, wI);
 				if (nCosWi > 0.0f)
 				{
 					bool inShadow = false;
@@ -87,11 +87,6 @@ namespace IRadiance
 
 	RGBSpectrum Phong::PathShading(HitRecord& _hr)
 	{
-		const float stopProbablity = std::min(1.0f, 0.0625f * _hr.depth);
-		if (RandUNorm() < stopProbablity)
-			return BLACK;
-		float contributionFactor = 1.0f / (1.0f - stopProbablity);
-
 		Vector wO = -_hr.ray.d;
 		Vector wI;
 		float pdf;
@@ -101,8 +96,7 @@ namespace IRadiance
 		reflected.o = _hr.hitPoint;
 		reflected.d = wI;
 
-		return ((f * _hr.renderer->GetTracer()->RayTrace(reflected, _hr.depth + 1) * nCosWi) / pdf)
-			* contributionFactor;
+		return ((f * _hr.renderer->GetTracer()->RayTrace(reflected, _hr.depth + 1) * nCosWi) / pdf);
 	}
 
 	RGBSpectrum Phong::HybridPathShading(HitRecord& _hr)

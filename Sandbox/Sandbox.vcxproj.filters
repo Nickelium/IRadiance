@@ -26,5 +26,7 @@
     <None Include="res\shaders\Basic2.fs" />
     <None Include="res\shaders\Quad.fs" />
     <None Include="res\shaders\Quad.vs" />
+    <None Include="res\shaders\QuadDiff.vs" />
+    <None Include="res\shaders\QuadDiff.fs" />
   </ItemGroup>
 </Project>

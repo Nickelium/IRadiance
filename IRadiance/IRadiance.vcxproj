@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
@@ -19,17 +19,23 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\IRadiance\Framework\Core\FileDialog.h" />
     <ClInclude Include="src\IRadiance\Framework\Core\Locator.h" />
     <ClInclude Include="src\IRadiance\Framework\Core\BaseLayer.h" />
     <ClInclude Include="src\IRadiance\Framework\Renderer\ImageBuffer.h" />
-    <ClInclude Include="src\IRadiance\Raytracer\BRDF\BRDF.h" />
-    <ClInclude Include="src\IRadiance\Raytracer\BRDF\GlossySpecular.h" />
-    <ClInclude Include="src\IRadiance\Raytracer\BRDF\Lambertian.h" />
-    <ClInclude Include="src\IRadiance\Raytracer\BRDF\PerfectSpecular.h" />
+    <ClInclude Include="src\IRadiance\Framework\Utility\DecimalSeparator.h" />
+    <ClInclude Include="src\IRadiance\Platform\Windows\WindowsFileDialog.h" />
+    <ClInclude Include="src\IRadiance\Raytracer\BxDF\BRDF.h" />
+    <ClInclude Include="src\IRadiance\Raytracer\BxDF\BTDF.h" />
+    <ClInclude Include="src\IRadiance\Raytracer\BxDF\GlossySpecular.h" />
+    <ClInclude Include="src\IRadiance\Raytracer\BxDF\Lambertian.h" />
+    <ClInclude Include="src\IRadiance\Raytracer\BxDF\PerfectSpecular.h" />
+    <ClInclude Include="src\IRadiance\Raytracer\BxDF\PerfectTransmitter.h" />
     <ClInclude Include="src\IRadiance\Raytracer\Cameras\Camera.h" />
     <ClInclude Include="src\IRadiance\Raytracer\Cameras\PinholeCamera.h" />
     <ClInclude Include="src\IRadiance\Raytracer\Collision\CollisionHandler.h" />
     <ClInclude Include="src\IRadiance\Raytracer\Geometry\Box.h" />
+    <ClInclude Include="src\IRadiance\Raytracer\Geometry\ConcaveSphere.h" />
     <ClInclude Include="src\IRadiance\Raytracer\Geometry\Disk.h" />
     <ClInclude Include="src\IRadiance\Raytracer\Geometry\Object.h" />
     <ClInclude Include="src\IRadiance\Raytracer\Geometry\OpenCylinder.h" />
@@ -48,6 +54,7 @@
     <ClInclude Include="src\IRadiance\Raytracer\Materials\Matte.h" />
     <ClInclude Include="src\IRadiance\Raytracer\Materials\Phong.h" />
     <ClInclude Include="src\IRadiance\Raytracer\Materials\Reflective.h" />
+    <ClInclude Include="src\IRadiance\Raytracer\Materials\Transparent.h" />
     <ClInclude Include="src\IRadiance\Raytracer\Maths\Point2.h" />
     <ClInclude Include="src\IRadiance\Raytracer\Maths\Point3.h" />
     <ClInclude Include="src\IRadiance\Raytracer\Maths\Ray.h" />
@@ -62,6 +69,7 @@
     <ClInclude Include="src\IRadiance\Raytracer\Samplers\RandomSampler.h" />
     <ClInclude Include="src\IRadiance\Raytracer\Samplers\RegularSampler.h" />
     <ClInclude Include="src\IRadiance\Raytracer\Samplers\Sampler.h" />
+    <ClInclude Include="src\IRadiance\Raytracer\Samplers\SamplerHandler.h" />
     <ClInclude Include="src\IRadiance\Raytracer\SceneGraph.h" />
     <ClInclude Include="src\IRadiance\Raytracer\ToneMapper\Clamper.h" />
     <ClInclude Include="src\IRadiance\Raytracer\Display.h" />
@@ -131,13 +139,16 @@
   <ItemGroup>
     <ClCompile Include="src\IRadiance\Framework\Core\BaseLayer.cpp" />
     <ClCompile Include="src\IRadiance\Framework\Renderer\ImageBuffer.cpp" />
-    <ClCompile Include="src\IRadiance\Raytracer\BRDF\GlossySpecular.cpp" />
-    <ClCompile Include="src\IRadiance\Raytracer\BRDF\Lambertian.cpp" />
-    <ClCompile Include="src\IRadiance\Raytracer\BRDF\PerfectSpecular.cpp" />
+    <ClCompile Include="src\IRadiance\Platform\Windows\WindowsFileDialog.cpp" />
+    <ClCompile Include="src\IRadiance\Raytracer\BxDF\GlossySpecular.cpp" />
+    <ClCompile Include="src\IRadiance\Raytracer\BxDF\Lambertian.cpp" />
+    <ClCompile Include="src\IRadiance\Raytracer\BxDF\PerfectSpecular.cpp" />
+    <ClCompile Include="src\IRadiance\Raytracer\BxDF\PerfectTransmitter.cpp" />
     <ClCompile Include="src\IRadiance\Raytracer\Cameras\Camera.cpp" />
     <ClCompile Include="src\IRadiance\Raytracer\Cameras\PinholeCamera.cpp" />
     <ClCompile Include="src\IRadiance\Raytracer\Collision\CollisionHandler.cpp" />
     <ClCompile Include="src\IRadiance\Raytracer\Geometry\Box.cpp" />
+    <ClCompile Include="src\IRadiance\Raytracer\Geometry\ConcaveSphere.cpp" />
     <ClCompile Include="src\IRadiance\Raytracer\Geometry\Disk.cpp" />
     <ClCompile Include="src\IRadiance\Raytracer\Geometry\OpenCylinder.cpp" />
     <ClCompile Include="src\IRadiance\Raytracer\Geometry\Plane.cpp" />
@@ -153,6 +164,7 @@
     <ClCompile Include="src\IRadiance\Raytracer\Materials\Matte.cpp" />
     <ClCompile Include="src\IRadiance\Raytracer\Materials\Phong.cpp" />
     <ClCompile Include="src\IRadiance\Raytracer\Materials\Reflective.cpp" />
+    <ClCompile Include="src\IRadiance\Raytracer\Materials\Transparent.cpp" />
     <ClCompile Include="src\IRadiance\Raytracer\Maths\Constants.cpp" />
     <ClCompile Include="src\IRadiance\Raytracer\Maths\Point2.cpp" />
     <ClCompile Include="src\IRadiance\Raytracer\Maths\Point3.cpp" />
@@ -166,6 +178,7 @@
     <ClCompile Include="src\IRadiance\Raytracer\Samplers\RandomSampler.cpp" />
     <ClCompile Include="src\IRadiance\Raytracer\Samplers\RegularSampler.cpp" />
     <ClCompile Include="src\IRadiance\Raytracer\Samplers\Sampler.cpp" />
+    <ClCompile Include="src\IRadiance\Raytracer\Samplers\SamplerHandler.cpp" />
     <ClCompile Include="src\IRadiance\Raytracer\SceneGraph.cpp" />
     <ClCompile Include="src\IRadiance\Raytracer\Display.cpp" />
     <ClCompile Include="src\IRadiance\Raytracer\Tracers\AreaLighting.cpp" />

@@ -25,8 +25,8 @@ namespace IRadiance
 		{
 			float cosTheta = pow(1.0f - m_Samples2D[i].y, 1 / (_e + 1));
 			float sinTheta = sqrtf(1.0f - cosTheta * cosTheta);
-			float cosPhi = cos(TwoPi * m_Samples2D[i].x);
-			float sinPhi = sin(TwoPi * m_Samples2D[i].x);
+			float cosPhi = cos(TwoPI * m_Samples2D[i].x);
+			float sinPhi = sin(TwoPI * m_Samples2D[i].x);
 
 			float x = sinTheta * cosPhi;
 			float y = sinTheta * sinPhi;

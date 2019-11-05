@@ -37,10 +37,11 @@ namespace IRadiance
 	namespace Constants
 	{
 		extern const float PI;
-		extern const float TwoPi;
-		extern const float FourPi;
-		extern const float HalfPi;
+		extern const float TwoPI;
+		extern const float FourPI;
+		extern const float HalfPI;
 		extern const float InvPI;
+		extern const float InvTwoPI;
 		extern const float MaxValue;
 	}
 }

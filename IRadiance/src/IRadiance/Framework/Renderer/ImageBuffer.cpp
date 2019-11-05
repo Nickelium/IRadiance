@@ -18,6 +18,29 @@ namespace IRadiance
 		delete m_Buffer;
 	}
 
+	void ImageBuffer::Fill(unsigned char* _data, long long _nbBytes)
+	{
+		IRAD_CORE_ASSERT(_nbBytes <= m_Width * m_Height * 4, "Writing out of texture boundary");
+		memcpy(m_Buffer, _data, _nbBytes);
+		/*long long dataIndex = 0;
+		unsigned char* buffer = reinterpret_cast<unsigned char*>(m_Buffer);
+		for (unsigned char* ptr = buffer, 
+			*end = buffer + _nbElements * 4;
+			ptr < end; ptr += 4)
+		{
+			for (int i = 0; i < 4; ++i)
+			{
+				unsigned char singleData = 0xFF;
+				if (i < _bpp)
+				{
+					singleData = *(_data + dataIndex);
+					++dataIndex;
+				}
+				*(ptr + i) = singleData;
+			}
+		}*/
+	}
+
 	void ImageBuffer::Write(const std::string& _file)
 	{
 		std::string file(_file);
@@ -35,7 +58,11 @@ namespace IRadiance
 			++i;
 		}
 		stbi_flip_vertically_on_write(1);
-		stbi_write_jpg((file + ext).c_str(), m_Width, m_Height, 4, m_Buffer, 100);
+		int success = stbi_write_jpg((file + ext).c_str(), m_Width, m_Height, 4, m_Buffer, 100);
+		if (success == 0)
+			IRAD_CORE_INFO("Failed to save file");
+		else
+			IRAD_CORE_INFO("Image Saved as {0}", file + ext);
 	}
 
 	void ImageBuffer::Clear()

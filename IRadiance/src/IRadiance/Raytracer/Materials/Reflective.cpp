@@ -1,7 +1,7 @@
 #include "pch.h"
 #include "Reflective.h"
 
-#include "IRadiance/Raytracer/BRDF/PerfectSpecular.h"
+#include "IRadiance/Raytracer/BxDF/PerfectSpecular.h"
 #include "IRadiance/Raytracer/Renderer.h"
 #include "IRadiance/Raytracer/Tracers/Tracer.h"
 
@@ -31,7 +31,8 @@ namespace IRadiance
 
 	RGBSpectrum Reflective::WhittedShading(HitRecord& _hr)
 	{
-		RGBSpectrum L = Phong::AreaLightShading(_hr); //Direct illumination
+		RGBSpectrum L = Phong::WhittedShading(_hr); //Direct illumination
+
 		Vector wO = -_hr.ray.d;
 		Vector wI;
 		float pdf;
@@ -48,7 +49,7 @@ namespace IRadiance
 
 	RGBSpectrum Reflective::AreaLightShading(HitRecord& _hr)
 	{
-		return Phong::AreaLightShading(_hr);
+		return Phong::AreaLightShading(_hr); //Direct illumination
 	}
 
 	RGBSpectrum Reflective::PathShading(HitRecord& _hr)
@@ -67,13 +68,13 @@ namespace IRadiance
 		reflected.o = _hr.hitPoint;
 		reflected.d = wI;
 		float nCosWi = Dot(_hr.normal, wI);
-		return ((f * _hr.renderer->GetTracer()->RayTrace(reflected, _hr.depth + 1) * nCosWi)) 
-			* contributionFactor;
+		return ((f * _hr.renderer->GetTracer()->RayTrace(reflected, _hr.depth + 1) * nCosWi)) * contributionFactor;
 	}
 
 	RGBSpectrum Reflective::HybridPathShading(HitRecord& _hr)
 	{
 		return AreaLightShading(_hr) + PathShading(_hr);
+		
 	}
 
 	void Reflective::SetKr(float _kr)

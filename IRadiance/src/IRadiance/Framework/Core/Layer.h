@@ -17,6 +17,8 @@ namespace IRadiance
 
 		virtual void OnAttach() {}
 		virtual void OnDetach() {}
+		virtual void OnActive() {}
+		virtual void OnDeactive() {}
 
 		virtual void Update(DataTime /*_time*/) {}
 		virtual void Render() {}
@@ -24,8 +26,14 @@ namespace IRadiance
 
 		virtual void OnEvent(Event& /*_event*/) {}
 
+		inline void Activate() { m_IsActive = true; OnActive(); }
+		inline void Deactivate() { m_IsActive = false; OnDeactive(); }
+		inline bool IsActive() const { return m_IsActive; }
+
 	protected:
 		Application* m_Application;
 		Scene* m_Scene;
+
+		bool m_IsActive = true;
 	};
 }

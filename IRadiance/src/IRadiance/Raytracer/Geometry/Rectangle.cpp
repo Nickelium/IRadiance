@@ -63,7 +63,7 @@ namespace IRadiance
 
 	Point3 Rectangle::Sample() const
 	{
-		Point2 p = m_Sampler->SampleUnitSquare();
+		Point2 p = (*m_Sampler)->SampleUnitSquare();
 		return p0 + p.x * i * sizeI + p.y * j * sizeJ;
 	}
 

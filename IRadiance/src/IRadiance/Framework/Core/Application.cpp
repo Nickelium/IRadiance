@@ -3,6 +3,7 @@
 
 #include "IRadiance/Framework/Renderer/API/RenderCommand.h"
 #include "IRadiance/Framework/Renderer/API/RenderDevice.h"
+#include "IRadiance/Framework/Core/FileDialog.h"
 
 namespace IRadiance
 {
@@ -13,6 +14,7 @@ namespace IRadiance
 		m_Window = Window::Create({"IRadiance Engine - RAYTRACER", _width, _height});
 		m_Window->SetEventCallback(BIND_FN(Application::RootOnEvent));
 		Locator::Set(RenderDevice::Create());
+		Locator::Set(FileDialog::Create(m_Window));
 		m_ImGuiLayer = new ImGuiLayer(this);
 		PushOverlay(m_ImGuiLayer);
 
@@ -44,17 +46,20 @@ namespace IRadiance
 	void Application::Update(DataTime _time)
 	{
 		for (Layer* layer : m_LayerStack)
-			layer->Update(_time);
+			if(layer->IsActive())
+				layer->Update(_time);
 	}
 
 	void Application::Render()
 	{
 		for (Layer* layer : m_LayerStack)
-			layer->Render();
+			if(layer->IsActive())
+				layer->Render();
 
 		m_ImGuiLayer->Begin();
 		for (Layer* layer : m_LayerStack)
-			layer->RenderGUI();
+			if(layer->IsActive())
+				layer->RenderGUI();
 		m_ImGuiLayer->End();
 	}
 
@@ -68,10 +73,12 @@ namespace IRadiance
 	
 		for (auto it = m_LayerStack.end(); it != m_LayerStack.begin();)
 		{
+
 			if (_event.m_Handled)
 				break;
 			--it;
-			(*it)->OnEvent(_event);
+			if ((*it)->IsActive())
+				(*it)->OnEvent(_event);
 		}
 	}
 

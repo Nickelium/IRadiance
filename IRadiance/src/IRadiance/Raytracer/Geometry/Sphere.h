@@ -19,6 +19,11 @@ namespace IRadiance
 		void SetCenter(const Point3& _c);
 		void SetRadius(float _r);
 
+
+		virtual Point3 Sample() const override;
+		virtual float pdf(const HitRecord& _hr) const override;
+		virtual Vector Normal(const Point3& _p) const override;
+
 		static const float eps;
 	};
 }

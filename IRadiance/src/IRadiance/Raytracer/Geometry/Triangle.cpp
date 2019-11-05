@@ -106,7 +106,7 @@ namespace IRadiance
 
 	Point3 Triangle::Sample() const
 	{
-		Point2 p = m_Sampler->SampleUnitSquare();
+		Point2 p = (*m_Sampler)->SampleUnitSquare();
 		float etha = sqrt(p.x);
 		float beta = 1.0f - etha;
 		float gamma = p.y * etha;

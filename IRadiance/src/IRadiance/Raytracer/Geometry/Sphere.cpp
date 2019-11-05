@@ -26,7 +26,7 @@ namespace IRadiance
 			{
 				_tMin = t;
 				_sr.localHitPoint = _ray.o + t * _ray.d;
-				_sr.normal = (_sr.localHitPoint - c) / r;
+				_sr.normal = Normal(_sr.localHitPoint);
 				return true;	
 			}
 
@@ -36,7 +36,7 @@ namespace IRadiance
 			{
 				_tMin = t;
 				_sr.localHitPoint = _ray.o + t * _ray.d;
-				_sr.normal = (_sr.localHitPoint - c) / r;
+				_sr.normal = Normal(_sr.localHitPoint);
 				return true;
 			}
 			return false;
@@ -86,4 +86,19 @@ namespace IRadiance
 		r = _r;
 	}
 
+	Point3 Sphere::Sample() const
+	{
+		Point3 p = (*m_Sampler)->SampleHemisphere();
+		return c + p * r;
+	}
+
+	float Sphere::pdf(const HitRecord&) const
+	{
+		return Constants::InvTwoPI;
+	}
+
+	Vector Sphere::Normal(const Point3& _p) const
+	{
+		return (_p - c) / r;
+	}
 }
