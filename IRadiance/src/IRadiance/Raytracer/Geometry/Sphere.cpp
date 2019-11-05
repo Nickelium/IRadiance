@@ -88,7 +88,7 @@ namespace IRadiance
 
 	Point3 Sphere::Sample() const
 	{
-		Point3 p = m_Sampler->SampleHemisphere();
+		Point3 p = (*m_Sampler)->SampleHemisphere();
 		return c + p * r;
 	}
 

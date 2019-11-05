@@ -11,7 +11,7 @@ namespace IRadiance
 		w = _hr.normal;
 		v = Normalize(Cross(w, {0.0034f, 1.0f, 0.0071f})); // is basically the up vector with noise to avoid cross(y,y) == 0
 		u = Normalize(Cross(v, w));
-		Point3 p = m_Sampler->SampleHemisphere();
+		Point3 p = (*m_Sampler)->SampleHemisphere();
 		wI = p.x * u + p.y * v + p.z * w;
 		return wI;
 	}
@@ -40,7 +40,7 @@ namespace IRadiance
 		return Dot(_hr.normal, wI) * Constants::InvPI;
 	}
 
-	void EnvironmentLight::SetSampler(Sampler* _sampler)
+	void EnvironmentLight::SetSampler(Sampler** _sampler)
 	{
 		m_Sampler = _sampler;
 	}

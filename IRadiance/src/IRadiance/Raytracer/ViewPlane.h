@@ -16,11 +16,11 @@ namespace IRadiance
 
 		ViewPlane(int _hRes = 100, int _vRes = 100);
 
-		void SetSampler(Sampler* _sampler);
+		void SetSampler(Sampler** _sampler);
 
-		inline Sampler* GetSampler() const { return m_Sampler; }
+		inline Sampler** GetSampler() const { return m_Sampler; }
 
 	private: 
-		Sampler* m_Sampler;
+		Sampler** m_Sampler;
 	};
 }

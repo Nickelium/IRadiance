@@ -17,6 +17,6 @@ namespace IRadiance
 
 		virtual RGBSpectrum Shading(HitRecord& _hr) = 0;
 
-		virtual void SetSampler(Sampler* _sampler) = 0;
+		virtual void SetSampler(Sampler** _sampler) = 0;
 	};
 }

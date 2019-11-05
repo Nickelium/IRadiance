@@ -16,8 +16,9 @@ namespace IRadiance
 		Vector u = Normalize(Cross({0.0034f, 1.0f, 0.0071f}, w));
 		Vector v = Cross(u, w);
 
-		IRAD_CORE_ASSERT(m_Sampler, "Sampler is nullptr");
-		Point3 p = m_Sampler->SampleHemisphere();
+		IRAD_CORE_ASSERT(m_Sampler, "Pointer Sampler is nullptr");
+		IRAD_CORE_ASSERT(*m_Sampler, "Sampler is nullptr");
+		Point3 p = (*m_Sampler)->SampleHemisphere();
 
 		wI = Normalize(p.x * u + p.y * v + p.z * w);
 		pdf = Dot(wI, _hr.normal) * Constants::InvPI;

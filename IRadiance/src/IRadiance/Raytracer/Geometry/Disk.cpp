@@ -55,7 +55,7 @@ namespace IRadiance
 
 	Point3 Disk::Sample() const
 	{
-		Point2 p = m_Sampler->SamplesUnitDisk();
+		Point2 p = (*m_Sampler)->SamplesUnitDisk();
 		Vector q {p.x * r, p.y * r, 0.0f};
 
 		//TODO rotate q from {0,1,0} to n

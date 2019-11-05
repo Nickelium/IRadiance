@@ -19,7 +19,7 @@ namespace IRadiance
 		virtual RGBSpectrum PathShading(HitRecord& _hr) override;
 		virtual RGBSpectrum HybridPathShading(HitRecord& _hr) override;
 
-		virtual void SetSampler(Sampler* _sampler) override;
+		virtual void SetSampler(Sampler** _sampler) override;
 
 	private:
 		Lambertian* ambientBRDF;

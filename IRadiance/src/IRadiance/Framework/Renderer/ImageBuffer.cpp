@@ -58,7 +58,11 @@ namespace IRadiance
 			++i;
 		}
 		stbi_flip_vertically_on_write(1);
-		stbi_write_jpg((file + ext).c_str(), m_Width, m_Height, 4, m_Buffer, 100);
+		int success = stbi_write_jpg((file + ext).c_str(), m_Width, m_Height, 4, m_Buffer, 100);
+		if (success == 0)
+			IRAD_CORE_INFO("Failed to save file");
+		else
+			IRAD_CORE_INFO("Image Saved as {0}", file + ext);
 	}
 
 	void ImageBuffer::Clear()

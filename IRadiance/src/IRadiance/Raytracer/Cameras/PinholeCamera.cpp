@@ -55,15 +55,15 @@ namespace IRadiance
 				omp_set_dynamic(0);     // Explicitly disable dynamic teams
 				omp_set_num_threads(1); // Use 4 threads for all consecutive parallel regions
 				#pragma omp parallel for schedule(dynamic)
-				for (int p = 0; p < viewPlane.m_NumSamples; ++p)
+				for (int p = 0; p < _renderer->GetNbSamples(); ++p)
 				{
-					sp = viewPlane.GetSampler()->SampleUnitSquare();
+					sp = (*viewPlane.GetSampler())->SampleUnitSquare();
 					pp.x = zoomedPixelSize * (col - 0.5f * viewPlane.m_HorRes + sp.x);
 					pp.y = zoomedPixelSize * (row - 0.5f * viewPlane.m_VertRes + sp.y);
 					ray.d = GetDirection(pp);
 					L += tracer->RayTrace(ray, depth);
 				}
-				L /= (float)viewPlane.m_NumSamples;
+				L /= (float)_renderer->GetNbSamples();
 				L *= m_ExposureTime;
 
 				bufferRef[row][col] = 

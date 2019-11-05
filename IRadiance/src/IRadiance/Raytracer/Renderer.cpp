@@ -57,9 +57,17 @@ namespace IRadiance
 	{
 		delete m_Display;
 		delete m_CollisionHandler;
+		delete m_ToneMapper;
 		delete m_Scene;
 		delete m_Camera;
 		delete m_Tracer;
+	}
+
+	void Renderer::SetTracer(Tracer* _tracer)
+	{
+		if(m_Tracer)
+			delete m_Tracer;
+		m_Tracer = _tracer;
 	}
 
 	Display* Renderer::GetDisplay() const
@@ -109,12 +117,16 @@ namespace IRadiance
 
 	void Renderer::SetNbSamples(int _nbSamples)
 	{
-		m_ViewingPlane.SetSampler(new MultiJitteredSampler(_nbSamples));
+		if (m_Sampler)
+		{
+			delete m_Sampler;
+		}
+		m_Sampler = new MultiJitteredSampler(_nbSamples);
 	}
 
 	int Renderer::GetNbSamples() const
 	{
-		return m_ViewingPlane.m_NumSamples;
+		return m_Sampler->GetNumberSamples();
 	}
 
 	bool Renderer::IsRunning() const
@@ -137,7 +149,7 @@ namespace IRadiance
 		return m_MaxDepth;
 	}
 
-	void Renderer::BuildCornellBoxData(int _nbSamples)
+	void Renderer::BuildCornellBoxData()
 	{
 		m_MaxDepth = 10;
 
@@ -150,8 +162,6 @@ namespace IRadiance
 		Point3 p0;
 		Vector a, b;
 		Vector normal;
-
-		int num_samples = _nbSamples;
 
 		// box dimensions
 
@@ -176,7 +186,7 @@ namespace IRadiance
 
 		AreaLight* light = new AreaLight;
 		light->SetObject(light_ptr);
-		light_ptr->SetSampler(new MultiJitteredSampler(num_samples));
+		light_ptr->SetSampler(&m_Sampler);
 		light->SetShadow(true);
 		m_Scene->AddLight(light);
 
@@ -186,7 +196,7 @@ namespace IRadiance
 		matte_ptr1->SetKa(0.0f);
 		matte_ptr1->SetKd(0.75f);
 		matte_ptr1->SetCd({ 0.57f, 0.025f, 0.025f });	 // red
-		matte_ptr1->SetSampler(new MultiJitteredSampler(num_samples));
+		matte_ptr1->SetSampler(&m_Sampler);
 
 		p0 = Point3(width, 0.0f, 0.0f);
 		a = Vector(0.0f, 0.0f, depth);
@@ -203,7 +213,7 @@ namespace IRadiance
 		matte_ptr2->SetKa(0.0f);
 		matte_ptr2->SetKd(0.75f);
 		matte_ptr2->SetCd({ 0.025f,0.236f,0.025f });	 // green   from Photoshop
-		matte_ptr2->SetSampler(new MultiJitteredSampler(num_samples));
+		matte_ptr2->SetSampler(&m_Sampler);
 
 		p0 = Point3(0.0f, 0.0f, 0.0f);
 		a = Vector(0.0f, 0.0f, depth);
@@ -218,7 +228,7 @@ namespace IRadiance
 		matte_ptr3->SetKa(0.0f);
 		matte_ptr3->SetKd(0.75f);
 		matte_ptr3->SetCd({ 1.0f, 1.0f, 1.0f });	 // white
-		matte_ptr3->SetSampler(new MultiJitteredSampler(num_samples));
+		matte_ptr3->SetSampler(&m_Sampler);
 
 		p0 = Point3(0.0f, 0.0f, depth);
 		a = Vector(width, 0.0f, 0.0f);
@@ -354,7 +364,7 @@ namespace IRadiance
 		m_Scene->AddObject(tall_side_ptr4);
 	}
 
-	void Renderer::BuildCornellBox(int _nbSamples)
+	void Renderer::BuildCornellBox()
 	{
 		m_MaxDepth = 10;
 
@@ -367,8 +377,6 @@ namespace IRadiance
 		Point3 p0;
 		Vector a, b;
 		Vector normal;
-
-		int num_samples = _nbSamples;
 
 		// box dimensions
 
@@ -393,7 +401,7 @@ namespace IRadiance
 
 		AreaLight* light = new AreaLight;
 		light->SetObject(light_ptr);
-		light_ptr->SetSampler(new MultiJitteredSampler(num_samples));
+		light_ptr->SetSampler(&m_Sampler);
 		light->SetShadow(true);
 		m_Scene->AddLight(light);
 
@@ -403,7 +411,7 @@ namespace IRadiance
 		matte_ptr1->SetKa(0.0f);
 		matte_ptr1->SetKd(0.6f);
 		matte_ptr1->SetCd({ 0.57f, 0.025f, 0.025f });	 // red
-		matte_ptr1->SetSampler(new MultiJitteredSampler(num_samples));
+		matte_ptr1->SetSampler(&m_Sampler);
 
 		p0 = Point3(width, 0.0f, 0.0f);
 		a = Vector(0.0f, 0.0f, depth);
@@ -420,7 +428,7 @@ namespace IRadiance
 		matte_ptr2->SetKa(0.0f);
 		matte_ptr2->SetKd(0.6f);
 		matte_ptr2->SetCd({0.37f, 0.59f, 0.2f});	 // green   from Photoshop
-		matte_ptr2->SetSampler(new MultiJitteredSampler(num_samples));
+		matte_ptr2->SetSampler(&m_Sampler);
 
 		p0 = Point3(0.0f, 0.0f, 0.0f);
 		a = Vector(0.0f, 0.0f, depth);
@@ -435,7 +443,7 @@ namespace IRadiance
 		matte_ptr3->SetKa(0.0f);
 		matte_ptr3->SetKd( 0.6f);
 		matte_ptr3->SetCd({ 1.0f, 1.0f, 1.0f });	 // white
-		matte_ptr3->SetSampler(new MultiJitteredSampler(num_samples));
+		matte_ptr3->SetSampler(&m_Sampler);
 
 		p0 = Point3(0.0f, 0.0f, depth);
 		a = Vector(width, 0.0f, 0.0f);
@@ -571,7 +579,7 @@ namespace IRadiance
 		m_Scene->AddObject(tall_side_ptr4);
 	}
 
-	void Renderer::BuildCaustics(int _nbSamples)
+	void Renderer::BuildCaustics()
 	{
 		CameraDesc desc;
 		desc.eye = { -50, 100, 50 };
@@ -585,7 +593,7 @@ namespace IRadiance
 
 		Sphere* sphere_ptr = new Sphere(Point3(-2, 10, 12), 1);
 		sphere_ptr->SetMaterial(emissive_ptr);
-		sphere_ptr->SetSampler(new MultiJitteredSampler(_nbSamples));
+		sphere_ptr->SetSampler(&m_Sampler);
 		m_Scene->AddObject(sphere_ptr);
 
 		AreaLight* light = new AreaLight;
@@ -621,14 +629,14 @@ namespace IRadiance
 		matte_ptr->SetKa(0.0f);
 		matte_ptr->SetKd(0.75f);
 		matte_ptr->SetCd({ 0.75f, 0.65f, 0.65f });
-		matte_ptr->SetSampler(new MultiJitteredSampler(_nbSamples));
+		matte_ptr->SetSampler(&m_Sampler);
 
 		Plane* plane_ptr = new Plane(Point3(0, -1.0f, 0), Vector(0, 1, 0));
 		plane_ptr->SetMaterial(matte_ptr);
 		m_Scene->AddObject(plane_ptr);
 	}
 
-	void Renderer::BuildReflection(int _nbSamples)
+	void Renderer::BuildReflection()
 	{
 		m_MaxDepth = 10;
 
@@ -650,7 +658,7 @@ namespace IRadiance
 
 		EnvironmentLight* environment_light_ptr = new EnvironmentLight;
 		environment_light_ptr->SetMaterial(emissive_ptr);
-		environment_light_ptr->SetSampler(new MultiJitteredSampler(_nbSamples));
+		environment_light_ptr->SetSampler(&m_Sampler);
 		environment_light_ptr->SetShadow(true);
 		m_Scene->AddLight(environment_light_ptr);
 
@@ -693,7 +701,7 @@ namespace IRadiance
 		matte_ptr2->SetKa(ka);
 		matte_ptr2->SetKd(0.5f);
 		matte_ptr2->SetCd({ 0.85f, 0.85f, 0.85f });
-		matte_ptr2->SetSampler(new MultiJitteredSampler(_nbSamples));
+		matte_ptr2->SetSampler(&m_Sampler);
 
 		Sphere* sphere_ptr2 = new Sphere(Point3(34, 12, 13), 12);
 		sphere_ptr2->SetMaterial(material);
@@ -723,7 +731,7 @@ namespace IRadiance
 		matte_ptr5->SetKa(ka);
 		matte_ptr5->SetKd(0.5f);
 		matte_ptr5->SetCd({ 0.95f, 0.95f, 0.95f });
-		matte_ptr5->SetSampler(new MultiJitteredSampler(_nbSamples));
+		matte_ptr5->SetSampler(&m_Sampler);
 
 		Box* box_ptr = new Box(Point3(-35, 0, -110), Point3(-25, 60, 65));
 		box_ptr->SetMaterial(matte_ptr5);
@@ -736,14 +744,14 @@ namespace IRadiance
 		matte_ptr6->SetKa(0.15f);
 		matte_ptr6->SetKd(0.5f);
 		matte_ptr6->SetCd({0.7f, 0.7f, 0.7f});
-		matte_ptr6->SetSampler(new MultiJitteredSampler(_nbSamples));
+		matte_ptr6->SetSampler(&m_Sampler);
 
 		Plane* plane_ptr = new Plane(Point3(0, 0.01f, 0), Vector(0, 1, 0));
 		plane_ptr->SetMaterial(matte_ptr6);
 		m_Scene->AddObject(plane_ptr);
 	}
 
-	void Renderer::BuildRefraction(int _nbSamples)
+	void Renderer::BuildRefraction()
 	{
 		m_MaxDepth = 10;
 
@@ -768,7 +776,7 @@ namespace IRadiance
 
 		AreaLight* light = new AreaLight;
 		light->SetObject(light_ptr);
-		light_ptr->SetSampler(new MultiJitteredSampler(_nbSamples));
+		light_ptr->SetSampler(&m_Sampler);
 		light->SetShadow(true);
 		m_Scene->AddLight(light);
 
@@ -841,7 +849,7 @@ namespace IRadiance
 		matte_ptr->SetKa(0.5f);
 		matte_ptr->SetKd(0.35f);
 		matte_ptr->SetCd(WHITE);
-		matte_ptr->SetSampler(new MultiJitteredSampler(_nbSamples));
+		matte_ptr->SetSampler(&m_Sampler);
 
 		// rectangle
 
@@ -857,39 +865,57 @@ namespace IRadiance
 	void Renderer::Build(ImageBuffer* _buffer)
 	{
 		m_Buffer = _buffer;
-
 		m_Display = new Display;
 		m_Display->SetGamma(1.9f);
-		//m_Display->SetGamma(1.0f);
-		//TODO, do actually need to gamma correct because not sampling for texture or so
-		//TODO reflection and phong or broken
-
 		m_CollisionHandler = new CollisionHandler(this);
 		m_Scene = new SceneGraph;
-
 		m_ToneMapper = new Clamper;
+		m_Sampler = nullptr;
+		SetNbSamples(100);
 
-		int num_samples = 100 * 1;   	
+		m_ViewingPlane.SetSampler(&m_Sampler);
 
 		m_ViewingPlane.m_HorRes = m_Buffer->GetWidth();
 		m_ViewingPlane.m_VertRes = m_Buffer->GetHeight();
-		SetNbSamples(num_samples);
+
+		m_Camera = nullptr;
+		m_Scene = nullptr;
 
 		//m_Tracer = new Whitted(this);
-		m_Tracer = new HybridPathTracer(this);
+		//m_Tracer = new HybridPathTracer(this);
 
-		//BuildCornellBoxData(num_samples); // OK
-		//BuildCornellBox(num_samples); // OK
-		//BuildCaustics(num_samples); // FACTOR 10 light to approx
-		//BuildReflection(num_samples); // OK
-		BuildRefraction(num_samples); // OK
+		m_BuildFunctions.push_back({ "Cornell Box Data", BIND_FN0(Renderer::BuildCornellBoxData) });
+		m_BuildFunctions.push_back({ "Cornell Box", BIND_FN0(Renderer::BuildCornellBox) });
+		m_BuildFunctions.push_back({ "Caustic", BIND_FN0(Renderer::BuildCaustics) });
+		m_BuildFunctions.push_back({ "Reflection", BIND_FN0(Renderer::BuildReflection) });
+		m_BuildFunctions.push_back({ "Refraction", BIND_FN0(Renderer::BuildRefraction) });
+
+		LoadScene(m_BuildFunctions[2].second);
+		LoadScene(m_BuildFunctions[3].second);
+		//BuildCornellBoxData(); // OK
+		//BuildCornellBox(); // OK
+		//BuildCaustics(); // FACTOR 10 light to approx
+		//BuildReflection(); // OK
+		//BuildRefraction(); // OK
 		m_Camera->ComputeONB();
 	
 	}
 
 	bool Renderer::Render()
 	{
-		return m_Camera->Render(this);
+		bool ret = m_Camera->Render(this);
+		Stop();
+		return ret;
+	}
+
+	void Renderer::LoadScene(const BuildFunction& f)
+	{
+		if(m_Camera)
+			delete m_Camera;
+		if (m_Scene)
+			delete m_Scene;
+		m_Scene = new SceneGraph;
+		f();
 	}
 
 }

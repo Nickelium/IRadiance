@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
@@ -69,6 +69,7 @@
     <ClInclude Include="src\IRadiance\Raytracer\Samplers\RandomSampler.h" />
     <ClInclude Include="src\IRadiance\Raytracer\Samplers\RegularSampler.h" />
     <ClInclude Include="src\IRadiance\Raytracer\Samplers\Sampler.h" />
+    <ClInclude Include="src\IRadiance\Raytracer\Samplers\SamplerHandler.h" />
     <ClInclude Include="src\IRadiance\Raytracer\SceneGraph.h" />
     <ClInclude Include="src\IRadiance\Raytracer\ToneMapper\Clamper.h" />
     <ClInclude Include="src\IRadiance\Raytracer\Display.h" />
@@ -177,6 +178,7 @@
     <ClCompile Include="src\IRadiance\Raytracer\Samplers\RandomSampler.cpp" />
     <ClCompile Include="src\IRadiance\Raytracer\Samplers\RegularSampler.cpp" />
     <ClCompile Include="src\IRadiance\Raytracer\Samplers\Sampler.cpp" />
+    <ClCompile Include="src\IRadiance\Raytracer\Samplers\SamplerHandler.cpp" />
     <ClCompile Include="src\IRadiance\Raytracer\SceneGraph.cpp" />
     <ClCompile Include="src\IRadiance\Raytracer\Display.cpp" />
     <ClCompile Include="src\IRadiance\Raytracer\Tracers\AreaLighting.cpp" />

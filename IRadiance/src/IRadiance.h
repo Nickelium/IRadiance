@@ -45,6 +45,7 @@
 // Vendor
 #include <glm/glm.hpp>
 #include <imgui.h>
+#include <imgui_internal.h>
 
 // EntryPoint
 #include "EntryPoint.h"

@@ -120,7 +120,7 @@ namespace IRadiance
 		return AreaLightShading(_hr) + PathShading(_hr);
 	}
 
-	void Matte::SetSampler(Sampler* _sampler)
+	void Matte::SetSampler(Sampler** _sampler)
 	{
 		diffuseBRDF->SetSampler(_sampler);
 	}
