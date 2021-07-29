@@ -31,7 +31,7 @@ This project is still in development, therefore the codebase tends to fluctuate 
 ## Render Samples
 
 <p float="left">                                                   
-    <img width="49%" src="https://raw.githubusercontent.com/Nickelium/IRadiance/master/Sandbox/Output/Data/HighResolutionRender/Reflection.jpg">
+    <img width="49%" src="https://raw.githubusercontent.com/Nickelium/IRadiance/master/Sandbox/output/Data/HighResolutionRender/Reflection.jpg">
     <img width="49%" src="https://raw.githubusercontent.com/Nickelium/IRadiance/master/Sandbox/Output//Data/HighResolutionRender/Caustics.jpg">
     <img width="49%" src="https://raw.githubusercontent.com/Nickelium/IRadiance/master/Sandbox/Output/WIP/image_16.jpg">
     <img width="49%" src="https://raw.githubusercontent.com/Nickelium/IRadiance/master/Sandbox/Output/WIP/image_12.jpg">
