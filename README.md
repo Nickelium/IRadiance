@@ -28,7 +28,14 @@ This project is still in development, therefore the codebase tends to fluctuate 
 * assimp : Asset Loader
 * OpenMP : MultiCore Processing
 
-## Render Samples         
+## Render Samples
+
+<p float="left">                                                   
+    <img width="49%" src="https://raw.githubusercontent.com/Nickelium/IRadiance/master/Output/Data/HighResolutionRender/Reflection.jpg">
+    <img width="49%" src="https://raw.githubusercontent.com/Nickelium/IRadiance/master/Output//Data/HighResolutionRender/Caustics.jpg">
+    <img width="49%" src="https://raw.githubusercontent.com/Nickelium/IRadiance/master/Output/WIP/image_16.jpg">
+    <img width="49%" src="https://raw.githubusercontent.com/Nickelium/IRadiance/master/Output/WIP/image_12.jpg">
+</p>   
  
 ## References
 * [Radiance Engine](https://github.com/Nickelium/Radiance)
