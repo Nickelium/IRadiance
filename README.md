@@ -5,7 +5,7 @@ IRadiance Engine is an open-source software raytraced renderer written in C++11.
 This project is still in development, therefore the codebase tends to fluctuate a lot.
 
 <p float="left">                                                   
-    <img width="70%" src="https://raw.githubusercontent.com/Nickelium/IRadiance/master/Sandbox/output/WIP/HiRes5000SPP_NoBorder.jpg">
+    <img width="65%" src="https://raw.githubusercontent.com/Nickelium/IRadiance/master/Sandbox/output/WIP/HiRes5000SPP_NoBorder.jpg">
 </p> 
 
 ## Features
@@ -30,11 +30,11 @@ This project is still in development, therefore the codebase tends to fluctuate 
 
 ## Render Samples
 
-<p float="left">                                                   
+<p float="left">
+     <img width="49%" src="https://raw.githubusercontent.com/Nickelium/IRadiance/master/Sandbox/output/WIP/image_16.jpg">
+    <img width="49%" src="https://raw.githubusercontent.com/Nickelium/IRadiance/master/Sandbox/output/WIP/image_12.jpg">
     <img width="49%" src="https://raw.githubusercontent.com/Nickelium/IRadiance/master/Sandbox/output/Data/HighResolutionRender/Reflection.jpg">
     <img width="49%" src="https://raw.githubusercontent.com/Nickelium/IRadiance/master/Sandbox/output//Data/HighResolutionRender/Caustics.jpg">
-    <img width="49%" src="https://raw.githubusercontent.com/Nickelium/IRadiance/master/Sandbox/output/WIP/image_16.jpg">
-    <img width="49%" src="https://raw.githubusercontent.com/Nickelium/IRadiance/master/Sandbox/output/WIP/image_12.jpg">
 </p>   
  
 ## References
